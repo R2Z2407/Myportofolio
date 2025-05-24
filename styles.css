@@ -1,0 +1,869 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+:root {
+  /* Warna Biru Gelap */
+  --dark-blue: #111c59;
+
+  /* Warna Abu-abu Gelap */
+  --dark-gray-1: #2c2f40;
+  --dark-gray-2: #404459;
+
+  /* Warna Hijau */
+  --muted-green: #537367;
+
+  /* Warna Krem */
+  --cream: #d9d5c5;
+}
+h1 {
+  font-family: "Trebuchet MS";
+  color: var(--cream);
+}
+p {
+  font-family: "Trebuchet MS";
+  color: var(--cream);
+  font-weight: 100;
+}
+
+@font-face {
+  font-family: "Trebuchet MS";
+  src: url("assets/font/trebuc.ttf") format("truetype"), url("assets/font/Trebuchet-MS-Italic.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+body {
+  background-color: var(--dark-gray-1);
+  display: block;
+  overflow-x: hidden;
+}
+
+.img_svg {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 150px;
+  width: 100%;
+}
+
+.img_svg2 {
+  display: flex;
+  justify-content: space-between;
+  height: 150px;
+  padding: 0 9vw;
+  width: 100vw;
+}
+
+.img_svg3 {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  height: 700px;
+  width: 100%;
+  position: relative;
+  z-index: -1;
+}
+
+svg:nth-of-type(1) {
+  height: 150px;
+  width: 150px;
+}
+svg:nth-of-type(2),
+svg:nth-of-type(3),
+svg:nth-of-type(4) {
+  height: 150px;
+  width: 150px;
+}
+svg:nth-of-type(6) {
+  position: absolute;
+  left: 0;
+}
+
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--dark-gray-1);
+  color: var(--cream);
+  padding: 5vh 10vw 1vh 10vw;
+  position: sticky; /* atau fixed */
+  top: 0;
+  left: 0;
+  width: 100%;
+  transition: all 0.3s ease;
+  z-index: 2;
+}
+
+nav.scrolled {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5); /* Ubah sesuai kebutuhan */
+  padding: 1vh 9vw 0 9vw;
+  z-index: 10;
+}
+
+.navbar-brand img {
+  height: 9vh;
+  width: auto;
+  transition: height 0.3s ease;
+}
+
+nav.scrolled .navbar-brand img {
+  height: 6vh; /* Gaya gambar saat scroll (misalnya, lebih kecil) */
+}
+.hamburger {
+  display: none;
+}
+.hamburger svg {
+  height: 50px; /* Sesuaikan tinggi hamburger */
+  width: auto; /* Proporsi yang benar */
+}
+
+.navbar-menu {
+  display: flex;
+  gap: 2vw;
+}
+
+.navbar-menu-PC {
+  display: flex;
+  gap: 2vw;
+}
+
+.navbar-item-PC {
+  text-decoration: none;
+  font-weight: 1000;
+  font-size: large;
+  color: var(--cream);
+  font-family: "Trebuchet MS", sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: all 0.3s ease;
+  padding: 5px 10px;
+  display: inline-block; /* Penting untuk padding dan background bekerja */
+}
+
+.navbar-item-PC:hover {
+  color: var(--dark-gray-2);
+  background-color: var(--cream);
+  border-radius: 5px;
+}
+
+section {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Menyelaraskan konten di tengah */
+  justify-content: center; /* Menyelaraskan konten di tengah secara horizontal (opsional) */
+}
+.photos {
+  width: 250px; /* Lebar lingkaran */
+  height: 250px; /* Tinggi lingkaran, harus sama dengan lebar */
+  border-radius: 50%; /* Mengubah sudut menjadi lingkaran */
+  border: 5px dotted var(--muted-green);
+  display: flex; /* Menyelaraskan anak di dalam lingkaran */
+  align-items: center; /* Menyelaraskan secara vertikal */
+  justify-content: center; /* Menyelaraskan secara horizontal */
+  margin-top: 4vh;
+  margin-bottom: 7vh;
+}
+.photos div {
+  background-color: var(--dark-gray-2);
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  position: relative;
+  overflow: hidden;
+}
+
+.photos div img {
+  width: 80%; /* Lebar gambar menjadi 100% dari kontainer */
+  height: auto;
+  position: absolute;
+  object-fit: cover;
+  transform: translateX(-50%);
+  top: -5px;
+  left: 50%;
+}
+
+section:nth-of-type(1) h1 {
+  font-size: 48px;
+}
+section:nth-of-type(1) p {
+  font-size: 24px; /* Ukuran font */
+  text-align: justify; /* Mengatur teks menjadi rata kiri dan kanan */
+  padding: 0 30vw; /* Padding kiri dan kanan */
+  margin-top: 1vh;
+  position: relative; /* Mengatur posisi untuk elemen ::after */
+}
+
+section:nth-of-type(1) p::after {
+  content: ""; /* Membuat elemen kosong */
+  display: inline-block; /* Membuat elemen bisa lebar */
+  width: 100%; /* Memastikan lebar penuh */
+  margin-top: auto;
+  margin-bottom: 9.7vh;
+}
+
+#pengalaman {
+  padding: 10vh 10vw 0 10vw;
+}
+
+#judul2 {
+  background-color: var(--muted-green);
+  height: 6vh;
+  width: 23%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+}
+
+#judul2 h1 {
+  color: var(--dark-gray-1);
+  font-size: xx-large;
+}
+
+.List {
+  padding: 2.5vh 0;
+  margin: 5vh 0;
+  height: 70vh;
+  border-top: 5px solid var(--muted-green);
+  border-left: 5px solid var(--muted-green);
+  border-bottom: 5px solid var(--muted-green);
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; /* Mengatur posisi vertikal ke tengah */
+  align-items: center;
+  gap: 2vh;
+}
+.project-filter {
+  align-self: flex-end;
+}
+
+.Card {
+  display: flex;
+  flex-direction: row;
+  overflow-x: auto; /* Memungkinkan scroll horizontal */
+  width: 100%;
+  height: 100%;
+  gap: 15px;
+  padding: 15px;
+  box-sizing: border-box;
+}
+
+.property-card {
+    flex: 0 0 300px; /* Lebar tetap untuk setiap card */
+    height: 100%;
+    display: grid;
+    grid-template-rows: auto auto auto 1fr;
+    border: 1px solid #ddd;
+    transition: transform 0.3s ease;
+}
+
+.property-card .image-content {
+    width: 100%;
+    height: 20vh;
+    overflow: hidden;
+}
+
+.property-card .image-content img {
+    width: 100%;
+    height: 100%;
+    object-fit: fill;
+}
+
+.property-card .name-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5px;
+    height: 10vh;
+    text-align: center;
+    background-color: white;
+}
+
+.property-card .name-content h3 {
+    margin: 0;
+    word-wrap: break-word;
+    hyphens: auto;
+}
+
+/* Ukuran font berbeda berdasarkan panjang konten */
+.property-card .name-content .font-size-default {
+    font-size: 16px;
+}
+
+.property-card .name-content .font-size-medium {
+    font-size: 14px;
+}
+
+.property-card .name-content .font-size-small {
+    font-size: 12px;
+}
+
+.property-card .name-content .font-size-extra-small {
+    font-size: 10px;
+}
+
+.property-card .description-content {
+    padding: 10px;
+    text-align: center;
+    word-wrap: break-word;
+    hyphens: auto;
+}
+
+.property-card .description-content {
+    padding: 15px;
+    height: 20vh;
+    text-align: justify;
+}
+
+.property-card .footer-content {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    background-color: #f4f4f4;
+}
+
+.property-card .file-content,
+.property-card .link-content {
+    flex: 1;
+    text-align: center;
+}
+
+.property-card a {
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+}
+
+/* Tambahan scroll bar styling untuk browser webkit */
+.Card::-webkit-scrollbar {
+    height: 8px;
+}
+
+.Card::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+.Card::-webkit-scrollbar-thumb {
+    background: var(--muted-green);
+    border-radius: 4px;
+}
+
+.Card::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+#proyek {
+  padding: 0 10vw;
+}
+.judul {
+  height: 5vh;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  justify-content: space-between;
+}
+.judul h1 {
+  font-size: xx-large;
+}
+.Three_lines {
+  display: flex;
+  flex-direction: column;
+  align-content: space-evenly;
+  gap: 1.5vh;
+}
+.Three_lines div {
+  height: 0.4vh;
+  width: 70vh;
+  background-image: linear-gradient(90deg, var(--cream) 30%, transparent 30%, transparent 70%, var(--cream) 70%);
+  background-size: 1vw 100%; /* Ukuran di mana garis terputus */
+  background-repeat: repeat; /* Mengulang pola */
+}
+
+.List2 {
+  padding: 2.5vh 0;
+  margin: 5vh 0;
+  height: 60vh;
+  border-right: 2px solid var(--cream);
+  border-top: 2px solid var(--cream);
+  border-bottom: 2px solid var(--cream);
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; /* Mengatur posisi vertikal ke tengah */
+  align-items: center;
+  gap: 2vh;
+}
+.project-filter2 {
+  align-self: flex-start;
+}
+.Card2 {
+  background-color: mediumvioletred;
+  align-self: flex-start;
+  height: 100%;
+  width: 99%;
+}
+
+.property-card2 {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.property-card2:hover {
+    transform: scale(1.05);
+}
+
+.property-card2 .image-content2 {
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+}
+
+.property-card2 .image-content2 img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.property-card2 .name-content2 h3 {
+    margin: 10px 0;
+    text-align: center;
+}
+
+.property-card2 .position-content2 p,
+.property-card2 .description-content2 p {
+    text-align: center;
+    margin: 5px 0;
+}
+
+.project-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.7);
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    z-index: 1000;
+    animation: slideInFromRight 0.5s ease-out;
+}
+
+@keyframes slideInFromRight {
+    from {
+        transform: translateX(100%);
+    }
+    to {
+        transform: translateX(0);
+    }
+}
+
+.project-modal-content {
+    width: 80%;
+    max-width: 600px;
+    height: 100%;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    padding: 20px;
+    overflow-y: auto;
+}
+
+.project-modal-close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 30px;
+    cursor: pointer;
+}
+
+.project-modal-image {
+    width: 100%;
+    height: 300px;
+    overflow: hidden;
+}
+
+.project-modal-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.project-modal-details {
+    padding: 20px;
+}
+
+.project-modal-links {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.project-modal-links a {
+    text-decoration: none;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border-radius: 5px;
+}
+
+section:nth-of-type(4) {
+  z-index: 2;
+  display: block;
+  position: relative;
+}
+
+.judul:nth-of-type(2) {
+  position: absolute;
+  top: 50%; /* Atur posisi dari atas */
+  left: 50%; /* Atur posisi dari kiri */
+  transform: translate(-50%, -50%); /* Untuk memusatkan teks */
+  z-index: 1; /* Pastikan judul di atas SVG */
+  padding: 0 10vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.judul:nth-of-type(2) h1 {
+  color: var(--muted-green);
+  font-size: xxx-large;
+}
+
+.info {
+  padding: 2vh 0;
+  margin: 3vh 0;
+  height: 20vh;
+  width: 30%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: start;
+}
+
+.navbar-menu {
+  display: flex; /* Tampilkan menu dalam keadaan normal */
+  gap: 2vw; /* Ruang antar item */
+  transition: max-height 0.5s ease, opacity 0.5s ease;
+  max-height: 0; /* Memulai dengan menu tersembunyi */
+  overflow: hidden; /* Sembunyikan overflow */
+  opacity: 0; /* Menyembunyikan dengan opacity */
+}
+
+.navbar-menu.opened {
+  max-height: 300px; /* Sesuaikan dengan tinggi maksimal menu */
+  opacity: 1; /* Memberikan opacity penuh */
+}
+.icons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px 0;
+}
+
+li {
+  position: relative;
+  list-style: none;
+  height: 70px;
+  width: 70px;
+  margin: 0 10px;
+  border-radius: 50%;
+  background: #3a3f54; /* Sedikit lebih terang dari background utama */
+  cursor: pointer;
+  box-shadow: -5px -5px 10px rgba(255, 255, 255, 0.05), 5px 5px 10px rgba(0, 0, 0, 0.3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.3s ease;
+}
+
+li a {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  font-size: 27px;
+  color: #8a8f9e; /* Warna abu-abu lembut */
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.first li.shadow-1 a {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: 55px;
+  width: 55px;
+  line-height: 55px;
+  border-radius: 50%;
+  background: var(--dark-gray-1);
+  font-size: 24px;
+  box-shadow: inset -3px -3px 7px rgba(197, 197, 197, 0.288), inset 3px 3px 5px rgba(0, 0, 0, 0.288);
+}
+
+/* Hover effect */
+li:hover {
+  transform: translateY(-5px);
+  box-shadow: -7px -7px 12px rgba(255, 255, 255, 0.07), 7px 7px 12px rgba(139, 137, 137, 0.4);
+}
+
+/* Warna ikon saat di-fill */
+li:nth-child(1).fill-color a {
+  color: red; /* Google Blue */
+}
+
+li:nth-child(2).fill-color a {
+  color: #e1306c; /* Instagram Pink */
+}
+
+li:nth-child(3).fill-color a {
+  color: #2867b2; /* LinkedIn Blue */
+}
+
+li:nth-child(4).fill-color a {
+  color: #fff; /* GitHub White */
+}
+
+.download-cv-btn {
+    position: relative;
+    list-style: none;
+    height: 70px;
+    width: auto; /* Sesuaikan lebar otomatis dengan konten */
+    padding: 10px 30px; /* Padding horizontal */
+    margin: 0 10px;
+    border: none;
+    border-radius: 35px; /* Setengah dari tinggi untuk bentuk oval/capsule */
+    background: #3a3f54;
+    cursor: pointer;
+    box-shadow: -5px -5px 10px rgba(255, 255, 255, 0.05), 5px 5px 10px rgba(0, 0, 0, 0.3);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.3s ease;
+    
+    /* Reset default button styles */
+    outline: none;
+    font-family: inherit;
+    font-size: 16px;
+    color: #8a8f9e;
+}
+
+.download-cv-btn:hover {
+    transform: translateY(-5px);
+    box-shadow: -7px -7px 12px rgba(255, 255, 255, 0.07), 7px 7px 12px rgba(139, 137, 137, 0.4);
+}
+
+/* Efek shadow saat ditekan */
+.download-cv-btn.shadow-1 {
+    box-shadow: inset -3px -3px 7px rgba(197, 197, 197, 0.288), inset 3px 3px 5px rgba(0, 0, 0, 0.288);
+}
+
+/* Variasi warna saat di-fill */
+.download-cv-btn.fill-color {
+    background: var(--dark-gray-1); /* Atau warna lain sesuai keinginan */
+    color: #ffffff; /* Warna teks saat di-fill */
+}
+
+/* Animasi tekan tombol */
+.download-cv-btn:active {
+    transform: translateY(-2px);
+    box-shadow: inset -2px -2px 5px rgba(255, 255, 255, 0.05), inset 2px 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+@media only screen and (max-width: 1024px) {
+  nav {
+    display: flex;
+  }
+  .hamburger {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    padding: 0;
+  }
+  .line {
+    fill: none;
+    stroke: var(--cream); /* Warna garis bisa diubah sesuai dengan yang Anda inginkan */
+    stroke-width: 6;
+    transition: stroke-dasharray 600ms cubic-bezier(0.4, 0, 0.2, 1), stroke-dashoffset 600ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .line1 {
+    stroke-dasharray: 60 207; /* Default saat tertutup */
+  }
+
+  .line2 {
+    stroke-dasharray: 60 60; /* Default saat tertutup */
+  }
+
+  .line3 {
+    stroke-dasharray: 60 207; /* Default saat tertutup */
+  }
+
+  .opened .line1 {
+    stroke-dasharray: 90 207; /* Ubah panjang garis saat dibuka */
+    stroke-dashoffset: -134; /* Ubah offset saat dibuka */
+  }
+
+  .opened .line2 {
+    stroke-dasharray: 1 60; /* Ubah panjang garis saat dibuka */
+    stroke-dashoffset: -30; /* Ubah offset saat dibuka */
+  }
+
+  .opened .line3 {
+    stroke-dasharray: 90 207; /* Ubah panjang garis saat dibuka */
+    stroke-dashoffset: -134; /* Ubah offset saat dibuka */
+  }
+  .navbar-menu {
+    display: none; /* Menyembunyikan menu secara default */
+    flex-direction: column; /* Jika ditampilkan, tampilkan secara vertikal */
+    position: absolute; /* Tetap berada di layar */
+    top: 13vh; /* Mulai dari atas */
+    left: 0; /* Mulai dari kiri */
+    width: 100%; /* Lebar penuh */
+    height: 30vh; /* Tinggi penuh */
+    background-color: var(--dark-gray-2); /* Latar belakang */
+    z-index: 2; /* Menampilkan di atas */
+    justify-content: center; /* Item di tengah */
+    align-items: center; /* Item sejajar */
+  }
+  .navbar-menu.opened {
+    display: flex; /* Menampilkan menu saat 'opened' */
+  }
+  .navbar-item {
+    text-decoration: none;
+    font-weight: 1000;
+    font-size: large;
+    color: var(--cream);
+    font-family: "Trebuchet MS", sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+    padding: 5px 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+
+  .navbar-item:hover {
+    color: var(--dark-gray-2);
+    background-color: var(--cream);
+    border-radius: 5px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .navbar-menu-PC {
+    display: none;
+  }
+  .navbar-brand img {
+    height: 7vh;
+    width: auto;
+  }
+  section:nth-of-type(1) h1 {
+    font-size: 48px;
+  }
+  section:nth-of-type(1) p {
+    font-size: 24px; /* Ukuran font */
+    text-align: justify; /* Mengatur teks menjadi rata kiri dan kanan */
+    padding: 0 10vw; /* Padding kiri dan kanan */
+    margin-top: 1vh;
+    position: relative; /* Mengatur posisi untuk elemen ::after */
+  }
+
+  section:nth-of-type(1) p::after {
+    content: ""; /* Membuat elemen kosong */
+    display: inline-block; /* Membuat elemen bisa lebar */
+    width: 100%; /* Memastikan lebar penuh */
+    margin-top: auto;
+    margin-bottom: 9.7vh;
+  }
+  #pengalaman {
+    margin-bottom: 10vh;
+  }
+  #judul2 {
+    height: 6vh;
+    width: 35%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+  }
+
+  #judul2 h1 {
+    color: var(--dark-gray-1);
+    font-size: xx-large;
+  }
+
+  .judul {
+    height: 5vh;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    justify-content: space-between;
+  }
+  .judul h1 {
+    font-size: xx-large;
+  }
+  .Three_lines {
+    display: flex;
+    flex-direction: column;
+    align-content: space-evenly;
+    gap: 1.5vh;
+    width: 32%;
+  }
+  .Three_lines div {
+    height: 0.4vh;
+    width: 100%;
+    background-image: linear-gradient(90deg, var(--cream) 30%, transparent 30%, transparent 70%, var(--cream) 70%);
+    background-size: 1vw 100%; /* Ukuran di mana garis terputus */
+    background-repeat: repeat; /* Mengulang pola */
+  }
+  section:nth-of-type(4) {
+    z-index: 1;
+    display: block;
+    position: relative;
+    height: 600px;
+  }
+  .img_svg3 {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    height: 700px;
+    width: 100%;
+    position: relative;
+    z-index: -1;
+  }
+  .info {
+    padding: 2.5vh 0;
+    margin: 5vh 0;
+    width: 60%;
+    justify-content: center;
+    display: flex;
+  }
+  li {
+    position: relative;
+    list-style: none;
+    height: 50px;
+    width: 50px;
+  }
+}

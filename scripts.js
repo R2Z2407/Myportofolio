@@ -1,18 +1,150 @@
-// Gabungan Script: Navbar Responsif dan Project Rendering
+// Static JSON data for experiences
+const experienceData = [
+  {
+    type_content: "Magang",
+    company_content: "Panasonic Manufacturing Indonesia",
+    thumbnail_content: "assets/images/panasonic/1.png",
+    image_content: ["assets/images/panasonic/2.jpg", "assets/images/panasonic/3.jpg", "assets/images/panasonic/4.jpg", "assets/images/panasonic/5.png"],
+    position_content: "Quality Control",
+    average_work_content: "22/06/2023 - 31/07/2023",
+    description_content:
+      "Pada magang ini, saya mempelajari incoming quality control dan product quality control.Dalam divisi incoming quality control mendapatkan tugas memeriksa komponen produk dari pemasok dan produksi internal seperti bahan plastik, logam, dan kabel. Product quality control bertugas dalam mengukur diameter shaft, memeriksa belitan stator, dan memverifikasi teganagan serta arus pada stator. Selain itu, saya menganalisis kecacatan pada rotor. Pada prosesnya, saya menggunakan metode DMAIC dalam menganalisis kecacatan tersebut. Hasil dari analisis yaitu terdapat ketidaksesuaian ukuran shaft akibat mesin gerinding bagian pemasukan shaft yang tidak sesuai kedatatarannya yang membuat shaft seharusnya masuk secara bertahap. Namun, kenyataanya tidak dapat masuk ke dalam mesin tersebut,",
+  },
+  {
+    type_content: "Magang",
+    company_content: "GMF Aeroasia",
+    thumbnail_content: "assets/images/gmf/1.webp",
+    image_content: ["assets/images/gmf/1.webp"],
+    position_content: "IoT Project",
+    average_work_content: "04/09/2023 - 18/12/2023",
+    description_content: "Magang ini merupakan magang berbasis proyek. Tugas saya yaitu membuat prototype berskala laboratorium. Mekanisme kerja prototype ini yaitu data dari sensor dibaca melalui arduino selaku mikroprossesor, Ardunio memproses data tersebut lalu dialamatkan ke AWS via MQTT, dan AWS menampilkan hasil dari bacaan sensor.",
+  },
+];
 
-// Fungsi untuk mengatur navbar berdasarkan ukuran layar
+// Function to format the date range
+function formatDateRange(dateRange) {
+  const [startDateStr, endDateStr] = dateRange.split(" - ");
+
+  const formatDate = (dateStr) => {
+    const [day, month, year] = dateStr.split("/").map(Number);
+    const date = new Date(year, month - 1, day); // Month is 0-indexed
+
+    // Set up short month names
+    const shortMonthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+    return `${day} ${shortMonthNames[month - 1]} ${year}`;
+  };
+
+  const formattedStartDate = formatDate(startDateStr);
+  const formattedEndDate = formatDate(endDateStr);
+
+  return `${formattedStartDate} - ${formattedEndDate}`;
+}
+
+// Function to create an experience card
+function createExperienceCard(experience) {
+  const description = experience.description_content || "No description available.";
+
+  // Fungsi untuk memotong deskripsi menjadi maksimal 50 kata
+  const truncateDescription = (text, maxWords) => {
+    const words = text.split(" "); // Memisahkan deskripsi menjadi array kata
+    return words.length <= maxWords ? text : words.slice(0, maxWords).join(" ") +" "+ "..."; // Menggabungkan kembali hingga 50 kata
+  };
+
+  const truncatedDescription = truncateDescription(description, 25); // Mendapatkan deskripsi yang sudah dipotong
+
+  const card = $(`
+                <div class="property-card2">
+                    <div class="image-content2">
+                        <img src="${experience.thumbnail_content || "default-image.png"}" alt="${experience.company_content}">
+                    </div>
+                    <div class="name-content2"><h4>${experience.company_content}</h4></div>
+                    <div class="position-content2">
+                        <i class="fa fa-briefcase"></i>&nbsp;${experience.position_content || "Position Not Specified"} | ${formatDateRange(experience.average_work_content) || "Date Working Not Specified"}
+                    </div>
+                    <div class="description-content2">
+                        <p>${truncatedDescription}</p>
+                    </div>
+                </div>
+            `);
+
+  card.on("click", () => openModal(experience));
+
+  return card;
+}
+
+// Function to render experience cards
+function renderExperiences(experiences) {
+  const cardContainer = $(".experience-container");
+  cardContainer.empty(); // Clear existing content
+
+  $.each(experiences, (index, experience) => {
+    const experienceCard = createExperienceCard(experience);
+    cardContainer.append(experienceCard);
+  });
+}
+
+// Function to open the modal and populate it with experience data
+// Function to open the modal and populate it with experience data
+function openModal(experience) {
+  // Dapatkan gambar pertama
+  const firstImage = experience.thumbnail_content; // Memastikan ini adalah yang benar
+  console.log("Image URL:", firstImage); // Log untuk membantu troubleshooting
+
+  // Atur src untuk elemen <img>
+  $("#modal-image-logo").attr("src", firstImage); // Mengatur src element <img>
+
+  // Assign values to modal elements
+  $("#modalCompany").text(experience.company_content);
+  $("#modalPosition").text(experience.position_content || "Position Not Specified");
+  $("#modalWorkDate").text(formatDateRange(experience.average_work_content));
+  $("#modalDescription").html(experience.description_content || "No description available.");
+
+  // Handle modal images
+  const modalImages = $("#modalImages");
+  modalImages.empty(); // Clear previous images
+  $.each(experience.image_content, (index, image) => {
+    const imgElement = $(`<img src="${image}" alt="Experience Image" class="modal-image">`);
+    modalImages.append(imgElement);
+  });
+
+  // Display the modal
+  $("#myModal").show();
+}
+
+// Function to close the modal
+$("#modalClose").on("click", function () {
+  $("#myModal").hide();
+});
+
+// Function to close the modal
+$("#modalClose").on("click", function () {
+  $("#myModal").hide();
+});
+
+// Function to close the modal
+$("#modalClose").on("click", function () {
+  $("#myModal").hide();
+});
+
+// Function to close the modal
+$("#modalClose").on("click", function () {
+  $("#myModal").hide();
+});
+
+// Function to setup responsive navbar based on screen size
 function setupNavbarResponsive() {
   const nav = document.querySelector("nav");
   const logo = document.querySelector(".navbar-brand img");
   const navbarMenu = document.querySelector(".navbar-menu");
   const hamburger = document.querySelector(".hamburger");
 
-  // Fungsi untuk menutup navbar menu
+  // Function to close navbar menu
   function closeNavbarMenu() {
     if (navbarMenu.classList.contains("opened")) {
       navbarMenu.classList.remove("opened");
 
-      // Reset animasi hamburger
+      // Reset hamburger animation
       const line1 = document.querySelector(".line1");
       const line2 = document.querySelector(".line2");
       const line3 = document.querySelector(".line3");
@@ -26,37 +158,34 @@ function setupNavbarResponsive() {
     }
   }
 
-  // Fungsi scroll untuk layar besar (>= 1024px)
+  // Function to handle scroll for large screens
   function handleLargeScreenScroll() {
     window.addEventListener("scroll", function () {
       if (window.innerWidth >= 1024) {
-        if (window.scrollY > 0) {
-          nav.classList.add("scrolled");
-          logo.classList.add("scrolled-img");
-        } else {
-          nav.classList.remove("scrolled");
-          logo.classList.remove("scrolled-img");
-        }
+        nav.classList.toggle("scrolled", window.scrollY > 0); // Optimize with toggle
+        logo.classList.toggle("scrolled-img", window.scrollY > 0);
       } else {
-        // Reset styling untuk layar kecil
+        // Reset styles for small screens
         nav.classList.remove("scrolled");
         logo.classList.remove("scrolled-img");
       }
     });
   }
 
-  // Fungsi toggle menu hamburger
+  // Function to toggle hamburger menu
   function setupHamburgerMenu() {
     hamburger.addEventListener("click", function () {
       console.log("Hamburger Clicked");
       navbarMenu.classList.toggle("opened");
 
+      // Log status of navbar menu
       console.log("Navbar Menu Opened:", navbarMenu.classList.contains("opened"));
 
       const line1 = document.querySelector(".line1");
       const line2 = document.querySelector(".line2");
       const line3 = document.querySelector(".line3");
 
+      // Animate hamburger lines based on menu state
       if (navbarMenu.classList.contains("opened")) {
         line1.style.strokeDasharray = "90 207";
         line1.style.strokeDashoffset = "-134";
@@ -75,59 +204,48 @@ function setupNavbarResponsive() {
     });
   }
 
-  // Fungsi smooth scroll untuk semua layar
+  // Function for smooth scroll for all screens
   function setupSmoothScroll() {
-    // Smooth scroll to top saat beranda diklik
     document.getElementById("home-link").addEventListener("click", function (event) {
       event.preventDefault();
       window.scrollTo({
         top: 0,
         behavior: "smooth",
       });
-
-      // Tutup navbar menu
-      closeNavbarMenu();
+      closeNavbarMenu(); // Close navbar menu when clicking home link
     });
 
-    // Smooth scroll untuk item navbar
     document.querySelectorAll(".navbar-item").forEach((item) => {
       item.addEventListener("click", function (event) {
         const targetId = this.getAttribute("href");
         event.preventDefault();
-
-        // Scroll ke elemen yang dituju
-        document.querySelector(targetId).scrollIntoView({
-          behavior: "smooth",
-        });
-
-        // Tutup navbar menu
-        closeNavbarMenu();
+        document.querySelector(targetId).scrollIntoView({ behavior: "smooth" });
+        closeNavbarMenu(); // Close navbar menu when clicking on item
       });
     });
   }
 
-  // Fungsi reset menu saat resize
+  // Function to reset menu on resize
   function setupResizeHandler() {
     window.addEventListener("resize", function () {
       if (window.innerWidth > 1024) {
         navbarMenu.classList.remove("opened");
-        // Reset styling untuk layar besar
+        // Reset styles for large screens
         nav.classList.remove("scrolled");
         logo.classList.remove("scrolled-img");
       }
     });
   }
 
-  // Fungsi untuk toggle shadow dan fill pada icon kontak
+  // Function to toggle shadow and fill on contact icons
   function setupContactIcons() {
-    // Menggunakan jQuery untuk toggle icon
     $(".first li").click(function () {
-      $(this).toggleClass("shadow-1").siblings();
-      $(this).toggleClass("fill-color").siblings();
+      $(this).toggleClass("shadow-1").siblings().removeClass("shadow-1");
+      $(this).toggleClass("fill-color").siblings().removeClass("fill-color");
     });
   }
 
-  // Inisialisasi semua fungsi navbar
+  // Initialize all navbar functions
   handleLargeScreenScroll();
   setupHamburgerMenu();
   setupSmoothScroll();
@@ -135,10 +253,9 @@ function setupNavbarResponsive() {
   setupContactIcons();
 }
 
-// Fungsi untuk mengambil data project dari API
+// Function to fetch project data from API
 async function fetchProjects() {
   try {
-    // Tambahkan error handling yang lebih detail
     const response = await fetch("database/db_project.json");
 
     if (!response.ok) {
@@ -148,69 +265,24 @@ async function fetchProjects() {
     const projects = await response.json();
     return projects.map((project) => ({
       ...project,
-      // Normalisasi data untuk menghindari undefined
       image_content: project.image_content || "",
-      file_content: project.file_content || "#",
-      link_content: project.link_content || "#",
+      file_content: project.file_content || "No available", // Set default message
+      link_content: project.link_content || "No available", // Set default message
     }));
   } catch (error) {
     console.error("Error fetching projects:", error);
-    return [];
+    return []; // Return empty array in case of error
   }
 }
 
-// Fungsi untuk mengambil data project2 dari API
-async function fetchProjects2() {
-  try {
-    const response = await fetch("database/db_project2.json");
-
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-
-    const projects = await response.json();
-    return projects.map((project) => ({
-      ...project,
-      image_content: project.image_content || "",
-      description_short: project.description_content ? (project.description_content.length > 100 ? project.description_content.substring(0, 100) + "..." : project.description_content) : "...",
-    }));
-  } catch (error) {
-    console.error("Error fetching projects2:", error);
-    return [];
-  }
-}
-
-// Fungsi untuk mengisi dropdown filter berdasarkan type_content
+// Function to populate dropdown filter based on type_content
 function populateProjectFilter(projects) {
   const typeFilter = document.getElementById("typeFilter");
 
-  // Ambil unique type_content
+  // Get unique type_content
   const uniqueTypes = [...new Set(projects.map((project) => project.type_content))];
 
-  // Tambahkan opsi untuk setiap tipe
-  uniqueTypes.forEach((type) => {
-    const option = document.createElement("option");
-    option.value = type;
-    option.textContent = type;
-    typeFilter.appendChild(option);
-  });
-}
-
-// Fungsi untuk mengisi dropdown filter project2
-function populateProjectFilter2(projects) {
-  const typeFilter = document.getElementById("typeFilter2");
-  typeFilter.innerHTML = ""; // Bersihkan filter sebelumnya
-
-  // Tambahkan opsi "All"
-  const allOption = document.createElement("option");
-  allOption.value = "all";
-  allOption.textContent = "All Projects";
-  typeFilter.appendChild(allOption);
-
-  // Ambil unique type_content
-  const uniqueTypes = [...new Set(projects.map((project) => project.type_content).filter(Boolean))];
-
-  // Tambahkan opsi untuk setiap tipe
+  // Add options for each type
   uniqueTypes.forEach((type) => {
     const option = document.createElement("option");
     option.value = type;
@@ -220,21 +292,22 @@ function populateProjectFilter2(projects) {
 }
 
 function getProjectImage(project) {
-  // Cek apakah image_content valid
+  // Check if image_content is valid
   if (project.image_content && project.image_content.trim() !== "") {
     return project.image_content;
   }
 
-  // Jika tidak ada gambar, kembalikan warna abu-abu
+  // If no image, return a gray placeholder
   return "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAACklEQVR4nGMAAQAABQABDQottAAAAABJRU5ErkJggg==";
 }
 
+// Function for creating a project card
 function createProjectCard(project) {
   const card = document.createElement("div");
   card.className = "property-card";
 
-  // Fungsi untuk menentukan kelas font berdasarkan panjang teks
-  function determinefontSizeClass(text) {
+  // Function to determine font size class based on text length
+  function determineFontSizeClass(text) {
     if (text.length <= 50) {
       return "font-size-default";
     } else if (text.length <= 75) {
@@ -246,88 +319,69 @@ function createProjectCard(project) {
     }
   }
 
-  // Buat elemen nama dengan kelas font yang sesuai
   const nameElement = document.createElement("h3");
-  nameElement.textContent = project.name_content;
-  nameElement.className = determinefontSizeClass(project.name_content);
+  nameElement.textContent = project.name_content || "Unnamed Project"; // Provide a default name
+  nameElement.className = determineFontSizeClass(project.name_content || "");
 
   card.innerHTML = `
         <div class="image-content">
-            <img src="${getProjectImage(project)}" alt="${project.name_content}">
+            <img src="${getProjectImage(project)}" alt="${project.name_content || "Project Image"}">
         </div>
         <div class="name-content">
-            <!-- Nama akan diatur oleh fungsi di atas -->
+            <!-- Name will be set by the function above -->
         </div>
         <div class="description-content">
-            <p>${project.description_content}</p>
+            <p>${project.description_content || "No description available."}</p> <!-- Provide default description -->
         </div>
         <div class="footer-content">
             <div class="file-content">
-                <a href="${project.file_content}" download>Download</a>
+                <a href="${project.file_content || "#"}" download>${project.file_content !== "No available" ? "Download" : ""}</a>
             </div>
             <div class="link-content">
-                <a href="${project.link_content}" target="_blank">View Project</a>
+                <a href="${project.link_content || "#"}" target="_blank">${project.link_content !== "No available" ? "View Project" : ""}</a>
             </div>
         </div>
     `;
 
-  // Tambahkan elemen nama ke dalam kontainer
   const nameContentDiv = card.querySelector(".name-content");
   nameContentDiv.appendChild(nameElement);
 
   return card;
 }
 
-// Fungsi untuk membuat project card2
-function createProjectCard2(project) {
-  const card = document.createElement("div");
-  card.className = "property-card2";
-  card.dataset.projectId = project.id;
-
-  card.innerHTML = `
-        <div class="image-content2">
-            <img src="${getProjectImage(project)}" alt="${project.name_content || "Project Image"}">
-        </div>
-        <div class="name-content2">
-            <h3>${project.name_content || "Unnamed Project"}</h3>
-        </div>
-        <div class="position-content2">
-            <p>${project.position_content || "Position Not Specified"}</p>
-        </div>
-        <div class="description-content2">
-            <p>${project.description_short}</p>
-        </div>
-    `;
-
-  // Tambahkan event listener untuk membuka modal
-  card.addEventListener("click", () => openProjectModal(project));
-
-  return card;
-}
-
-// Fungsi untuk membuat modal project
+// Function to create project modal
 function createProjectModal(project) {
+  // Check if both links and files are not available
+  const fileNotAvailable = project.file_content === "No available";
+  const linkNotAvailable = project.link_content === "No available";
+
+  if (fileNotAvailable && linkNotAvailable) {
+    console.log("No valid links or files available for this project. Skipping modal creation.");
+    return null; // Skip modal creation
+  }
+
   const modal = document.createElement("div");
   modal.className = "project-modal";
   modal.innerHTML = `
         <div class="project-modal-content">
             <span class="project-modal-close">&times;</span>
             <div class="project-modal-image">
-                <img src="${getProjectImage(project)}" alt="${project.name_content}">
+                <img src="${getProjectImage(project)}" alt="${project.name_content || "Project Image"}">
             </div>
             <div class="project-modal-details">
-                <h2>${project.name_content}</h2>
-                <h3>${project.position_content}</h3>
-                <p>${project.description_content}</p>
+                <h2>${project.name_content || "Project Name Unavailable"}</h2>
+                <h3>${project.position_content || "Position Unavailable"}</h3>
+                <p>${project.description_content || "No description available."}</p>
                 <div class="project-modal-links">
-                    ${project.link_content ? `<a href="${project.link_content}" target="_blank">View Project</a>` : ""}
-                    ${project.file_content ? `<a href="${project.file_content}" download>Download</a>` : ""}
+                    ${!linkNotAvailable ? `<a href="${project.link_content}" target="_blank">View Project</a>` : ""}
+                    ${!fileNotAvailable ? `<a href="${project.file_content}" download>Download</a>` : ""}
+                    ${fileNotAvailable && linkNotAvailable ? "<p>No links or files available.</p>" : ""}
                 </div>
             </div>
         </div>
     `;
 
-  // Tambahkan event listener untuk menutup modal
+  // Add event listener to close modal
   const closeButton = modal.querySelector(".project-modal-close");
   closeButton.addEventListener("click", () => {
     document.body.removeChild(modal);
@@ -336,12 +390,12 @@ function createProjectModal(project) {
   return modal;
 }
 
-// CSS tambahan
+// CSS for additional styling
 const additionalCSS = `
 .property-card .image-content {
     width: 100%;
     height: 250px;
-    background-color: #E0E0E0; /* Warna abu-abu terang */
+    background-color: #E0E0E0; /* Light gray color */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -355,10 +409,10 @@ const additionalCSS = `
 }
 `;
 
-// Fungsi untuk merender project cards
+// Function to render project cards
 function renderProjects(projects) {
   const cardContainer = document.querySelector(".Card");
-  cardContainer.innerHTML = ""; // Bersihkan kontainer sebelum render
+  cardContainer.innerHTML = ""; // Clear container before rendering
 
   projects.forEach((project) => {
     const projectCard = createProjectCard(project);
@@ -366,18 +420,7 @@ function renderProjects(projects) {
   });
 }
 
-// Fungsi untuk merender project cards2
-function renderProjects2(projects) {
-  const cardContainer = document.querySelector(".Card2");
-  cardContainer.innerHTML = ""; // Bersihkan kontainer sebelum render
-
-  projects.forEach((project) => {
-    const projectCard = createProjectCard2(project);
-    cardContainer.appendChild(projectCard);
-  });
-}
-
-// Fungsi filter project berdasarkan type
+// Function to filter projects based on type
 function filterProjects() {
   const typeFilter = document.getElementById("typeFilter");
   const selectedType = typeFilter.value;
@@ -389,71 +432,48 @@ function filterProjects() {
   renderProjects(filteredProjects);
 }
 
-// Inisialisasi utama untuk project
+// Main initialization function for projects
 async function initProjects() {
   try {
-    // Ambil projects
+    // Fetch projects
     const projects = await fetchProjects();
 
-    // Simpan di localStorage untuk filter
+    // Save in localStorage for filtering
     localStorage.setItem("projects", JSON.stringify(projects));
 
-    // Isi dropdown filter
+    // Populate dropdown filter
     populateProjectFilter(projects);
 
-    // Render semua projects
+    // Render all projects
     renderProjects(projects);
 
-    // Tambahkan event listener untuk filter
+    // Add event listener for filter
     document.getElementById("typeFilter").addEventListener("change", filterProjects);
   } catch (error) {
     console.error("Initialization error:", error);
   }
 }
 
-// Inisialisasi utama untuk project2
-async function initProjects2() {
-  try {
-    const projects = await fetchProjects2();
-
-    if (projects.length === 0) {
-      const cardContainer = document.querySelector(".Card2");
-      cardContainer.innerHTML = "<p>No projects found.</p>";
-      return;
-    }
-
-    localStorage.setItem("projects2", JSON.stringify(projects));
-
-    populateProjectFilter2(projects);
-    renderProjects2(projects);
-
-    document.getElementById("typeFilter2").addEventListener("change", filterProjects2);
-  } catch (error) {
-    console.error("Initialization error:", error);
-    const cardContainer = document.querySelector(".Card2");
-    cardContainer.innerHTML = "<p>Error loading projects. Please try again later.</p>";
-  }
-}
-
+// Function to download CV
 function downloadCV() {
   const cvPath = "assets/CV/Rijal_Rahman_Zuhri-CV.pdf";
 
-  // Tambahkan log untuk debugging
+  // Log for debugging
   console.log("Attempting to download CV from:", cvPath);
 
   fetch(cvPath)
     .then((response) => {
-      // Tambahkan log status response
+      // Log response status
       console.log("Response status:", response.status);
       console.log("Response ok:", response.ok);
 
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
-      return response.blob();
+      return response.blob(); // Get the blob for the file
     })
     .then((blob) => {
-      // Tambahkan log ukuran blob
+      // Log blob size
       console.log("Blob size:", blob.size);
 
       const link = document.createElement("a");
@@ -464,10 +484,10 @@ function downloadCV() {
       document.body.removeChild(link);
     })
     .catch((error) => {
-      // Log error detail
+      // Log error details
       console.error("Full error details:", error);
 
-      // Tambahkan pemeriksaan path file
+      // Check if file exists
       const checkFileExists = new Promise((resolve, reject) => {
         const xhr = new XMLHttpRequest();
         xhr.open("HEAD", cvPath, true);
@@ -496,20 +516,21 @@ function downloadCV() {
     });
 }
 
-// Alternatif metode download
+// Alternative method to download CV
 function downloadCVAlternative() {
   const cvPath = "assets/CV/Rijal_Rahman_Zuhri-CV.pdf";
 
-  // Metode window.location
+  // Use window.location for download
   window.location.href = cvPath;
 }
 
+// Function to open email composer
 function openEmailComposer(platform = "gmail") {
   const email = "rijalrzuhri247@gmail.com";
-  const subject = "Messange from Website";
-  const body = "Hello, I want to talk you ...";
+  const subject = "Message from Website";
+  const body = "Hello, I want to talk to you ...";
 
-  // Konstruksi URL berbeda untuk platform
+  // Construct different URLs for platforms
   let mailtoLink;
   switch (platform) {
     case "gmail":
@@ -522,45 +543,38 @@ function openEmailComposer(platform = "gmail") {
       mailtoLink = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
   }
 
-  // Buka jendela email
+  // Open email window
   window.open(mailtoLink, "_blank");
 
-  // Opsional: Tracking
+  // Optional: Tracking
   trackEmailClick();
 }
 
-// Fungsi tracking sederhana
+// Simple tracking function
 function trackEmailClick() {
   console.log("Email link clicked");
 }
 
-// Jalankan setup saat dokumen siap
+// Run setup when document is ready
 $(document).ready(function () {
-  // Inisialisasi navbar
+  // Initialize navbar
   setupNavbarResponsive();
 
-  // Inisialisasi project
+  // Initialize projects
   initProjects();
 
-  // Inisialisasi project2
-  initProjects2();
+  // Render experiences using static data
+  renderExperiences(experienceData); // Use static data
 
   $(".fa-envelope").on("click", function (e) {
     e.preventDefault();
-
-    // Toggle shadow dan fill
     $(this).closest("li").toggleClass("shadow-1").toggleClass("fill-color");
-
-    // Buka email composer
     openEmailComposer("gmail");
   });
 
   $('button:contains("Download CV")').on("click", function () {
-    // Toggle shadow dan fill
     $(this).toggleClass("shadow-1").toggleClass("fill-color");
-    // Coba metode fetch terlebih dahulu
     downloadCV();
-    // Kembalikan ke state semula setelah beberapa saat
     setTimeout(() => {
       $(this).removeClass("shadow-1").removeClass("fill-color");
     }, 300);

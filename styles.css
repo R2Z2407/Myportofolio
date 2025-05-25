@@ -44,6 +44,9 @@ body {
   display: block;
   overflow-x: hidden;
 }
+body::-webkit-scrollbar {
+  display: none;
+}
 
 .img_svg {
   display: flex;
@@ -230,7 +233,7 @@ section:nth-of-type(1) p::after {
 .List {
   padding: 2.5vh 0;
   margin: 5vh 0;
-  height: 70vh;
+  height: 60vh;
   border-top: 5px solid var(--muted-green);
   border-left: 5px solid var(--muted-green);
   border-bottom: 5px solid var(--muted-green);
@@ -241,123 +244,168 @@ section:nth-of-type(1) p::after {
   align-items: center;
   gap: 2vh;
 }
-.project-filter {
-  align-self: flex-end;
-}
 
-.Card {
+.experience-container {
   display: flex;
-  flex-direction: row;
-  overflow-x: auto; /* Memungkinkan scroll horizontal */
+  align-self: flex-start;
+  flex-wrap: wrap;
+  padding: 20px;
+}
+
+.property-card2 {
+  flex: 0 0 300px; /* Lebar tetap untuk setiap card */
+  height: 50vh;
+  display: grid;
+  background-color: var(--muted-green);
+  grid-template-rows: 0.5fr 0.2fr 0.1fr fr; /* Define grid rows */
+  margin-right: 15px;
+  border: 3px solid var(--muted-green);
+  background-color: white;
+  justify-items: center; /* Horizontally center items */
+}
+
+.property-card2 img {
+  max-width: 100%; /* Ensures the image does not overflow */
+  max-height: 100%; /* Ensures the image does not overflow */
+  object-fit: cover; /* Maintain aspect ratio */
+  object-position: center;
+}
+
+/* Add a wrapper around the image to center it vertically */
+.image-content2 {
+  display: flex; /* Use flexbox for centering */
+  align-items: center; /* Center vertically */
+  justify-content: center; /* Center horizontally */
+  height: 100%; /* Make sure the wrapper takes full height of the grid cell */
+}
+
+.name-content2 {
+  font-size: 1.2em;
+  font-weight: bold;
+  display: flex; /* Use flexbox for centering */
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+  padding-left: 1vw;
+  color: var(--cream);
+  background-color: var(--dark-gray-1);
   width: 100%;
-  height: 100%;
-  gap: 15px;
-  padding: 15px;
-  box-sizing: border-box;
+}
+.name-content2 h4 {
+  align-self: center;
+  justify-items: center;
+  justify-self: center;
+  justify-content: center;
 }
 
-.property-card {
-    flex: 0 0 300px; /* Lebar tetap untuk setiap card */
-    height: 100%;
-    display: grid;
-    grid-template-rows: auto auto auto 1fr;
-    border: 1px solid #ddd;
-    transition: transform 0.3s ease;
+.position-content2 {
+  display: flex; /* Use flexbox for centering */
+  font-size: 14px;
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+  color: var(--cream);
+  background-color: var(--dark-gray-1);
+  width: 100%;
 }
 
-.property-card .image-content {
-    width: 100%;
-    height: 20vh;
-    overflow: hidden;
+.description-content2 {
+  color: #555;
+  justify-self: stretch; /* Stretch to occupy full width */
+  text-align: justify; /* Align text to the left if needed */
+  padding: 0 1vw;
+  background-color: var(--dark-gray-1);
+  width: 100%;
 }
 
-.property-card .image-content img {
-    width: 100%;
-    height: 100%;
-    object-fit: fill;
+/* Modal Styles */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1000; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
 }
 
-.property-card .name-content {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 5px;
-    height: 10vh;
-    text-align: center;
+/* Webkit Browsers (Chrome, Safari, Edge) */
+.modal::-webkit-scrollbar {
+  display: none;
+}
+
+.modal-content {
+  background-color: var(--muted-green);
+  margin: 15% auto; /* 15% from the top and centered */
+  padding-left: 5vh;
+  padding-right: 5vh;
+  padding-bottom: 5vh;
+  border: 1px solid #888;
+  width: 80%; /* Could be more or less, depending on screen size */
+  border-radius: 5px;
+  position: relative;
+  z-index: 1000;
+}
+
+.modal-close {
+  color: var(--dark-gray-2);
+  float: right;
+  font-size: 28px;
+  font-weight:900;
+}
+
+.modal-close:hover,
+.modal-close:focus {
+  color: var(--cream);
+  text-decoration: none;
+  cursor: pointer;
+}
+#modal-part {
+  display: flex;
+  gap: 1vw;
+  background-color: white;
+  color: var(--dark-gray-2);
+  width: 100%;
+}
+#modal-image-logo {
+    width: 30%; /* Lebar penuh */
+    height: auto; /* Tinggi yang diinginkan */
+    background-size: cover; /* Isi area */
+    background-position: center; /* Posisi gambar di tengah */
+    background-repeat: no-repeat; /* Tidak mengulang gambar */
     background-color: white;
 }
-
-.property-card .name-content h3 {
-    margin: 0;
-    word-wrap: break-word;
-    hyphens: auto;
+#modal-posisi-date {
+  display: flex; /* Gunakan flexbox untuk tata letak lebih baik */
+  flex-direction: column;
+  justify-content: center; /* Membagi ruang antara dua elemen */
+  align-items: start; /* Menyelaraskan elemen secara vertikal */
 }
 
-/* Ukuran font berbeda berdasarkan panjang konten */
-.property-card .name-content .font-size-default {
-    font-size: 16px;
+#modal-posisi-date h4 {
+  margin: 0; /* Menghilangkan margin agar berdekatan */
+  padding: 0 0px; /* Menambahkan sedikit ruang di samping teks */
 }
 
-.property-card .name-content .font-size-medium {
-    font-size: 14px;
+#modalDescription{
+  padding-top: 3vh;
+  color: var(--dark-gray-2);
+  background-color: white;
+  font-size: 18px;
 }
 
-.property-card .name-content .font-size-small {
-    font-size: 12px;
+.experience-slideshow {
+  display: flex;
+  flex-wrap: wrap; /* Tambahkan ini */
+  gap: 10px;
+  background-color: white;
 }
 
-.property-card .name-content .font-size-extra-small {
-    font-size: 10px;
-}
-
-.property-card .description-content {
-    padding: 10px;
-    text-align: center;
-    word-wrap: break-word;
-    hyphens: auto;
-}
-
-.property-card .description-content {
-    padding: 15px;
-    height: 20vh;
-    text-align: justify;
-}
-
-.property-card .footer-content {
-    display: flex;
-    justify-content: space-between;
-    padding: 10px;
-    background-color: #f4f4f4;
-}
-
-.property-card .file-content,
-.property-card .link-content {
-    flex: 1;
-    text-align: center;
-}
-
-.property-card a {
-    text-decoration: none;
-    color: #333;
-    font-weight: bold;
-}
-
-/* Tambahan scroll bar styling untuk browser webkit */
-.Card::-webkit-scrollbar {
-    height: 8px;
-}
-
-.Card::-webkit-scrollbar-track {
-    background: #f1f1f1;
-}
-
-.Card::-webkit-scrollbar-thumb {
-    background: var(--muted-green);
-    border-radius: 4px;
-}
-
-.Card::-webkit-scrollbar-thumb:hover {
-    background: #555;
+.experience-slideshow img {
+  width: calc(48% - 20px); /* Dua gambar per baris */
+  height: auto;
+  cursor: pointer;
+  border-radius: 5px;
 }
 
 #proyek {
@@ -392,7 +440,7 @@ section:nth-of-type(1) p::after {
 .List2 {
   padding: 2.5vh 0;
   margin: 5vh 0;
-  height: 60vh;
+  height: 70vh;
   border-right: 2px solid var(--cream);
   border-top: 2px solid var(--cream);
   border-bottom: 2px solid var(--cream);
@@ -403,122 +451,173 @@ section:nth-of-type(1) p::after {
   align-items: center;
   gap: 2vh;
 }
-.project-filter2 {
-  align-self: flex-start;
+
+/* Container for the filter */
+.project-filter {
+  align-self: start; /* Center the filter */
 }
-.Card2 {
-  background-color: mediumvioletred;
-  align-self: flex-start;
+
+/* Styling the select dropdown */
+#typeFilter {
+  padding: 5px 10px; /* Padding inside the dropdown */
+  font-size: 16px; /* Font size */
+  background-color: var(--cream); /* Green background color */
+  color: var(--dark-gray-1); /* White text color */
+  border: none; /* No border */
+  border-radius: 5px; /* Rounded corners */
+  cursor: pointer; /* Pointer cursor on hover */
+  transition: background-color 0.3s; /* Transition for hover effect */
+}
+
+/* Change background color on hover */
+#typeFilter:hover {
+  background-color: var(--cream); /* Darker green on hover */
+}
+
+/* Additional styles for option elements */
+#typeFilter option {
+  background-color: var(--cream); /* Green background for options */
+  color: var(--dark-gray-1); /* White text color for options */
+}
+
+/* Optional: Styles for a nicer feel on options */
+#typeFilter:focus {
+  outline: none; /* Remove outline on focus */
+  border: 2px solid #333; /* Dark border when focused */
+}
+
+.Card {
+  display: flex;
+  flex-direction: row; /* Align items in a row */
+  overflow-x: auto; /* Enable horizontal scrolling */
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  gap: 15px; /* Space between cards */
+  padding: 15px; /* Padding around the container */
+  scrollbar-width: thin; /* For Firefox: make scrollbar thin */
+  -webkit-overflow-scrolling: touch; /* Smooth scrolling on touch devices */
+  transform: scaleX(-1); /* Reverse the direction of the scroll */
+}
+
+/* Optional: Customize scrollbar for WebKit browsers */
+.Card::-webkit-scrollbar {
+  height: 8px; /* Height of scrollbar */
+}
+
+.Card::-webkit-scrollbar-thumb {
+  background-color: #888; /* Color of the scrollbar */
+  border-radius: 10px; /* Rounded corners */
+}
+
+.property-card {
+  flex: 0 0 300px; /* Lebar tetap untuk setiap card */
   height: 100%;
-  width: 99%;
+  display: grid;
+  grid-template-rows: auto auto auto 1fr;
+  border: 3px solid var(--cream);
+  transform: scaleX(-1); /* Reverse card direction */
 }
 
-.property-card2 {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    cursor: pointer;
-    transition: transform 0.3s ease;
+.property-card .image-content {
+  width: 100%;
+  height: 20vh;
+  overflow: hidden;
 }
 
-.property-card2:hover {
-    transform: scale(1.05);
+.property-card .image-content img {
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
 }
 
-.property-card2 .image-content2 {
-    width: 100%;
-    height: 200px;
-    overflow: hidden;
+.property-card .name-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 5px;
+  height: 8vh;
+  color: var(--dark-gray-1);
+  background-color: var(--cream);
+  text-align: center;
 }
 
-.property-card2 .image-content2 img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+.property-card .name-content h3 {
+  margin: 0;
+  word-wrap: break-word;
+  hyphens: auto;
 }
 
-.property-card2 .name-content2 h3 {
-    margin: 10px 0;
-    text-align: center;
+/* Ukuran font berbeda berdasarkan panjang konten */
+.property-card .name-content .font-size-default {
+  font-size: 16px;
 }
 
-.property-card2 .position-content2 p,
-.property-card2 .description-content2 p {
-    text-align: center;
-    margin: 5px 0;
+.property-card .name-content .font-size-medium {
+  font-size: 14px;
 }
 
-.project-modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0,0,0,0.7);
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    z-index: 1000;
-    animation: slideInFromRight 0.5s ease-out;
+.property-card .name-content .font-size-small {
+  font-size: 12px;
 }
 
-@keyframes slideInFromRight {
-    from {
-        transform: translateX(100%);
-    }
-    to {
-        transform: translateX(0);
-    }
+.property-card .name-content .font-size-extra-small {
+  font-size: 10px;
 }
 
-.project-modal-content {
-    width: 80%;
-    max-width: 600px;
-    height: 100%;
-    background-color: white;
-    display: flex;
-    flex-direction: column;
-    position: relative;
-    padding: 20px;
-    overflow-y: auto;
+.property-card .description-content {
+  padding: 10px;
+  text-align: center;
+  word-wrap: break-word;
+  background-color: var(--cream);
+  hyphens: auto;
 }
 
-.project-modal-close {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    font-size: 30px;
-    cursor: pointer;
+.property-card .description-content {
+  padding: 15px;
+  height: 20vh;
+  text-align: justify;
+  color: var(--dark-gray-2);
 }
 
-.project-modal-image {
-    width: 100%;
-    height: 300px;
-    overflow: hidden;
+.property-card .description-content p {
+  color: var(--dark-gray-2);
 }
 
-.project-modal-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+.property-card .footer-content {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  background-color: var(--dark-gray-2);
 }
 
-.project-modal-details {
-    padding: 20px;
+.property-card .file-content,
+.property-card .link-content {
+  flex: 1;
+  text-align: center;
 }
 
-.project-modal-links {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 20px;
+.property-card a {
+  text-decoration: none;
+  color: var(--cream);
+  font-weight: bolder;
 }
 
-.project-modal-links a {
-    text-decoration: none;
-    padding: 10px 20px;
-    background-color: #007bff;
-    color: white;
-    border-radius: 5px;
+/* Tambahan scroll bar styling untuk browser webkit */
+.Card::-webkit-scrollbar {
+  height: 8px;
+}
+
+.Card::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.Card::-webkit-scrollbar-thumb {
+  background: var(--muted-green);
+  border-radius: 4px;
+}
+
+.Card::-webkit-scrollbar-thumb:hover {
+  background: #555;
 }
 
 section:nth-of-type(4) {
@@ -641,49 +740,49 @@ li:nth-child(4).fill-color a {
 }
 
 .download-cv-btn {
-    position: relative;
-    list-style: none;
-    height: 70px;
-    width: auto; /* Sesuaikan lebar otomatis dengan konten */
-    padding: 10px 30px; /* Padding horizontal */
-    margin: 0 10px;
-    border: none;
-    border-radius: 35px; /* Setengah dari tinggi untuk bentuk oval/capsule */
-    background: #3a3f54;
-    cursor: pointer;
-    box-shadow: -5px -5px 10px rgba(255, 255, 255, 0.05), 5px 5px 10px rgba(0, 0, 0, 0.3);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transition: all 0.3s ease;
-    
-    /* Reset default button styles */
-    outline: none;
-    font-family: inherit;
-    font-size: 16px;
-    color: #8a8f9e;
+  position: relative;
+  list-style: none;
+  height: 70px;
+  width: auto; /* Sesuaikan lebar otomatis dengan konten */
+  padding: 10px 30px; /* Padding horizontal */
+  margin: 0 10px;
+  border: none;
+  border-radius: 35px; /* Setengah dari tinggi untuk bentuk oval/capsule */
+  background: #3a3f54;
+  cursor: pointer;
+  box-shadow: -5px -5px 10px rgba(255, 255, 255, 0.05), 5px 5px 10px rgba(0, 0, 0, 0.3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.3s ease;
+
+  /* Reset default button styles */
+  outline: none;
+  font-family: inherit;
+  font-size: 16px;
+  color: #8a8f9e;
 }
 
 .download-cv-btn:hover {
-    transform: translateY(-5px);
-    box-shadow: -7px -7px 12px rgba(255, 255, 255, 0.07), 7px 7px 12px rgba(139, 137, 137, 0.4);
+  transform: translateY(-5px);
+  box-shadow: -7px -7px 12px rgba(255, 255, 255, 0.07), 7px 7px 12px rgba(139, 137, 137, 0.4);
 }
 
 /* Efek shadow saat ditekan */
 .download-cv-btn.shadow-1 {
-    box-shadow: inset -3px -3px 7px rgba(197, 197, 197, 0.288), inset 3px 3px 5px rgba(0, 0, 0, 0.288);
+  box-shadow: inset -3px -3px 7px rgba(197, 197, 197, 0.288), inset 3px 3px 5px rgba(0, 0, 0, 0.288);
 }
 
 /* Variasi warna saat di-fill */
 .download-cv-btn.fill-color {
-    background: var(--dark-gray-1); /* Atau warna lain sesuai keinginan */
-    color: #ffffff; /* Warna teks saat di-fill */
+  background: var(--dark-gray-1); /* Atau warna lain sesuai keinginan */
+  color: #ffffff; /* Warna teks saat di-fill */
 }
 
 /* Animasi tekan tombol */
 .download-cv-btn:active {
-    transform: translateY(-2px);
-    box-shadow: inset -2px -2px 5px rgba(255, 255, 255, 0.05), inset 2px 2px 5px rgba(0, 0, 0, 0.2);
+  transform: translateY(-2px);
+  box-shadow: inset -2px -2px 5px rgba(255, 255, 255, 0.05), inset 2px 2px 5px rgba(0, 0, 0, 0.2);
 }
 
 @media only screen and (max-width: 1024px) {

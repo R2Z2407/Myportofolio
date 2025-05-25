@@ -17,7 +17,8 @@ const experienceData = [
     image_content: ["assets/images/gmf/1.webp"],
     position_content: "IoT Project",
     average_work_content: "04/09/2023 - 18/12/2023",
-    description_content: "Magang ini merupakan magang berbasis proyek. Tugas saya yaitu membuat prototype berskala laboratorium. Mekanisme kerja prototype ini yaitu data dari sensor dibaca melalui arduino selaku mikroprossesor, Ardunio memproses data tersebut lalu dialamatkan ke AWS via MQTT, dan AWS menampilkan hasil dari bacaan sensor.",
+    description_content:
+      "Magang ini merupakan magang berbasis proyek. Tugas saya yaitu membuat prototype berskala laboratorium. Mekanisme kerja prototype ini yaitu data dari sensor dibaca melalui arduino selaku mikroprossesor, Ardunio memproses data tersebut lalu dialamatkan ke AWS via MQTT, dan AWS menampilkan hasil dari bacaan sensor.",
   },
 ];
 
@@ -48,7 +49,7 @@ function createExperienceCard(experience) {
   // Fungsi untuk memotong deskripsi menjadi maksimal 50 kata
   const truncateDescription = (text, maxWords) => {
     const words = text.split(" "); // Memisahkan deskripsi menjadi array kata
-    return words.length <= maxWords ? text : words.slice(0, maxWords).join(" ") +" "+ "..."; // Menggabungkan kembali hingga 50 kata
+    return words.length <= maxWords ? text : words.slice(0, maxWords).join(" ") + " " + "..."; // Menggabungkan kembali hingga 50 kata
   };
 
   const truncatedDescription = truncateDescription(description, 25); // Mendapatkan deskripsi yang sudah dipotong
@@ -81,6 +82,15 @@ function renderExperiences(experiences) {
   $.each(experiences, (index, experience) => {
     const experienceCard = createExperienceCard(experience);
     cardContainer.append(experienceCard);
+  });
+
+  // Initialize Slick Carousel
+  cardContainer.slick({
+    dots: true, // Tampilkan dots untuk navigasi
+    infinite: true, // Scroll tanpa akhir
+    speed: 500, // Kecepatan transisi
+    slidesToShow: 1, // Jumlah kartu yang ditampilkan
+    slidesToScroll: 1, // Jumlah kartu yang digeser
   });
 }
 

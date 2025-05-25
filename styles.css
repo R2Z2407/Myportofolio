@@ -239,29 +239,33 @@ section:nth-of-type(1) p::after {
   border-bottom: 5px solid var(--muted-green);
   width: 100%;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: flex-start; /* Mengatur posisi vertikal ke tengah */
   align-items: center;
   gap: 2vh;
 }
 
 .experience-container {
-  display: flex;
-  align-self: flex-start;
-  flex-wrap: wrap;
-  padding: 20px;
+  display: flex; /* Gunakan flex untuk susunan horizontal */
+  flex-direction: row; /* Susunan horizontal */
+  overflow-x: auto; /* Mengizinkan scroll horizontal */
+  overflow-y: hidden; /* Sembunyikan scroll vertikal */
+  padding: 20px; /* Beri padding pada kontainer */
+  gap: 10px; /* Jarak antar card */
+  scrollbar-width: thin; /* Untuk Firefox, agar scrollbar terlihat lebih ramping */
+  -webkit-overflow-scrolling: touch; /* Untuk smooth scrolling di perangkat touch */
 }
 
 .property-card2 {
   flex: 0 0 300px; /* Lebar tetap untuk setiap card */
-  height: 50vh;
-  display: grid;
-  background-color: var(--muted-green);
-  grid-template-rows: 0.5fr 0.2fr 0.1fr fr; /* Define grid rows */
-  margin-right: 15px;
-  border: 3px solid var(--muted-green);
-  background-color: white;
-  justify-items: center; /* Horizontally center items */
+  height: 50vh; /* Tinggi card */
+  display: flex; /* Gunakan flex untuk susunan di dalam card */
+  flex-direction: column; /* Susunan vertikal */
+  background-color: white; /* Warna latar belakang card */
+  margin-right: 15px; /* Jarak antar card */
+  border: 3px solid var(--muted-green); /* Border card */
+  border-radius: 5px; /* Sudut melengkung */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Bayangan untuk kedalaman */
 }
 
 .property-card2 img {
@@ -335,7 +339,7 @@ section:nth-of-type(1) p::after {
 }
 
 .modal-content {
-  background-color: var(--muted-green);
+  background-color: white;
   margin: 15% auto; /* 15% from the top and centered */
   padding-left: 5vh;
   padding-right: 5vh;
@@ -351,7 +355,7 @@ section:nth-of-type(1) p::after {
   color: var(--dark-gray-2);
   float: right;
   font-size: 28px;
-  font-weight:900;
+  font-weight: 900;
 }
 
 .modal-close:hover,
@@ -368,12 +372,12 @@ section:nth-of-type(1) p::after {
   width: 100%;
 }
 #modal-image-logo {
-    width: 30%; /* Lebar penuh */
-    height: auto; /* Tinggi yang diinginkan */
-    background-size: cover; /* Isi area */
-    background-position: center; /* Posisi gambar di tengah */
-    background-repeat: no-repeat; /* Tidak mengulang gambar */
-    background-color: white;
+  width: 30%; /* Lebar penuh */
+  height: auto; /* Tinggi yang diinginkan */
+  background-size: cover; /* Isi area */
+  background-position: center; /* Posisi gambar di tengah */
+  background-repeat: no-repeat; /* Tidak mengulang gambar */
+  background-color: white;
 }
 #modal-posisi-date {
   display: flex; /* Gunakan flexbox untuk tata letak lebih baik */
@@ -387,11 +391,12 @@ section:nth-of-type(1) p::after {
   padding: 0 0px; /* Menambahkan sedikit ruang di samping teks */
 }
 
-#modalDescription{
+#modalDescription {
   padding-top: 3vh;
   color: var(--dark-gray-2);
   background-color: white;
   font-size: 18px;
+  text-align: justify;
 }
 
 .experience-slideshow {
@@ -406,6 +411,29 @@ section:nth-of-type(1) p::after {
   height: auto;
   cursor: pointer;
   border-radius: 5px;
+}
+
+#enlargedImageContainer {
+  position: fixed; /* Tetapkan posisi tetap */
+  top: 0; /* Posisikan dari atas */
+  left: 0; /* Posisikan dari kiri */
+  width: 100%; /* Lebar 100% dari viewport */
+  height: 100%; /* Tinggi 100% dari viewport */
+  background-color: rgba(0, 0, 0, 0.8); /* Latar belakang hitam semi-transparan */
+  display: none; /* Awalnya tidak terlihat */
+  justify-content: center; /* Pusatkan secara horizontal */
+  align-items: center; /* Pusatkan secara vertikal */
+  z-index: 100; /* Pastikan di atas konten lainnya */
+  text-align: center; /* Pusatkan gambar */
+  overflow: hidden; /* Sembunyikan konten yang meluap */
+}
+
+#enlargedImage {
+  position: absolute;
+  top: 20%;
+  left: 20%;
+  max-width: 90%; /* Maksimal lebar 90% dari kontainer */
+  max-height: 90%; /* Maksimal tinggi 90% dari kontainer */
 }
 
 #proyek {

@@ -17,6 +17,7 @@
     "type_content": "Machine Learning",
     "name_content": "Studi Komparatif Algoritma Mesin Pembelajaran untuk Deteksi Anomali pada Mesin Milling",
     "image_content": "assets/images/thumbnail/3.jpg",
-    "description_content": "Salah satu projek tugas akhir saya dalam mendeteksi anomali pada mesin milling menggunakan metode ANN, Random Forest, XGBoost, dan SVM."
+    "description_content": "Salah satu projek tugas akhir saya dalam mendeteksi anomali pada mesin milling menggunakan metode ANN, Random Forest, XGBoost, dan SVM.",
+    "file_content": "#"
   }
 ]

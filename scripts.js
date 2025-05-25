@@ -113,29 +113,27 @@ function openModal(experience) {
   // Handle modal images
   const modalImages = $("#modalImages");
   modalImages.empty(); // Clear previous images
+
   $.each(experience.image_content, (index, image) => {
-    const imgElement = $(`<img src="${image}" alt="Experience Image" class="modal-image">`);
+    const imgElement = $(`<img src="${image}" alt="Experience Image" class="modal-image" style="cursor: pointer;">`);
+
+    // Tambahkan event listener untuk gambar
+    imgElement.on("click", () => {
+      $("#enlargedImage").attr("src", image); // Set src untuk gambar yang diperbesar
+      $("#enlargedImageContainer").show(); // Tampilkan container gambar yang diperbesar
+    });
+
     modalImages.append(imgElement);
+  });
+
+  // Event listener untuk menutup gambar yang diperbesar saat diklik
+  $("#enlargedImageContainer").on("click", () => {
+    $("#enlargedImageContainer").hide(); // Sembunyikan gambar yang diperbesar
   });
 
   // Display the modal
   $("#myModal").show();
 }
-
-// Function to close the modal
-$("#modalClose").on("click", function () {
-  $("#myModal").hide();
-});
-
-// Function to close the modal
-$("#modalClose").on("click", function () {
-  $("#myModal").hide();
-});
-
-// Function to close the modal
-$("#modalClose").on("click", function () {
-  $("#myModal").hide();
-});
 
 // Function to close the modal
 $("#modalClose").on("click", function () {

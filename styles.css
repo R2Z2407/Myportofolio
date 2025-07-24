@@ -2,7 +2,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-}
+  }
 
 html {
   scroll-behavior: smooth;
@@ -193,16 +193,19 @@ section {
 }
 
 section:nth-of-type(1) h1 {
-  font-size: 48px;
+  font-size: clamp(1.7rem, calc(7vw + 1rem), 5rem);
 }
 section:nth-of-type(1) p {
-  font-size: 24px; /* Ukuran font */
+  font-size: clamp(1rem, calc(0.95rem + 0.25vw), 1.125rem);
+  
+  /* Atur juga line-height untuk keterbacaan yang lebih baik */
+  line-height: 1.6; /* Ukuran font responsif */
   text-align: justify; /* Mengatur teks menjadi rata kiri dan kanan */
-  padding: 0 30vw; /* Padding kiri dan kanan */
-  margin-top: 1vh;
+  padding-left: clamp(2rem, 10vw, 8rem);
+  padding-right: clamp(2rem, 10vw, 8rem);
+  margin-top: 0.3vh;
   position: relative; /* Mengatur posisi untuk elemen ::after */
 }
-
 section:nth-of-type(1) p::after {
   content: ""; /* Membuat elemen kosong */
   display: inline-block; /* Membuat elemen bisa lebar */
@@ -904,30 +907,13 @@ li:nth-child(4).fill-color a {
     height: 7vh;
     width: auto;
   }
-  section:nth-of-type(1) h1 {
-    font-size: 48px;
-  }
-  section:nth-of-type(1) p {
-    font-size: 24px; /* Ukuran font */
-    text-align: justify; /* Mengatur teks menjadi rata kiri dan kanan */
-    padding: 0 10vw; /* Padding kiri dan kanan */
-    margin-top: 1vh;
-    position: relative; /* Mengatur posisi untuk elemen ::after */
-  }
 
-  section:nth-of-type(1) p::after {
-    content: ""; /* Membuat elemen kosong */
-    display: inline-block; /* Membuat elemen bisa lebar */
-    width: 100%; /* Memastikan lebar penuh */
-    margin-top: auto;
-    margin-bottom: 9.7vh;
-  }
   #pengalaman {
     margin-bottom: 10vh;
   }
   #judul2 {
     height: 6vh;
-    width: 35%;
+    width: fit-content;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -938,6 +924,89 @@ li:nth-child(4).fill-color a {
     color: var(--dark-gray-1);
     font-size: xx-large;
   }
+
+  /* Modal Styles */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1000; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100vw; /* Full width */
+  height: 100vh; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+}
+
+/* Webkit Browsers (Chrome, Safari, Edge) */
+.modal::-webkit-scrollbar {
+  display: none;
+}
+
+.modal-content {
+  background-color: white;
+  margin: 15% auto; /* 15% from the top and centered */
+  padding-left: 5vh;
+  padding-right: 5vh;
+  padding-bottom: 5vh;
+  border: 1px solid #888;
+  width: 80%; /* Could be more or less, depending on screen size */
+  border-radius: 5px;
+  position: relative;
+  z-index: 1000;
+}
+
+.modal-close {
+  color: var(--dark-gray-2);
+  margin-top: 1vh;
+  float: right;
+  font-size: 28px;
+  font-weight: 900;
+}
+
+.modal-close:hover,
+.modal-close:focus {
+  color: var(--cream);
+  text-decoration: none;
+  cursor: pointer;
+}
+#modal-part {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1vw;
+  background-color: white;
+  color: var(--dark-gray-2);
+  width: 100%;
+}
+#modal-image-logo {
+  width: 50vw; /* Lebar penuh */
+  height: auto; /* Tinggi yang diinginkan */
+  background-size: cover; /* Isi area */
+  background-position: center; /* Posisi gambar di tengah */
+  background-repeat: no-repeat; /* Tidak mengulang gambar */
+  background-color: white;
+}
+#modal-posisi-date {
+  display: flex; /* Gunakan flexbox untuk tata letak lebih baik */
+  flex-direction: column;
+  justify-content: center; /* Membagi ruang antara dua elemen */
+  align-items: center; /* Menyelaraskan elemen secara vertikal */
+}
+
+#modal-posisi-date h2 {
+  text-align: center;
+}
+
+#modalDescription {
+  padding-top: 3vh;
+  padding-bottom: 3vh;
+  color: var(--dark-gray-2);
+  background-color: white;
+  font-size: 18px;
+  text-align: justify;
+}
 
   .judul {
     height: 5vh;

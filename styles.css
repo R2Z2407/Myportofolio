@@ -42,10 +42,21 @@ p {
 body {
   background-color: var(--dark-gray-1);
   display: block;
-  overflow-x: hidden;
+  overflow-x: hidden; /* Tetap pertahankan ini */
+  width: 100vw; /* Pastikan body mengambil lebar viewport */
 }
 body::-webkit-scrollbar {
   display: none;
+}
+
+/* Pastikan semua section responsif dan tidak menyebabkan overflow */
+section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%; /* Pastikan section mengambil 100% lebar parent */
+  box-sizing: border-box; /* Penting untuk padding */
 }
 
 .img_svg {
@@ -61,7 +72,8 @@ body::-webkit-scrollbar {
   justify-content: space-between;
   height: 150px;
   padding: 0 9vw;
-  width: 100vw;
+  width: 100%; /* Perbaikan: Ubah dari 100vw ke 100% */
+  box-sizing: border-box; /* Tambahkan ini */
 }
 
 .img_svg3 {
@@ -72,22 +84,42 @@ body::-webkit-scrollbar {
   width: 100%;
   position: relative;
   z-index: -1;
+  box-sizing: border-box; /* Tambahkan ini */
 }
 
-svg:nth-of-type(1) {
+/* Kontrol ukuran SVG secara CSS, bukan inline di HTML */
+svg:nth-of-type(1) { /* SVG di .img_svg */
   height: 150px;
   width: 150px;
+  max-width: 100%; /* Jaga agar tidak melebihi lebar parent */
+  height: auto;
 }
-svg:nth-of-type(2),
-svg:nth-of-type(3),
-svg:nth-of-type(4) {
+svg:nth-of-type(2), /* SVG di .img_svg2 (yang pertama) */
+svg:nth-of-type(3), /* SVG di .img_svg2 (yang kedua) */
+svg:nth-of-type(4) { /* SVG di .img_svg2 (yang ketiga) */
   height: 150px;
   width: 150px;
+  max-width: 100%; /* Jaga agar tidak melebihi lebar parent */
+  height: auto;
 }
-svg:nth-of-type(6) {
-  position: absolute;
-  left: 0;
+
+/* Perbaikan untuk SVG di img_svg3, setelah atribut style inline dihapus di HTML */
+.img_svg3 svg {
+  max-width: 100%;
+  height: auto;
+  display: block; /* Mencegah spasi ekstra yang kadang muncul dengan elemen inline */
 }
+
+/* Atur ukuran spesifik untuk SVG di img_svg3 jika diperlukan, terutama untuk desktop */
+.img_svg3 svg:nth-of-type(1) {
+    width: 300px; /* Ukuran default untuk desktop */
+    height: 300px;
+}
+.img_svg3 svg:nth-of-type(2) {
+    width: 600px; /* Ukuran default untuk desktop */
+    height: 600px;
+}
+
 
 nav {
   display: flex;
@@ -102,10 +134,11 @@ nav {
   width: 100%;
   transition: all 0.3s ease;
   z-index: 2;
+  box-sizing: border-box; /* Tambahkan ini */
 }
 
 nav.scrolled {
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5); /* Ubah sesuai kebutuhan */
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
   padding: 1vh 9vw 0 9vw;
   z-index: 10;
 }
@@ -117,14 +150,14 @@ nav.scrolled {
 }
 
 nav.scrolled .navbar-brand img {
-  height: 6vh; /* Gaya gambar saat scroll (misalnya, lebih kecil) */
+  height: 6vh;
 }
 .hamburger {
   display: none;
 }
 .hamburger svg {
-  height: 50px; /* Sesuaikan tinggi hamburger */
-  width: auto; /* Proporsi yang benar */
+  height: 50px;
+  width: auto;
 }
 
 .navbar-menu {
@@ -147,7 +180,7 @@ nav.scrolled .navbar-brand img {
   letter-spacing: 1px;
   transition: all 0.3s ease;
   padding: 5px 10px;
-  display: inline-block; /* Penting untuk padding dan background bekerja */
+  display: inline-block;
 }
 
 .navbar-item-PC:hover {
@@ -156,20 +189,14 @@ nav.scrolled .navbar-brand img {
   border-radius: 5px;
 }
 
-section {
-  display: flex;
-  flex-direction: column;
-  align-items: center; /* Menyelaraskan konten di tengah */
-  justify-content: center; /* Menyelaraskan konten di tengah secara horizontal (opsional) */
-}
 .photos {
-  width: 250px; /* Lebar lingkaran */
-  height: 250px; /* Tinggi lingkaran, harus sama dengan lebar */
-  border-radius: 50%; /* Mengubah sudut menjadi lingkaran */
+  width: 250px;
+  height: 250px;
+  border-radius: 50%;
   border: 5px dotted var(--muted-green);
-  display: flex; /* Menyelaraskan anak di dalam lingkaran */
-  align-items: center; /* Menyelaraskan secara vertikal */
-  justify-content: center; /* Menyelaraskan secara horizontal */
+  display: flex;
+  align-items: center;
+  justify-content: center;
   margin-top: 4vh;
   margin-bottom: 7vh;
 }
@@ -183,7 +210,7 @@ section {
 }
 
 .photos div img {
-  width: 80%; /* Lebar gambar menjadi 100% dari kontainer */
+  width: 80%;
   height: auto;
   position: absolute;
   object-fit: cover;
@@ -193,29 +220,27 @@ section {
 }
 
 section:nth-of-type(1) h1 {
-  font-size: clamp(1.7rem, calc(7vw + 1rem), 5rem);
+  font-size: 48px;
 }
 section:nth-of-type(1) p {
-  font-size: clamp(1rem, calc(0.95rem + 0.25vw), 1.125rem);
-  
-  /* Atur juga line-height untuk keterbacaan yang lebih baik */
-  line-height: 1.6; /* Ukuran font responsif */
-  text-align: justify; /* Mengatur teks menjadi rata kiri dan kanan */
-  padding-left: clamp(2rem, 10vw, 8rem);
-  padding-right: clamp(2rem, 10vw, 8rem);
-  margin-top: 0.3vh;
-  position: relative; /* Mengatur posisi untuk elemen ::after */
+  font-size: 24px;
+  text-align: justify;
+  padding: 0 30vw;
+  margin-top: 1vh;
+  position: relative;
 }
+
 section:nth-of-type(1) p::after {
-  content: ""; /* Membuat elemen kosong */
-  display: inline-block; /* Membuat elemen bisa lebar */
-  width: 100%; /* Memastikan lebar penuh */
+  content: "";
+  display: inline-block;
+  width: 100%;
   margin-top: auto;
   margin-bottom: 9.7vh;
 }
 
 #pengalaman {
   padding: 10vh 10vw 0 10vw;
+  box-sizing: border-box; /* Tambahkan ini */
 }
 
 #judul2 {
@@ -243,55 +268,55 @@ section:nth-of-type(1) p::after {
   width: 100%;
   display: flex;
   flex-direction: row;
-  justify-content: flex-start; /* Mengatur posisi vertikal ke tengah */
+  justify-content: flex-start;
   align-items: center;
   gap: 2vh;
+  box-sizing: border-box; /* Tambahkan ini */
 }
 
 .experience-container {
-  display: flex; /* Gunakan flex untuk susunan horizontal */
-  flex-direction: row; /* Susunan horizontal */
-  overflow-x: auto; /* Mengizinkan scroll horizontal */
-  overflow-y: hidden; /* Sembunyikan scroll vertikal */
-  padding: 20px; /* Beri padding pada kontainer */
-  gap: 10px; /* Jarak antar card */
-  scrollbar-width: thin; /* Untuk Firefox, agar scrollbar terlihat lebih ramping */
-  -webkit-overflow-scrolling: touch; /* Untuk smooth scrolling di perangkat touch */
+  display: flex;
+  flex-direction: row;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 20px;
+  gap: 10px;
+  scrollbar-width: thin;
+  -webkit-overflow-scrolling: touch;
 }
 
 .property-card2 {
-  flex: 0 0 300px; /* Lebar tetap untuk setiap card */
-  height: 50vh; /* Tinggi card */
-  display: flex; /* Gunakan flex untuk susunan di dalam card */
-  flex-direction: column; /* Susunan vertikal */
-  background-color: white; /* Warna latar belakang card */
-  margin-right: 15px; /* Jarak antar card */
-  border: 3px solid var(--muted-green); /* Border card */
-  border-radius: 5px; /* Sudut melengkung */
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Bayangan untuk kedalaman */
+  flex: 0 0 300px;
+  height: 50vh;
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  margin-right: 15px;
+  border: 3px solid var(--muted-green);
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .property-card2 img {
-  max-width: 100%; /* Ensures the image does not overflow */
-  max-height: 100%; /* Ensures the image does not overflow */
-  object-fit: cover; /* Maintain aspect ratio */
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: cover;
   object-position: center;
 }
 
-/* Add a wrapper around the image to center it vertically */
 .image-content2 {
-  display: flex; /* Use flexbox for centering */
-  align-items: center; /* Center vertically */
-  justify-content: center; /* Center horizontally */
-  height: 100%; /* Make sure the wrapper takes full height of the grid cell */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
 }
 
 .name-content2 {
   font-size: 1.2em;
   font-weight: bold;
-  display: flex; /* Use flexbox for centering */
-  justify-content: center; /* Center horizontally */
-  align-items: center; /* Center vertically */
+  display: flex;
+  justify-content: center;
+  align-items: center;
   padding-left: 1vw;
   color: var(--cream);
   background-color: var(--dark-gray-1);
@@ -305,10 +330,10 @@ section:nth-of-type(1) p::after {
 }
 
 .position-content2 {
-  display: flex; /* Use flexbox for centering */
+  display: flex;
   font-size: 14px;
-  justify-content: center; /* Center horizontally */
-  align-items: center; /* Center vertically */
+  justify-content: center;
+  align-items: center;
   color: var(--cream);
   background-color: var(--dark-gray-1);
   width: 100%;
@@ -316,8 +341,8 @@ section:nth-of-type(1) p::after {
 
 .description-content2 {
   color: #555;
-  justify-self: stretch; /* Stretch to occupy full width */
-  text-align: justify; /* Align text to the left if needed */
+  justify-self: stretch;
+  text-align: justify;
   padding: 0 1vw;
   background-color: var(--dark-gray-1);
   width: 100%;
@@ -325,30 +350,29 @@ section:nth-of-type(1) p::after {
 
 /* Modal Styles */
 .modal {
-  display: none; /* Hidden by default */
-  position: fixed; /* Stay in place */
-  z-index: 1000; /* Sit on top */
+  display: none;
+  position: fixed;
+  z-index: 1000;
   left: 0;
   top: 0;
-  width: 100%; /* Full width */
-  height: 100%; /* Full height */
-  overflow: auto; /* Enable scroll if needed */
-  background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+  width: 100%; /* Perbaikan: Ubah dari 100vw ke 100% */
+  height: 100%; /* Perbaikan: Ubah dari 100vh ke 100% */
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4);
 }
 
-/* Webkit Browsers (Chrome, Safari, Edge) */
 .modal::-webkit-scrollbar {
   display: none;
 }
 
 .modal-content {
   background-color: white;
-  margin: 15% auto; /* 15% from the top and centered */
+  margin: 15% auto;
   padding-left: 5vh;
   padding-right: 5vh;
   padding-bottom: 5vh;
   border: 1px solid #888;
-  width: 80%; /* Could be more or less, depending on screen size */
+  width: 80%;
   border-radius: 5px;
   position: relative;
   z-index: 1000;
@@ -375,23 +399,23 @@ section:nth-of-type(1) p::after {
   width: 100%;
 }
 #modal-image-logo {
-  width: 30%; /* Lebar penuh */
-  height: auto; /* Tinggi yang diinginkan */
-  background-size: cover; /* Isi area */
-  background-position: center; /* Posisi gambar di tengah */
-  background-repeat: no-repeat; /* Tidak mengulang gambar */
+  width: 30%;
+  height: auto;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   background-color: white;
 }
 #modal-posisi-date {
-  display: flex; /* Gunakan flexbox untuk tata letak lebih baik */
+  display: flex;
   flex-direction: column;
-  justify-content: center; /* Membagi ruang antara dua elemen */
-  align-items: start; /* Menyelaraskan elemen secara vertikal */
+  justify-content: center;
+  align-items: start;
 }
 
 #modal-posisi-date h4 {
-  margin: 0; /* Menghilangkan margin agar berdekatan */
-  padding: 0 0px; /* Menambahkan sedikit ruang di samping teks */
+  margin: 0;
+  padding: 0 0px;
 }
 
 #modalDescription {
@@ -404,43 +428,45 @@ section:nth-of-type(1) p::after {
 
 .experience-slideshow {
   display: flex;
-  flex-wrap: wrap; /* Tambahkan ini */
+  flex-wrap: wrap;
   gap: 10px;
   background-color: white;
 }
 
 .experience-slideshow img {
-  width: calc(48% - 20px); /* Dua gambar per baris */
+  width: calc(48% - 5px); /* Sesuaikan agar pas dua gambar per baris */
   height: auto;
   cursor: pointer;
   border-radius: 5px;
 }
 
 #enlargedImageContainer {
-  position: fixed; /* Tetapkan posisi tetap */
-  top: 0; /* Posisikan dari atas */
-  left: 0; /* Posisikan dari kiri */
-  width: 100%; /* Lebar 100% dari viewport */
-  height: 100%; /* Tinggi 100% dari viewport */
-  background-color: rgba(0, 0, 0, 0.8); /* Latar belakang hitam semi-transparan */
-  display: none; /* Awalnya tidak terlihat */
-  justify-content: center; /* Pusatkan secara horizontal */
-  align-items: center; /* Pusatkan secara vertikal */
-  z-index: 100; /* Pastikan di atas konten lainnya */
-  text-align: center; /* Pusatkan gambar */
-  overflow: hidden; /* Sembunyikan konten yang meluap */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%; /* Perbaikan: Ubah dari 100vw ke 100% */
+  height: 100%; /* Perbaikan: Ubah dari 100vh ke 100% */
+  background-color: rgba(0, 0, 0, 0.8);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+  text-align: center;
+  overflow: hidden;
+  box-sizing: border-box; /* Tambahkan ini */
 }
 
 #enlargedImage {
   position: absolute;
   top: 20%;
   left: 20%;
-  max-width: 90%; /* Maksimal lebar 90% dari kontainer */
-  max-height: 90%; /* Maksimal tinggi 90% dari kontainer */
+  max-width: 90%;
+  max-height: 90%;
 }
 
 #proyek {
   padding: 0 10vw;
+  box-sizing: border-box; /* Tambahkan ini */
 }
 .judul {
   height: 5vh;
@@ -459,13 +485,15 @@ section:nth-of-type(1) p::after {
   flex-direction: column;
   align-content: space-evenly;
   gap: 1.5vh;
+  width: 70vh; /* Ini masih sangat besar untuk mobile, akan diperbaiki di media query */
+  max-width: 40%; /* Batas lebar max agar tidak terlalu besar di desktop */
 }
 .Three_lines div {
   height: 0.4vh;
-  width: 70vh;
+  width: 100%;
   background-image: linear-gradient(90deg, var(--cream) 30%, transparent 30%, transparent 70%, var(--cream) 70%);
-  background-size: 1vw 100%; /* Ukuran di mana garis terputus */
-  background-repeat: repeat; /* Mengulang pola */
+  background-size: 1vw 100%;
+  background-repeat: repeat;
 }
 
 .List2 {
@@ -478,75 +506,72 @@ section:nth-of-type(1) p::after {
   width: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start; /* Mengatur posisi vertikal ke tengah */
+  justify-content: flex-start;
   align-items: center;
   gap: 2vh;
+  box-sizing: border-box; /* Tambahkan ini */
 }
 
-/* Container for the filter */
 .project-filter {
-  align-self: start; /* Center the filter */
+  align-self: start;
+  margin-left: 15px; /* Tambahkan margin agar tidak terlalu mepet ke kiri */
 }
 
-/* Styling the select dropdown */
 #typeFilter {
-  padding: 5px 10px; /* Padding inside the dropdown */
-  font-size: 16px; /* Font size */
-  background-color: var(--cream); /* Green background color */
-  color: var(--dark-gray-1); /* White text color */
-  border: none; /* No border */
-  border-radius: 5px; /* Rounded corners */
-  cursor: pointer; /* Pointer cursor on hover */
-  transition: background-color 0.3s; /* Transition for hover effect */
+  padding: 5px 10px;
+  font-size: 16px;
+  background-color: var(--cream);
+  color: var(--dark-gray-1);
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
 }
 
-/* Change background color on hover */
 #typeFilter:hover {
-  background-color: var(--cream); /* Darker green on hover */
+  background-color: var(--cream);
 }
 
-/* Additional styles for option elements */
 #typeFilter option {
-  background-color: var(--cream); /* Green background for options */
-  color: var(--dark-gray-1); /* White text color for options */
+  background-color: var(--cream);
+  color: var(--dark-gray-1);
 }
 
-/* Optional: Styles for a nicer feel on options */
 #typeFilter:focus {
-  outline: none; /* Remove outline on focus */
-  border: 2px solid #333; /* Dark border when focused */
+  outline: none;
+  border: 2px solid #333;
 }
 
 .Card {
   display: flex;
-  flex-direction: row; /* Align items in a row */
-  overflow-x: auto; /* Enable horizontal scrolling */
-  width: 100%; /* Full width */
-  height: 100%; /* Full height */
-  gap: 15px; /* Space between cards */
-  padding: 15px; /* Padding around the container */
-  scrollbar-width: thin; /* For Firefox: make scrollbar thin */
-  -webkit-overflow-scrolling: touch; /* Smooth scrolling on touch devices */
-  transform: scaleX(-1); /* Reverse the direction of the scroll */
+  flex-direction: row;
+  overflow-x: auto;
+  width: 100%;
+  height: 100%;
+  gap: 15px;
+  padding: 15px;
+  scrollbar-width: thin;
+  -webkit-overflow-scrolling: touch;
+  transform: scaleX(-1);
+  box-sizing: border-box; /* Tambahkan ini */
 }
 
-/* Optional: Customize scrollbar for WebKit browsers */
 .Card::-webkit-scrollbar {
-  height: 8px; /* Height of scrollbar */
+  height: 8px;
 }
 
 .Card::-webkit-scrollbar-thumb {
-  background-color: #888; /* Color of the scrollbar */
-  border-radius: 10px; /* Rounded corners */
+  background-color: #888;
+  border-radius: 10px;
 }
 
 .property-card {
-  flex: 0 0 300px; /* Lebar tetap untuk setiap card */
+  flex: 0 0 300px;
   height: 100%;
   display: grid;
   grid-template-rows: auto auto auto 1fr;
   border: 3px solid var(--cream);
-  transform: scaleX(-1); /* Reverse card direction */
+  transform: scaleX(-1);
 }
 
 .property-card .image-content {
@@ -578,7 +603,6 @@ section:nth-of-type(1) p::after {
   hyphens: auto;
 }
 
-/* Ukuran font berbeda berdasarkan panjang konten */
 .property-card .name-content .font-size-default {
   font-size: 16px;
 }
@@ -633,7 +657,6 @@ section:nth-of-type(1) p::after {
   font-weight: bolder;
 }
 
-/* Tambahan scroll bar styling untuk browser webkit */
 .Card::-webkit-scrollbar {
   height: 8px;
 }
@@ -655,18 +678,22 @@ section:nth-of-type(4) {
   z-index: 2;
   display: block;
   position: relative;
+  height: 600px; /* Pertahankan atau sesuaikan jika perlu */
+  box-sizing: border-box; /* Tambahkan ini */
 }
 
 .judul:nth-of-type(2) {
   position: absolute;
-  top: 50%; /* Atur posisi dari atas */
-  left: 50%; /* Atur posisi dari kiri */
-  transform: translate(-50%, -50%); /* Untuk memusatkan teks */
-  z-index: 1; /* Pastikan judul di atas SVG */
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
   padding: 0 10vw;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  width: 100%; /* Pastikan ini 100% untuk menampung padding */
+  box-sizing: border-box; /* Tambahkan ini */
 }
 
 .judul:nth-of-type(2) h1 {
@@ -678,7 +705,7 @@ section:nth-of-type(4) {
   padding: 2vh 0;
   margin: 3vh 0;
   height: 20vh;
-  width: 30%;
+  width: 30%; /* Akan diperbaiki di media query */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -686,17 +713,17 @@ section:nth-of-type(4) {
 }
 
 .navbar-menu {
-  display: flex; /* Tampilkan menu dalam keadaan normal */
-  gap: 2vw; /* Ruang antar item */
+  display: flex;
+  gap: 2vw;
   transition: max-height 0.5s ease, opacity 0.5s ease;
-  max-height: 0; /* Memulai dengan menu tersembunyi */
-  overflow: hidden; /* Sembunyikan overflow */
-  opacity: 0; /* Menyembunyikan dengan opacity */
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
 }
 
 .navbar-menu.opened {
-  max-height: 300px; /* Sesuaikan dengan tinggi maksimal menu */
-  opacity: 1; /* Memberikan opacity penuh */
+  max-height: 300px;
+  opacity: 1;
 }
 .icons {
   display: flex;
@@ -708,11 +735,11 @@ section:nth-of-type(4) {
 li {
   position: relative;
   list-style: none;
-  height: 70px;
-  width: 70px;
+  height: 70px; /* Akan diperbaiki di media query */
+  width: 70px; /* Akan diperbaiki di media query */
   margin: 0 10px;
   border-radius: 50%;
-  background: #3a3f54; /* Sedikit lebih terang dari background utama */
+  background: #3a3f54;
   cursor: pointer;
   box-shadow: -5px -5px 10px rgba(255, 255, 255, 0.05), 5px 5px 10px rgba(0, 0, 0, 0.3);
   display: flex;
@@ -728,7 +755,7 @@ li a {
   height: 100%;
   width: 100%;
   font-size: 27px;
-  color: #8a8f9e; /* Warna abu-abu lembut */
+  color: #8a8f9e;
   text-decoration: none;
   transition: color 0.3s ease;
 }
@@ -747,38 +774,36 @@ li a {
   box-shadow: inset -3px -3px 7px rgba(197, 197, 197, 0.288), inset 3px 3px 5px rgba(0, 0, 0, 0.288);
 }
 
-/* Hover effect */
 li:hover {
   transform: translateY(-5px);
   box-shadow: -7px -7px 12px rgba(255, 255, 255, 0.07), 7px 7px 12px rgba(139, 137, 137, 0.4);
 }
 
-/* Warna ikon saat di-fill */
 li:nth-child(1).fill-color a {
-  color: red; /* Google Blue */
+  color: red;
 }
 
 li:nth-child(2).fill-color a {
-  color: #e1306c; /* Instagram Pink */
+  color: #e1306c;
 }
 
 li:nth-child(3).fill-color a {
-  color: #2867b2; /* LinkedIn Blue */
+  color: #2867b2;
 }
 
 li:nth-child(4).fill-color a {
-  color: #fff; /* GitHub White */
+  color: #fff;
 }
 
 .download-cv-btn {
   position: relative;
   list-style: none;
   height: 70px;
-  width: auto; /* Sesuaikan lebar otomatis dengan konten */
-  padding: 10px 30px; /* Padding horizontal */
+  width: auto;
+  padding: 10px 30px;
   margin: 0 10px;
   border: none;
-  border-radius: 35px; /* Setengah dari tinggi untuk bentuk oval/capsule */
+  border-radius: 35px;
   background: #3a3f54;
   cursor: pointer;
   box-shadow: -5px -5px 10px rgba(255, 255, 255, 0.05), 5px 5px 10px rgba(0, 0, 0, 0.3);
@@ -787,7 +812,6 @@ li:nth-child(4).fill-color a {
   align-items: center;
   transition: all 0.3s ease;
 
-  /* Reset default button styles */
   outline: none;
   font-family: inherit;
   font-size: 16px;
@@ -799,26 +823,25 @@ li:nth-child(4).fill-color a {
   box-shadow: -7px -7px 12px rgba(255, 255, 255, 0.07), 7px 7px 12px rgba(139, 137, 137, 0.4);
 }
 
-/* Efek shadow saat ditekan */
 .download-cv-btn.shadow-1 {
   box-shadow: inset -3px -3px 7px rgba(197, 197, 197, 0.288), inset 3px 3px 5px rgba(0, 0, 0, 0.288);
 }
 
-/* Variasi warna saat di-fill */
 .download-cv-btn.fill-color {
-  background: var(--dark-gray-1); /* Atau warna lain sesuai keinginan */
-  color: #ffffff; /* Warna teks saat di-fill */
+  background: var(--dark-gray-1);
+  color: #ffffff;
 }
 
-/* Animasi tekan tombol */
 .download-cv-btn:active {
   transform: translateY(-2px);
   box-shadow: inset -2px -2px 5px rgba(255, 255, 255, 0.05), inset 2px 2px 5px rgba(0, 0, 0, 0.2);
 }
 
-@media only screen and (max-width: 1024px) {
+/* --- MEDIA QUERY UNTUK MOBILE --- */
+@media only screen and (max-width: 886px) {
   nav {
     display: flex;
+    padding: 5vh 5vw 1vh 5vw; /* Kurangi padding untuk layar kecil */
   }
   .hamburger {
     background-color: transparent;
@@ -829,52 +852,52 @@ li:nth-child(4).fill-color a {
   }
   .line {
     fill: none;
-    stroke: var(--cream); /* Warna garis bisa diubah sesuai dengan yang Anda inginkan */
+    stroke: var(--cream);
     stroke-width: 6;
     transition: stroke-dasharray 600ms cubic-bezier(0.4, 0, 0.2, 1), stroke-dashoffset 600ms cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .line1 {
-    stroke-dasharray: 60 207; /* Default saat tertutup */
+    stroke-dasharray: 60 207;
   }
 
   .line2 {
-    stroke-dasharray: 60 60; /* Default saat tertutup */
+    stroke-dasharray: 60 60;
   }
 
   .line3 {
-    stroke-dasharray: 60 207; /* Default saat tertutup */
+    stroke-dasharray: 60 207;
   }
 
   .opened .line1 {
-    stroke-dasharray: 90 207; /* Ubah panjang garis saat dibuka */
-    stroke-dashoffset: -134; /* Ubah offset saat dibuka */
+    stroke-dasharray: 90 207;
+    stroke-dashoffset: -134;
   }
 
   .opened .line2 {
-    stroke-dasharray: 1 60; /* Ubah panjang garis saat dibuka */
-    stroke-dashoffset: -30; /* Ubah offset saat dibuka */
+    stroke-dasharray: 1 60;
+    stroke-dashoffset: -30;
   }
 
   .opened .line3 {
-    stroke-dasharray: 90 207; /* Ubah panjang garis saat dibuka */
-    stroke-dashoffset: -134; /* Ubah offset saat dibuka */
+    stroke-dasharray: 90 207;
+    stroke-dashoffset: -134;
   }
   .navbar-menu {
-    display: none; /* Menyembunyikan menu secara default */
-    flex-direction: column; /* Jika ditampilkan, tampilkan secara vertikal */
-    position: absolute; /* Tetap berada di layar */
-    top: 13vh; /* Mulai dari atas */
-    left: 0; /* Mulai dari kiri */
-    width: 100%; /* Lebar penuh */
-    height: 30vh; /* Tinggi penuh */
-    background-color: var(--dark-gray-2); /* Latar belakang */
-    z-index: 2; /* Menampilkan di atas */
-    justify-content: center; /* Item di tengah */
-    align-items: center; /* Item sejajar */
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 13vh;
+    left: 0;
+    width: 100%;
+    height: 30vh;
+    background-color: var(--dark-gray-2);
+    z-index: 2;
+    justify-content: center;
+    align-items: center;
   }
   .navbar-menu.opened {
-    display: flex; /* Menampilkan menu saat 'opened' */
+    display: flex;
   }
   .navbar-item {
     text-decoration: none;
@@ -907,7 +930,25 @@ li:nth-child(4).fill-color a {
     height: 7vh;
     width: auto;
   }
-
+  section:nth-of-type(1) h1 {
+    font-size: clamp(1.7rem, calc(2vw + 0.7rem), 4rem);
+    margin-bottom: 2vh;
+  }
+  section:nth-of-type(1) p {
+    font-size: clamp(1rem, calc(0.75rem + 0.25vw), 2rem);
+    line-height: 1.6;
+    text-align: justify;
+    padding-left: clamp(2rem, 10vw, 8rem);
+    padding-right: clamp(2rem, 10vw, 8rem);
+    position: relative;
+  }
+  section:nth-of-type(1) p::after {
+    content: "";
+    display: inline-block;
+    width: 100%;
+    margin-top: auto;
+    margin-bottom: 10vh;
+  }
   #pengalaman {
     margin-bottom: 10vh;
   }
@@ -918,6 +959,7 @@ li:nth-child(4).fill-color a {
     justify-content: center;
     align-items: center;
     border-radius: 10px;
+    padding: 0 20px; /* Tambahkan padding agar tulisan tidak terlalu mepet */
   }
 
   #judul2 h1 {
@@ -926,140 +968,118 @@ li:nth-child(4).fill-color a {
   }
 
   /* Modal Styles */
-.modal {
-  display: none; /* Hidden by default */
-  position: fixed; /* Stay in place */
-  z-index: 1000; /* Sit on top */
-  left: 0;
-  top: 0;
-  width: 100vw; /* Full width */
-  height: 100vh; /* Full height */
-  overflow: auto; /* Enable scroll if needed */
-  background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
-}
+  .modal {
+    width: 100%;
+    height: 100%;
+  }
 
-/* Webkit Browsers (Chrome, Safari, Edge) */
-.modal::-webkit-scrollbar {
-  display: none;
-}
+  .modal-content {
+    margin: 10% auto; /* Sesuaikan margin untuk mobile agar tidak terlalu di tengah bawah */
+    padding: 3vh 3vw 3vh 3vw; /* Kurangi padding modal content */
+    width: 90%; /* Beri sedikit ruang di sisi modal di mobile */
+  }
 
-.modal-content {
-  background-color: white;
-  margin: 15% auto; /* 15% from the top and centered */
-  padding-left: 5vh;
-  padding-right: 5vh;
-  padding-bottom: 5vh;
-  border: 1px solid #888;
-  width: 80%; /* Could be more or less, depending on screen size */
-  border-radius: 5px;
-  position: relative;
-  z-index: 1000;
-}
+  .modal-close {
+    margin-top: 1vh;
+    float: right;
+  }
+  #modal-part {
+    flex-direction: column;
+    align-items: center;
+  }
+  #modal-image-logo {
+    width: 60%; /* Sesuaikan lebar logo di modal mobile */
+    max-width: 200px; /* Batasi ukuran maksimal */
+    height: auto;
+  }
+  #modal-posisi-date {
+    align-items: center;
+  }
 
-.modal-close {
-  color: var(--dark-gray-2);
-  margin-top: 1vh;
-  float: right;
-  font-size: 28px;
-  font-weight: 900;
-}
-
-.modal-close:hover,
-.modal-close:focus {
-  color: var(--cream);
-  text-decoration: none;
-  cursor: pointer;
-}
-#modal-part {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  gap: 1vw;
-  background-color: white;
-  color: var(--dark-gray-2);
-  width: 100%;
-}
-#modal-image-logo {
-  width: 50vw; /* Lebar penuh */
-  height: auto; /* Tinggi yang diinginkan */
-  background-size: cover; /* Isi area */
-  background-position: center; /* Posisi gambar di tengah */
-  background-repeat: no-repeat; /* Tidak mengulang gambar */
-  background-color: white;
-}
-#modal-posisi-date {
-  display: flex; /* Gunakan flexbox untuk tata letak lebih baik */
-  flex-direction: column;
-  justify-content: center; /* Membagi ruang antara dua elemen */
-  align-items: center; /* Menyelaraskan elemen secara vertikal */
-}
-
-#modal-posisi-date h2 {
-  text-align: center;
-}
-
-#modalDescription {
-  padding-top: 3vh;
-  padding-bottom: 3vh;
-  color: var(--dark-gray-2);
-  background-color: white;
-  font-size: 18px;
-  text-align: justify;
-}
+  #modalDescription {
+    padding-top: 3vh;
+    padding-bottom: 3vh;
+    font-size: 16px; /* Perkecil font untuk mobile */
+  }
+  #enlargedImageContainer {
+    width: 100%;
+    height: 100%;
+    padding: 10px; /* Kurangi padding untuk enlarged image container */
+  }
 
   .judul {
     height: 5vh;
     width: 100%;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    justify-content: space-between;
   }
   .judul h1 {
-    font-size: xx-large;
+    font-size: x-large; /* Sesuaikan ukuran font judul */
   }
   .Three_lines {
-    display: flex;
-    flex-direction: column;
-    align-content: space-evenly;
-    gap: 1.5vh;
-    width: 32%;
+    width: 35%; /* Sesuaikan lebar garis */
+    gap: 1vh; /* Kurangi jarak antar garis */
   }
   .Three_lines div {
-    height: 0.4vh;
-    width: 100%;
-    background-image: linear-gradient(90deg, var(--cream) 30%, transparent 30%, transparent 70%, var(--cream) 70%);
-    background-size: 1vw 100%; /* Ukuran di mana garis terputus */
-    background-repeat: repeat; /* Mengulang pola */
+    height: 0.3vh; /* Perkecil tinggi garis */
+    background-size: 2vw 100%; /* Ubah ukuran background-size agar titik-titik lebih responsif */
   }
+
+  /* SVG di img_svg2 dan img_svg3 */
+  .img_svg2 svg,
+  .img_svg3 svg {
+    width: clamp(80px, 15vw, 150px); /* Gunakan clamp untuk kontrol lebih baik */
+    height: auto;
+  }
+
+  /* Penyesuaian spesifik untuk SVG di img_svg3 */
+  .img_svg3 svg:nth-of-type(1) {
+    width: clamp(100px, 25vw, 200px); /* Atur ukuran SVG pertama di kontak */
+    height: auto;
+  }
+  .img_svg3 svg:nth-of-type(2) {
+    width: clamp(150px, 40vw, 300px); /* Atur ukuran SVG kedua di kontak */
+    height: auto;
+  }
+
+
   section:nth-of-type(4) {
-    z-index: 1;
-    display: block;
-    position: relative;
-    height: 600px;
+    height: 500px; /* Sesuaikan tinggi section kontak untuk mobile */
   }
   .img_svg3 {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-    height: 700px;
-    width: 100%;
-    position: relative;
-    z-index: -1;
+    height: 500px; /* Sesuaikan tinggi kontainer SVG */
   }
   .info {
     padding: 2.5vh 0;
-    margin: 5vh 0;
-    width: 60%;
+    margin: 3vh 0;
+    width: 80%; /* Lebarkan area info untuk menampung ikon */
     justify-content: center;
     display: flex;
   }
-  li {
-    position: relative;
-    list-style: none;
-    height: 50px;
-    width: 50px;
+  .icons {
+    width: 100%; /* Pastikan icons mengambil lebar penuh */
+    justify-content: space-evenly; /* Sebarkan ikon secara merata */
+    margin-bottom: 20px; /* Tambahkan sedikit jarak di bawah ikon */
   }
+  li {
+    height: 50px; /* Perkecil ukuran ikon */
+    width: 50px;
+    margin: 0 5px; /* Kurangi margin antar ikon */
+  }
+  li a {
+    font-size: 22px; /* Perkecil ukuran font ikon */
+  }
+  .download-cv-btn {
+    height: 50px; /* Sesuaikan tinggi tombol */
+    font-size: 14px; /* Sesuaikan ukuran font tombol */
+    padding: 10px 20px; /* Sesuaikan padding tombol */
+    margin: 0 5px;
+  }
+}
+
+@media only screen and (max-width: 690px){
+  .img_svg3 svg:nth-of-type(1) {
+    display: hide;
+}
+.img_svg3 svg:nth-of-type(2) {
+    display: hide;
+}
 }

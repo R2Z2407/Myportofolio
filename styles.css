@@ -45,6 +45,11 @@ body {
   overflow-x: hidden; /* Tetap pertahankan ini */
   width: 100vw; /* Pastikan body mengambil lebar viewport */
 }
+
+.body-no-scroll {
+  overflow: hidden;
+}
+
 body::-webkit-scrollbar {
   display: none;
 }
@@ -352,11 +357,11 @@ section:nth-of-type(1) p::after {
 .modal {
   display: none;
   position: fixed;
-  z-index: 1000;
+  z-index: 90;
   left: 0;
   top: 0;
-  width: 100%; /* Perbaikan: Ubah dari 100vw ke 100% */
-  height: 100%; /* Perbaikan: Ubah dari 100vh ke 100% */
+  width: 100vw; /* Perbaikan: Ubah dari 100vw ke 100% */
+  height: 100vh; /* Perbaikan: Ubah dari 100vh ke 100% */
   overflow: auto;
   background-color: rgba(0, 0, 0, 0.4);
 }
@@ -365,24 +370,34 @@ section:nth-of-type(1) p::after {
   display: none;
 }
 
+/* Modifikasi aturan .modal-content yang sudah ada */
 .modal-content {
   background-color: white;
-  margin: 15% auto;
+  margin: 5% auto;
   padding-left: 5vh;
   padding-right: 5vh;
   padding-bottom: 5vh;
+  padding-top: 5vh;
   border: 1px solid #888;
   width: 80%;
+  height: 100%;
   border-radius: 5px;
   position: relative;
-  z-index: 1000;
+  z-index: 100;
+  
+  /* TAMBAHKAN DUA BARIS INI */
+  max-height: 85vh; /* Batasi tinggi modal maksimal 85% dari tinggi layar */
+  overflow-y: auto; /* Tampilkan scrollbar vertikal HANYA jika konten meluap */
 }
 
 .modal-close {
+  position: absolute;
+  top: 5vh;      /* Atur jarak dari atas */
+  right: 5vh;     /* Atur jarak dari kanan */
   color: var(--dark-gray-2);
-  float: right;
   font-size: 28px;
   font-weight: 900;
+  cursor: pointer; /* Tambahan: agar kursor berubah menjadi tangan saat diarahkan */
 }
 
 .modal-close:hover,
@@ -420,48 +435,56 @@ section:nth-of-type(1) p::after {
 
 #modalDescription {
   padding-top: 3vh;
+  padding-bottom: 3vh;
   color: var(--dark-gray-2);
   background-color: white;
   font-size: 18px;
   text-align: justify;
 }
 
+#pdf_viewer {
+  width: 100%;       /* Ambil lebar penuh dari kontainer induknya */
+  height: 500px;     /* Atur tinggi spesifik, sesuaikan sesuai kebutuhan */
+  border: none;      /* Hilangkan garis batas default */
+  display:none;
+  margin-bottom: 3vh;
+}
+
 .experience-slideshow {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
+  display: grid;
+  
+  /* INI KUNCINYA: Menggunakan clamp() untuk ukuran kolom */
+  grid-template-columns: repeat(auto-fit, clamp(280px, 15vw, 475px));
+
+  gap: 20px;
   background-color: white;
 }
 
 .experience-slideshow img {
-  width: calc(48% - 5px); /* Sesuaikan agar pas dua gambar per baris */
-  height: auto;
-  cursor: pointer;
-  border-radius: 5px;
+  width: 100%;
+  aspect-ratio: 4/3;
+  object-fit: cover;
+  border-radius: 8px;
 }
 
 #enlargedImageContainer {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%; /* Perbaikan: Ubah dari 100vw ke 100% */
-  height: 100%; /* Perbaikan: Ubah dari 100vh ke 100% */
+  width: 100%;
+  height: 100%;
   background-color: rgba(0, 0, 0, 0.8);
-  display: none;
+  display: none; /* Akan diubah ke 'flex' oleh JavaScript */
   justify-content: center;
   align-items: center;
-  z-index: 100;
-  text-align: center;
-  overflow: hidden;
-  box-sizing: border-box; /* Tambahkan ini */
+  z-index: 200;
 }
 
 #enlargedImage {
-  position: absolute;
-  top: 20%;
-  left: 20%;
+  /* Hapus position, top, dan left */
   max-width: 90%;
   max-height: 90%;
+  object-fit: contain; /* Tambahkan ini agar gambar tidak terdistorsi */
 }
 
 #proyek {
@@ -838,7 +861,7 @@ li:nth-child(4).fill-color a {
 }
 
 /* --- MEDIA QUERY UNTUK MOBILE --- */
-@media only screen and (max-width: 886px) {
+@media only screen and (max-width: 1024px) {
   nav {
     display: flex;
     padding: 5vh 5vw 1vh 5vw; /* Kurangi padding untuk layar kecil */
@@ -1073,13 +1096,4 @@ li:nth-child(4).fill-color a {
     padding: 10px 20px; /* Sesuaikan padding tombol */
     margin: 0 5px;
   }
-}
-
-@media only screen and (max-width: 690px){
-  .img_svg3 svg:nth-of-type(1) {
-    display: hide;
-}
-.img_svg3 svg:nth-of-type(2) {
-    display: hide;
-}
 }

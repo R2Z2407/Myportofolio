@@ -1,27 +1,3 @@
-// Static JSON data for experiences
-const experienceData = [
-  {
-    type_content: "Magang",
-    company_content: "Panasonic Manufacturing Indonesia",
-    thumbnail_content: "assets/images/panasonic/1.png",
-    image_content: ["assets/images/panasonic/2.jpg", "assets/images/panasonic/3.jpg", "assets/images/panasonic/4.jpg", "assets/images/panasonic/5.png"],
-    position_content: "Quality Control",
-    average_work_content: "22/06/2023 - 31/07/2023",
-    description_content:
-      "Pada magang ini, saya mempelajari incoming quality control dan product quality control.Dalam divisi incoming quality control mendapatkan tugas memeriksa komponen produk dari pemasok dan produksi internal seperti bahan plastik, logam, dan kabel. Product quality control bertugas dalam mengukur diameter shaft, memeriksa belitan stator, dan memverifikasi teganagan serta arus pada stator. Selain itu, saya menganalisis kecacatan pada rotor. Pada prosesnya, saya menggunakan metode DMAIC dalam menganalisis kecacatan tersebut. Hasil dari analisis yaitu terdapat ketidaksesuaian ukuran shaft akibat mesin gerinding bagian pemasukan shaft yang tidak sesuai kedatatarannya yang membuat shaft seharusnya masuk secara bertahap. Namun, kenyataanya tidak dapat masuk ke dalam mesin tersebut,",
-  },
-  {
-    type_content: "Magang",
-    company_content: "GMF Aeroasia",
-    thumbnail_content: "assets/images/gmf/1.webp",
-    image_content: ["assets/images/gmf/1.webp"],
-    position_content: "IoT Project",
-    average_work_content: "04/09/2023 - 18/12/2023",
-    description_content:
-      "Magang ini merupakan magang berbasis proyek. Tugas saya yaitu membuat prototype berskala laboratorium. Mekanisme kerja prototype ini yaitu data dari sensor dibaca melalui arduino selaku mikroprossesor, Ardunio memproses data tersebut lalu dialamatkan ke AWS via MQTT, dan AWS menampilkan hasil dari bacaan sensor.",
-  },
-];
-
 // Function to format the date range
 function formatDateRange(dateRange) {
   const [startDateStr, endDateStr] = dateRange.split(" - ");
@@ -40,6 +16,24 @@ function formatDateRange(dateRange) {
   const formattedEndDate = formatDate(endDateStr);
 
   return `${formattedStartDate} - ${formattedEndDate}`;
+}
+
+// Function to fetch experience data from API
+async function fetchExperiences() {
+  try {
+    // Asumsikan file JSON Anda berada di 'database/db_experience.json'
+    const response = await fetch("database/db_experience.json");
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const experiences = await response.json();
+    return experiences;
+  } catch (error) {
+    console.error("Error fetching experiences:", error);
+    return []; // Kembalikan array kosong jika terjadi error
+  }
 }
 
 // Function to create an experience card
@@ -98,11 +92,12 @@ function renderExperiences(experiences) {
 // Function to open the modal and populate it with experience data
 function openModal(experience) {
   // Dapatkan gambar pertama
-  const firstImage = experience.thumbnail_content; // Memastikan ini adalah yang benar
-  console.log("Image URL:", firstImage); // Log untuk membantu troubleshooting
+  const firstImage = experience.thumbnail_content;
 
-  // Atur src untuk elemen <img>
-  $("#modal-image-logo").attr("src", firstImage); // Mengatur src element <img>
+  // Atur src untuk elemen <img> dan <iframe>
+  $("#modal-image-logo").attr("src", firstImage); 
+  const srcPdf = experience.file_pdf;
+  $("#pdf_viewer").attr("src", srcPdf).show();
 
   // Assign values to modal elements
   $("#modalCompany").text(experience.company_content);
@@ -119,8 +114,11 @@ function openModal(experience) {
 
     // Tambahkan event listener untuk gambar
     imgElement.on("click", () => {
-      $("#enlargedImage").attr("src", image); // Set src untuk gambar yang diperbesar
-      $("#enlargedImageContainer").show(); // Tampilkan container gambar yang diperbesar
+      $("#enlargedImage").attr("src", image); 
+      
+      // --- PERUBAHAN DI SINI ---
+      // Ganti .show() dengan .css("display", "flex")
+      $("#enlargedImageContainer").css("display", "flex"); 
     });
 
     modalImages.append(imgElement);
@@ -128,8 +126,14 @@ function openModal(experience) {
 
   // Event listener untuk menutup gambar yang diperbesar saat diklik
   $("#enlargedImageContainer").on("click", () => {
-    $("#enlargedImageContainer").hide(); // Sembunyikan gambar yang diperbesar
+    
+    // --- PERUBAHAN DI SINI ---
+    // Ganti .hide() dengan .css("display", "none") agar konsisten
+    $("#enlargedImageContainer").css("display", "none");
   });
+
+  // TAMBAHKAN BARIS INI untuk mengunci scroll body
+  $('body').addClass('body-no-scroll');
 
   // Display the modal
   $("#myModal").show();
@@ -138,6 +142,9 @@ function openModal(experience) {
 // Function to close the modal
 $("#modalClose").on("click", function () {
   $("#myModal").hide();
+  
+  // TAMBAHKAN BARIS INI untuk mengembalikan kemampuan scroll
+  $('body').removeClass('body-no-scroll');
 });
 
 // Function to setup responsive navbar based on screen size
@@ -563,17 +570,29 @@ function trackEmailClick() {
   console.log("Email link clicked");
 }
 
-// Run setup when document is ready
-$(document).ready(function () {
+// Main initialization function
+async function initializeApp() {
   // Initialize navbar
   setupNavbarResponsive();
 
-  // Initialize projects
-  initProjects();
+  // Fetch both projects and experiences asynchronously
+  const projects = await fetchProjects();
+  const experiences = await fetchExperiences();
 
-  // Render experiences using static data
-  renderExperiences(experienceData); // Use static data
+  // --- Logic for Projects ---
+  if (projects.length > 0) {
+    localStorage.setItem("projects", JSON.stringify(projects));
+    populateProjectFilter(projects);
+    renderProjects(projects);
+    document.getElementById("typeFilter").addEventListener("change", filterProjects);
+  }
 
+  // --- Logic for Experiences ---
+  if (experiences.length > 0) {
+    renderExperiences(experiences); // Gunakan data dari JSON
+  }
+
+  // --- Event Listeners Lainnya ---
   $(".fa-envelope").on("click", function (e) {
     e.preventDefault();
     $(this).closest("li").toggleClass("shadow-1").toggleClass("fill-color");
@@ -587,4 +606,9 @@ $(document).ready(function () {
       $(this).removeClass("shadow-1").removeClass("fill-color");
     }, 300);
   });
+}
+
+// Run setup when document is ready
+$(document).ready(function () {
+  initializeApp(); // Panggil fungsi inisialisasi utama
 });

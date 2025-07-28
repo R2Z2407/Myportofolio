@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Rijal's Portofolio</title>
     <link rel="icon" href="assets/images/Path_Logos2.png" type="image/x-icon" />
-    <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="assets/pdfjs/build/pdf.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha384-k6RqeWeci5ZR/Lv4MR0sA0FfDOMendXw9u1o2zWfLcOe4k4ArE3wG/oK3u2fo4X" crossorigin="anonymous" />
@@ -73,7 +74,6 @@
         <div class="experience-container"></div>
         <div class="modal" id="myModal">
           <div class="modal-content">
-            <span class="modal-close" id="modalClose">&times;</span>
             <div id="modal-part">
               <img id="modal-image-logo" style="max-width: 100%; height: auto" />
               <div id="modal-posisi-date">
@@ -81,8 +81,10 @@
                 <h4 id="modalPosition"></h4>
                 <h4 id="modalWorkDate"></h4>
               </div>
+              <span class="modal-close" id="modalClose">&times;</span>
             </div>
             <div id="modalDescription"></div>
+            <iframe id="pdf_viewer"></iframe>
             <div id="modalImages" class="experience-slideshow"></div>
             <div id="enlargedImageContainer" style="display: none">
               <img id="enlargedImage" style="max-width: 100%; height: auto" />

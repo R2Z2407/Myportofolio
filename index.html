@@ -5,11 +5,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Rijal's Portofolio</title>
     <link rel="icon" href="assets/images/Path_Logos2.png" type="image/x-icon" />
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
     <script src="assets/pdfjs/build/pdf.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha384-k6RqeWeci5ZR/Lv4MR0sA0FfDOMendXw9u1o2zWfLcOe4k4ArE3wG/oK3u2fo4X" crossorigin="anonymous" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css"
+    />
+
+    <script
+      type="text/javascript"
+      src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"
+    ></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+      integrity="sha512-Fo3rlrZj/k7ujTnHg4CGR2D7kSs0v4LLanw2qksYuRlEzO+tcaEPQogQ0KaoGN26/zrn20ImR1DfuLWnOo7aBA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
@@ -17,7 +36,12 @@
       <div class="navbar-brand">
         <img src="assets/images/Path_Logos.png" alt="Logo" />
       </div>
-      <button class="hamburger" aria-label="Main Menu" aria-expanded="false" aria-controls="navbar-menu">
+      <button
+        class="hamburger"
+        aria-label="Main Menu"
+        aria-expanded="false"
+        aria-controls="navbar-menu"
+      >
         <svg width="50" height="50" viewBox="0 0 100 100">
           <path
             class="line line1"
@@ -34,12 +58,14 @@
         <a href="#" id="home-link" class="navbar-item">Beranda</a>
         <a href="#pengalaman" class="navbar-item">Pengalaman</a>
         <a href="#proyek" class="navbar-item">Proyek</a>
+        <a href="#sertifikat" class="navbar-item">Sertifikat</a>
         <a href="#kontak" class="navbar-item">Kontak</a>
       </div>
       <div class="navbar-menu-PC">
         <a href="#" id="home-link" class="navbar-item-PC">Beranda</a>
         <a href="#pengalaman" class="navbar-item-PC">Pengalaman</a>
         <a href="#proyek" class="navbar-item-PC">Proyek</a>
+        <a href="#sertifikat" class="navbar-item-PC">Sertifikat</a>
         <a href="#kontak" class="navbar-item-PC">Kontak</a>
       </div>
     </nav>
@@ -48,11 +74,21 @@
         <div><img src="assets/images/Photo.png" /></div>
       </div>
       <h1>I'm Rijal</h1>
-      <p>I am an fresh graduate Electrical Engineering Student at Padjadjaran University focus on IoT, front-end, Embedded System, and Machine Learning</p>
+      <p>
+        I am an fresh graduate Electrical Engineering Student at Padjadjaran
+        University focus on IoT, front-end, Embedded System, and Machine
+        Learning
+      </p>
     </section>
     <section id="pengalaman">
       <div class="img_svg">
-        <svg style="transform: rotate(180deg)" xmlns="http://www.w3.org/2000/svg" version="1.0" viewBox="0 0 222 158" fill="#537367">
+        <svg
+          style="transform: rotate(180deg)"
+          xmlns="http://www.w3.org/2000/svg"
+          version="1.0"
+          viewBox="0 0 222 158"
+          fill="#537367"
+        >
           <path
             d="M84.3 24.2C69 39.5 61 48.1 61 49.5c0 1.4 8 10 23.3 25.3C97.1 87.6 108 98 108.5 98c1.3 0 48.5-47.2 48.5-48.5C157 48.2 109.8 1 108.5 1c-.5 0-11.4 10.4-24.2 23.2zm47.4 2C144 38.5 154 48.9 154 49.5c0 .6-10.1 11.1-22.5 23.5L109 95.5l-23-23-23-23 22.7-22.7C98.2 14.2 108.7 4 109 4c.3 0 10.5 10 22.7 22.2z"
           />
@@ -75,7 +111,10 @@
         <div class="modal" id="myModal">
           <div class="modal-content">
             <div id="modal-part">
-              <img id="modal-image-logo" style="max-width: 100%; height: auto" />
+              <img
+                id="modal-image-logo"
+                style="max-width: 100%; height: auto"
+              />
               <div id="modal-posisi-date">
                 <h2 id="modalCompany"></h2>
                 <h4 id="modalPosition"></h4>
@@ -100,7 +139,7 @@
           <div></div>
           <div></div>
         </div>
-        <h1>Project</h1>
+        <h1>Proyek</h1>
         <div class="Three_lines">
           <div></div>
           <div></div>
@@ -111,13 +150,42 @@
         <div class="project-filter">
           <select id="typeFilter">
             <option value="all">All Projects</option>
-            </select>
+          </select>
         </div>
-        <div class="Card">
-          </div>
+        <div class="Card"></div>
+      </div>
+    </section>
+    <section id="sertifikat">
+      <div class="judul">
+        <h1>Sertifikat</h1>
+      </div>
+      <div class="certificate-grid"></div>
+
+      <div class="see-more-container">
+        <button id="see-more-btn">Lihat Semua</button>
+      </div>
+      <div id="enlargedCertificateContainer" style="display: none">
+        <span class="close-enlarged-cert">&times;</span>
+        <img id="enlargedCertificateImage" alt="Sertifikat yang diperbesar" />
+        <div class="certificate-link-container">
+          <a
+            id="certificateVerificationLink"
+            href="#"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Verifikasi Keaslian Sertifikat
+          </a>
+        </div>
       </div>
       <div class="img_svg2">
-        <svg style="transform: rotate(-90deg)" xmlns="http://www.w3.org/2000/svg" version="1.0" viewBox="0 0 222 158" fill="#537367">
+        <svg
+          style="transform: rotate(-90deg)"
+          xmlns="http://www.w3.org/2000/svg"
+          version="1.0"
+          viewBox="0 0 222 158"
+          fill="#537367"
+        >
           <path
             d="M84.3 24.2C69 39.5 61 48.1 61 49.5c0 1.4 8 10 23.3 25.3C97.1 87.6 108 98 108.5 98c1.3 0 48.5-47.2 48.5-48.5C157 48.2 109.8 1 108.5 1c-.5 0-11.4 10.4-24.2 23.2zm47.4 2C144 38.5 154 48.9 154 49.5c0 .6-10.1 11.1-22.5 23.5L109 95.5l-23-23-23-23 22.7-22.7C98.2 14.2 108.7 4 109 4c.3 0 10.5 10 22.7 22.2z"
           />
@@ -132,7 +200,12 @@
           />
         </svg>
         <div></div>
-        <svg xmlns="http://www.w3.org/2000/svg" version="1.0" viewBox="0 0 222 158" fill="#d9d5c5">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          version="1.0"
+          viewBox="0 0 222 158"
+          fill="#d9d5c5"
+        >
           <path
             d="M84.3 24.2C69 39.5 61 48.1 61 49.5c0 1.4 8 10 23.3 25.3C97.1 87.6 108 98 108.5 98c1.3 0 48.5-47.2 48.5-48.5C157 48.2 109.8 1 108.5 1c-.5 0-11.4 10.4-24.2 23.2zm47.4 2C144 38.5 154 48.9 154 49.5c0 .6-10.1 11.1-22.5 23.5L109 95.5l-23-23-23-23 22.7-22.7C98.2 14.2 108.7 4 109 4c.3 0 10.5 10 22.7 22.2z"
           />
@@ -147,7 +220,13 @@
           />
         </svg>
         <div></div>
-        <svg style="transform: rotate(90deg)" xmlns="http://www.w3.org/2000/svg" version="1.0" viewBox="0 0 222 158" fill="#537367">
+        <svg
+          style="transform: rotate(90deg)"
+          xmlns="http://www.w3.org/2000/svg"
+          version="1.0"
+          viewBox="0 0 222 158"
+          fill="#537367"
+        >
           <path
             d="M84.3 24.2C69 39.5 61 48.1 61 49.5c0 1.4 8 10 23.3 25.3C97.1 87.6 108 98 108.5 98c1.3 0 48.5-47.2 48.5-48.5C157 48.2 109.8 1 108.5 1c-.5 0-11.4 10.4-24.2 23.2zm47.4 2C144 38.5 154 48.9 154 49.5c0 .6-10.1 11.1-22.5 23.5L109 95.5l-23-23-23-23 22.7-22.7C98.2 14.2 108.7 4 109 4c.3 0 10.5 10 22.7 22.2z"
           />
@@ -168,17 +247,27 @@
         <svg viewBox="0 0 200 200">
           <defs>
             <linearGradient id="gradient">
-              <stop offset="0%" style="stop-color: rgba(83, 115, 103, 0); stop-opacity: 1" />
+              <stop
+                offset="0%"
+                style="stop-color: rgba(83, 115, 103, 0); stop-opacity: 1"
+              />
               <stop offset="50%" style="stop-color: #537367; stop-opacity: 1" />
             </linearGradient>
           </defs>
 
           <path d="M0,0 L0,200 L200,200 Z" fill="url(#gradient)" />
         </svg>
-        <svg style="transform: rotate(-90deg)" viewBox="0 0 200 200" fill="url(#gradient-i)">
+        <svg
+          style="transform: rotate(-90deg)"
+          viewBox="0 0 200 200"
+          fill="url(#gradient-i)"
+        >
           <defs>
             <linearGradient id="gradient-i" x1="0%" y1="100%" x2="0%" y2="0%">
-              <stop offset="0%" style="stop-color: rgba(83, 115, 103, 0); stop-opacity: 1" />
+              <stop
+                offset="0%"
+                style="stop-color: rgba(83, 115, 103, 0); stop-opacity: 1"
+              />
               <stop offset="50%" style="stop-color: #537367; stop-opacity: 1" />
             </linearGradient>
           </defs>
@@ -193,16 +282,33 @@
               <a href=""><span class="fa fa-envelope"></span></a>
             </li>
             <li>
-              <a href="https://www.instagram.com/rijal_rahman_z.24" target="_blank" rel="noopener noreferrer"><span class="fab fa-instagram"></span></a>
+              <a
+                href="https://www.instagram.com/rijal_rahman_z.24"
+                target="_blank"
+                rel="noopener noreferrer"
+                ><span class="fab fa-instagram"></span
+              ></a>
             </li>
             <li>
-              <a href="https://www.linkedin.com/in/rijal-rahman-zuhri-7850a426a" target="_blank" rel="noopener noreferrer"><span class="fab fa-linkedin-in"></span></a>
+              <a
+                href="https://www.linkedin.com/in/rijal-rahman-zuhri-7850a426a"
+                target="_blank"
+                rel="noopener noreferrer"
+                ><span class="fab fa-linkedin-in"></span
+              ></a>
             </li>
             <li>
-              <a href="https://github.com/R2Z2407" target="_blank" rel="noopener noreferrer"><span class="fab fa-github"></span></a>
+              <a
+                href="https://github.com/R2Z2407"
+                target="_blank"
+                rel="noopener noreferrer"
+                ><span class="fab fa-github"></span
+              ></a>
             </li>
           </div>
-          <button onclick="downloadCV()" class="download-cv-btn first">Download CV</button>
+          <button onclick="downloadCV()" class="download-cv-btn first">
+            Download CV
+          </button>
         </div>
       </div>
     </section>

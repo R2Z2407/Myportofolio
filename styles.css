@@ -2,7 +2,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  }
+}
 
 html {
   scroll-behavior: smooth;
@@ -34,7 +34,8 @@ p {
 
 @font-face {
   font-family: "Trebuchet MS";
-  src: url("assets/font/trebuc.ttf") format("truetype"), url("assets/font/Trebuchet-MS-Italic.ttf") format("truetype");
+  src: url("assets/font/trebuc.ttf") format("truetype"),
+    url("assets/font/Trebuchet-MS-Italic.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
 }
@@ -93,7 +94,8 @@ section {
 }
 
 /* Kontrol ukuran SVG secara CSS, bukan inline di HTML */
-svg:nth-of-type(1) { /* SVG di .img_svg */
+svg:nth-of-type(1) {
+  /* SVG di .img_svg */
   height: 150px;
   width: 150px;
   max-width: 100%; /* Jaga agar tidak melebihi lebar parent */
@@ -101,7 +103,8 @@ svg:nth-of-type(1) { /* SVG di .img_svg */
 }
 svg:nth-of-type(2), /* SVG di .img_svg2 (yang pertama) */
 svg:nth-of-type(3), /* SVG di .img_svg2 (yang kedua) */
-svg:nth-of-type(4) { /* SVG di .img_svg2 (yang ketiga) */
+svg:nth-of-type(4) {
+  /* SVG di .img_svg2 (yang ketiga) */
   height: 150px;
   width: 150px;
   max-width: 100%; /* Jaga agar tidak melebihi lebar parent */
@@ -117,14 +120,13 @@ svg:nth-of-type(4) { /* SVG di .img_svg2 (yang ketiga) */
 
 /* Atur ukuran spesifik untuk SVG di img_svg3 jika diperlukan, terutama untuk desktop */
 .img_svg3 svg:nth-of-type(1) {
-    width: 300px; /* Ukuran default untuk desktop */
-    height: 300px;
+  width: 300px; /* Ukuran default untuk desktop */
+  height: 300px;
 }
 .img_svg3 svg:nth-of-type(2) {
-    width: 600px; /* Ukuran default untuk desktop */
-    height: 600px;
+  width: 600px; /* Ukuran default untuk desktop */
+  height: 600px;
 }
-
 
 nav {
   display: flex;
@@ -384,7 +386,7 @@ section:nth-of-type(1) p::after {
   border-radius: 5px;
   position: relative;
   z-index: 100;
-  
+
   /* TAMBAHKAN DUA BARIS INI */
   max-height: 85vh; /* Batasi tinggi modal maksimal 85% dari tinggi layar */
   overflow-y: auto; /* Tampilkan scrollbar vertikal HANYA jika konten meluap */
@@ -392,8 +394,8 @@ section:nth-of-type(1) p::after {
 
 .modal-close {
   position: absolute;
-  top: 5vh;      /* Atur jarak dari atas */
-  right: 5vh;     /* Atur jarak dari kanan */
+  top: 5vh; /* Atur jarak dari atas */
+  right: 5vh; /* Atur jarak dari kanan */
   color: var(--dark-gray-2);
   font-size: 28px;
   font-weight: 900;
@@ -443,16 +445,16 @@ section:nth-of-type(1) p::after {
 }
 
 #pdf_viewer {
-  width: 100%;       /* Ambil lebar penuh dari kontainer induknya */
-  height: 500px;     /* Atur tinggi spesifik, sesuaikan sesuai kebutuhan */
-  border: none;      /* Hilangkan garis batas default */
-  display:none;
+  width: 100%; /* Ambil lebar penuh dari kontainer induknya */
+  height: 500px; /* Atur tinggi spesifik, sesuaikan sesuai kebutuhan */
+  border: none; /* Hilangkan garis batas default */
+  display: none;
   margin-bottom: 3vh;
 }
 
 .experience-slideshow {
   display: grid;
-  
+
   /* INI KUNCINYA: Menggunakan clamp() untuk ukuran kolom */
   grid-template-columns: repeat(auto-fit, clamp(280px, 15vw, 475px));
 
@@ -491,7 +493,8 @@ section:nth-of-type(1) p::after {
   padding: 0 10vw;
   box-sizing: border-box; /* Tambahkan ini */
 }
-.judul {
+#proyek .judul {
+  margin-top: 18vh;
   height: 5vh;
   width: 100%;
   display: flex;
@@ -514,7 +517,13 @@ section:nth-of-type(1) p::after {
 .Three_lines div {
   height: 0.4vh;
   width: 100%;
-  background-image: linear-gradient(90deg, var(--cream) 30%, transparent 30%, transparent 70%, var(--cream) 70%);
+  background-image: linear-gradient(
+    90deg,
+    var(--cream) 30%,
+    transparent 30%,
+    transparent 70%,
+    var(--cream) 70%
+  );
   background-size: 1vw 100%;
   background-repeat: repeat;
 }
@@ -606,7 +615,7 @@ section:nth-of-type(1) p::after {
 .property-card .image-content img {
   width: 100%;
   height: 100%;
-  object-fit: fill;
+  object-fit: cover;
 }
 
 .property-card .name-content {
@@ -697,7 +706,190 @@ section:nth-of-type(1) p::after {
   background: #555;
 }
 
-section:nth-of-type(4) {
+#sertifikat {
+  margin-top: 20vh;
+  padding: 0 10vw;
+}
+#sertifikat .judul {
+  margin-bottom: 5vh;
+  z-index: 1;
+  padding: 0 10vw;
+}
+#sertifikat .judul h1 {
+  color: var(--muted-green);
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px); /* Mulai dari posisi 20px di bawah */
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0); /* Kembali ke posisi normal */
+  }
+}
+
+.card-fade-in {
+  /* Terapkan animasi fadeInUp selama 0.5 detik */
+  animation: fadeInUp 0.5s ease forwards;
+}
+
+.certificate-grid {
+  display: grid;
+  width: 100%;
+  gap: 30px;
+  background: linear-gradient(var(--dark-gray-1), var(--dark-gray-1))
+      padding-box,
+    linear-gradient(to top, var(--dark-gray-1), var(--muted-green)) border-box;
+  border-radius: 1em;
+  border: 4px solid transparent;
+  padding: 20px;
+  grid-template-columns: 1fr; /* Default 1 kolom untuk mobile */
+}
+
+/* Aturan Responsif untuk Grid Sertifikat */
+@media (min-width: 600px) {
+  .certificate-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (min-width: 900px) {
+  .certificate-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+@media (min-width: 1200px) {
+  .certificate-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* Kelas untuk menyembunyikan kartu */
+.certificate-grid .card.hidden {
+  display: none;
+}
+
+/* Gaya untuk Kartu Sertifikat */
+.certificate-grid .card {
+  position: relative;
+  overflow: hidden;
+  border-radius: 10px;
+  cursor: pointer;
+  aspect-ratio: 16 / 10;
+  background-color: var(
+    --dark-gray-2
+  ); /* Warna placeholder jika gambar lambat dimuat */
+}
+
+.certificate-grid .card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.certificate-grid .card:hover img {
+  transform: scale(1.1);
+}
+
+.certificate-grid .card p {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  margin: 0;
+  padding: 20px 10px 10px 10px;
+  box-sizing: border-box;
+  text-align: center;
+  font-weight: bold;
+  font-family: "Trebuchet MS";
+  color: var(--cream);
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.85), transparent);
+  font-size: clamp(12px, 1.2vw, 16px);
+  transition: opacity 0.3s ease;
+}
+.certificate-grid .card:hover p {
+  opacity: 0; /* Sembunyikan teks saat hover agar gambar jelas */
+}
+
+/* Gaya untuk tombol "Lihat Semua" */
+.see-more-container {
+  text-align: center;
+  margin-top: 40px;
+}
+
+#see-more-btn {
+  background-color: transparent;
+  border: 2px solid var(--muted-green);
+  color: var(--muted-green);
+  padding: 12px 30px;
+  border-radius: 25px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  font-family: "Trebuchet MS";
+  text-transform: uppercase;
+  transition: background-color 0.3s, color 0.3s;
+  display: none; /* Awalnya disembunyikan */
+}
+
+#see-more-btn:hover {
+  background-color: var(--muted-green);
+  color: var(--dark-gray-1);
+}
+
+/* Wadah Enlarge Sertifikat */
+#enlargedCertificateContainer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.9);
+  backdrop-filter: blur(5px);
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+#enlargedCertificateImage {
+  max-width: 90%;
+  max-height: 80%;
+  object-fit: contain;
+  border-radius: 5px;
+}
+
+.close-enlarged-cert {
+  position: absolute;
+  top: 20px;
+  right: 35px;
+  color: #fff;
+  font-size: 40px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.certificate-link-container {
+  margin-top: 20px;
+  padding: 10px 25px;
+  background-color: var(--muted-green);
+  border-radius: 25px;
+  transition: background-color 0.3s ease;
+}
+
+.certificate-link-container a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  font-family: "Trebuchet MS";
+}
+
+section:nth-of-type(5) {
   z-index: 2;
   display: block;
   position: relative;
@@ -705,13 +897,20 @@ section:nth-of-type(4) {
   box-sizing: border-box; /* Tambahkan ini */
 }
 
-.judul:nth-of-type(2) {
+#kontak .judul {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 1;
   padding: 0 10vw;
+  height: 5vh;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  justify-content: space-between;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -719,9 +918,9 @@ section:nth-of-type(4) {
   box-sizing: border-box; /* Tambahkan ini */
 }
 
-.judul:nth-of-type(2) h1 {
-  color: var(--muted-green);
-  font-size: xxx-large;
+#kontak .judul h1 {
+  color: var(--cream);
+  font-size: xx-large;
 }
 
 .info {
@@ -764,7 +963,8 @@ li {
   border-radius: 50%;
   background: #3a3f54;
   cursor: pointer;
-  box-shadow: -5px -5px 10px rgba(255, 255, 255, 0.05), 5px 5px 10px rgba(0, 0, 0, 0.3);
+  box-shadow: -5px -5px 10px rgba(255, 255, 255, 0.05),
+    5px 5px 10px rgba(0, 0, 0, 0.3);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -794,12 +994,14 @@ li a {
   border-radius: 50%;
   background: var(--dark-gray-1);
   font-size: 24px;
-  box-shadow: inset -3px -3px 7px rgba(197, 197, 197, 0.288), inset 3px 3px 5px rgba(0, 0, 0, 0.288);
+  box-shadow: inset -3px -3px 7px rgba(197, 197, 197, 0.288),
+    inset 3px 3px 5px rgba(0, 0, 0, 0.288);
 }
 
 li:hover {
   transform: translateY(-5px);
-  box-shadow: -7px -7px 12px rgba(255, 255, 255, 0.07), 7px 7px 12px rgba(139, 137, 137, 0.4);
+  box-shadow: -7px -7px 12px rgba(255, 255, 255, 0.07),
+    7px 7px 12px rgba(139, 137, 137, 0.4);
 }
 
 li:nth-child(1).fill-color a {
@@ -829,7 +1031,8 @@ li:nth-child(4).fill-color a {
   border-radius: 35px;
   background: #3a3f54;
   cursor: pointer;
-  box-shadow: -5px -5px 10px rgba(255, 255, 255, 0.05), 5px 5px 10px rgba(0, 0, 0, 0.3);
+  box-shadow: -5px -5px 10px rgba(255, 255, 255, 0.05),
+    5px 5px 10px rgba(0, 0, 0, 0.3);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -843,11 +1046,13 @@ li:nth-child(4).fill-color a {
 
 .download-cv-btn:hover {
   transform: translateY(-5px);
-  box-shadow: -7px -7px 12px rgba(255, 255, 255, 0.07), 7px 7px 12px rgba(139, 137, 137, 0.4);
+  box-shadow: -7px -7px 12px rgba(255, 255, 255, 0.07),
+    7px 7px 12px rgba(139, 137, 137, 0.4);
 }
 
 .download-cv-btn.shadow-1 {
-  box-shadow: inset -3px -3px 7px rgba(197, 197, 197, 0.288), inset 3px 3px 5px rgba(0, 0, 0, 0.288);
+  box-shadow: inset -3px -3px 7px rgba(197, 197, 197, 0.288),
+    inset 3px 3px 5px rgba(0, 0, 0, 0.288);
 }
 
 .download-cv-btn.fill-color {
@@ -857,7 +1062,8 @@ li:nth-child(4).fill-color a {
 
 .download-cv-btn:active {
   transform: translateY(-2px);
-  box-shadow: inset -2px -2px 5px rgba(255, 255, 255, 0.05), inset 2px 2px 5px rgba(0, 0, 0, 0.2);
+  box-shadow: inset -2px -2px 5px rgba(255, 255, 255, 0.05),
+    inset 2px 2px 5px rgba(0, 0, 0, 0.2);
 }
 
 /* --- MEDIA QUERY UNTUK MOBILE --- */
@@ -877,7 +1083,8 @@ li:nth-child(4).fill-color a {
     fill: none;
     stroke: var(--cream);
     stroke-width: 6;
-    transition: stroke-dasharray 600ms cubic-bezier(0.4, 0, 0.2, 1), stroke-dashoffset 600ms cubic-bezier(0.4, 0, 0.2, 1);
+    transition: stroke-dasharray 600ms cubic-bezier(0.4, 0, 0.2, 1),
+      stroke-dashoffset 600ms cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .line1 {
@@ -1049,7 +1256,11 @@ li:nth-child(4).fill-color a {
   /* SVG di img_svg2 dan img_svg3 */
   .img_svg2 svg,
   .img_svg3 svg {
-    width: clamp(80px, 15vw, 150px); /* Gunakan clamp untuk kontrol lebih baik */
+    width: clamp(
+      80px,
+      15vw,
+      150px
+    ); /* Gunakan clamp untuk kontrol lebih baik */
     height: auto;
   }
 
@@ -1063,8 +1274,17 @@ li:nth-child(4).fill-color a {
     height: auto;
   }
 
+  .innerList3 {
+    padding-right: 0;
+  }
 
-  section:nth-of-type(4) {
+  .innerList3::-webkit-scrollbar {
+    display: none;
+  }
+  #sertifikat .judul {
+    justify-items: center;
+  }
+  section:nth-of-type(5) {
     height: 500px; /* Sesuaikan tinggi section kontak untuk mobile */
   }
   .img_svg3 {

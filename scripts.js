@@ -7,7 +7,20 @@ function formatDateRange(dateRange) {
     const date = new Date(year, month - 1, day); // Month is 0-indexed
 
     // Set up short month names
-    const shortMonthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    const shortMonthNames = [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec",
+    ];
 
     return `${day} ${shortMonthNames[month - 1]} ${year}`;
   };
@@ -38,12 +51,15 @@ async function fetchExperiences() {
 
 // Function to create an experience card
 function createExperienceCard(experience) {
-  const description = experience.description_content || "No description available.";
+  const description =
+    experience.description_content || "No description available.";
 
   // Fungsi untuk memotong deskripsi menjadi maksimal 50 kata
   const truncateDescription = (text, maxWords) => {
     const words = text.split(" "); // Memisahkan deskripsi menjadi array kata
-    return words.length <= maxWords ? text : words.slice(0, maxWords).join(" ") + " " + "..."; // Menggabungkan kembali hingga 50 kata
+    return words.length <= maxWords
+      ? text
+      : words.slice(0, maxWords).join(" ") + " " + "..."; // Menggabungkan kembali hingga 50 kata
   };
 
   const truncatedDescription = truncateDescription(description, 25); // Mendapatkan deskripsi yang sudah dipotong
@@ -51,11 +67,21 @@ function createExperienceCard(experience) {
   const card = $(`
                 <div class="property-card2">
                     <div class="image-content2">
-                        <img src="${experience.thumbnail_content || "default-image.png"}" alt="${experience.company_content}">
+                        <img src="${
+                          experience.thumbnail_content || "default-image.png"
+                        }" alt="${experience.company_content}">
                     </div>
-                    <div class="name-content2"><h4>${experience.company_content}</h4></div>
+                    <div class="name-content2"><h4>${
+                      experience.company_content
+                    }</h4></div>
                     <div class="position-content2">
-                        <i class="fa fa-briefcase"></i>&nbsp;${experience.position_content || "Position Not Specified"} | ${formatDateRange(experience.average_work_content) || "Date Working Not Specified"}
+                        <i class="fa fa-briefcase"></i>&nbsp;${
+                          experience.position_content ||
+                          "Position Not Specified"
+                        } | ${
+    formatDateRange(experience.average_work_content) ||
+    "Date Working Not Specified"
+  }
                     </div>
                     <div class="description-content2">
                         <p>${truncatedDescription}</p>
@@ -77,15 +103,6 @@ function renderExperiences(experiences) {
     const experienceCard = createExperienceCard(experience);
     cardContainer.append(experienceCard);
   });
-
-  // Initialize Slick Carousel
-  cardContainer.slick({
-    dots: true, // Tampilkan dots untuk navigasi
-    infinite: true, // Scroll tanpa akhir
-    speed: 500, // Kecepatan transisi
-    slidesToShow: 1, // Jumlah kartu yang ditampilkan
-    slidesToScroll: 1, // Jumlah kartu yang digeser
-  });
 }
 
 // Function to open the modal and populate it with experience data
@@ -95,30 +112,36 @@ function openModal(experience) {
   const firstImage = experience.thumbnail_content;
 
   // Atur src untuk elemen <img> dan <iframe>
-  $("#modal-image-logo").attr("src", firstImage); 
+  $("#modal-image-logo").attr("src", firstImage);
   const srcPdf = experience.file_pdf;
   $("#pdf_viewer").attr("src", srcPdf).show();
 
   // Assign values to modal elements
   $("#modalCompany").text(experience.company_content);
-  $("#modalPosition").text(experience.position_content || "Position Not Specified");
+  $("#modalPosition").text(
+    experience.position_content || "Position Not Specified"
+  );
   $("#modalWorkDate").text(formatDateRange(experience.average_work_content));
-  $("#modalDescription").html(experience.description_content || "No description available.");
+  $("#modalDescription").html(
+    experience.description_content || "No description available."
+  );
 
   // Handle modal images
   const modalImages = $("#modalImages");
   modalImages.empty(); // Clear previous images
 
   $.each(experience.image_content, (index, image) => {
-    const imgElement = $(`<img src="${image}" alt="Experience Image" class="modal-image" style="cursor: pointer;">`);
+    const imgElement = $(
+      `<img src="${image}" alt="Experience Image" class="modal-image" style="cursor: pointer;">`
+    );
 
     // Tambahkan event listener untuk gambar
     imgElement.on("click", () => {
-      $("#enlargedImage").attr("src", image); 
-      
+      $("#enlargedImage").attr("src", image);
+
       // --- PERUBAHAN DI SINI ---
       // Ganti .show() dengan .css("display", "flex")
-      $("#enlargedImageContainer").css("display", "flex"); 
+      $("#enlargedImageContainer").css("display", "flex");
     });
 
     modalImages.append(imgElement);
@@ -126,14 +149,13 @@ function openModal(experience) {
 
   // Event listener untuk menutup gambar yang diperbesar saat diklik
   $("#enlargedImageContainer").on("click", () => {
-    
     // --- PERUBAHAN DI SINI ---
     // Ganti .hide() dengan .css("display", "none") agar konsisten
     $("#enlargedImageContainer").css("display", "none");
   });
 
   // TAMBAHKAN BARIS INI untuk mengunci scroll body
-  $('body').addClass('body-no-scroll');
+  $("body").addClass("body-no-scroll");
 
   // Display the modal
   $("#myModal").show();
@@ -142,9 +164,9 @@ function openModal(experience) {
 // Function to close the modal
 $("#modalClose").on("click", function () {
   $("#myModal").hide();
-  
+
   // TAMBAHKAN BARIS INI untuk mengembalikan kemampuan scroll
-  $('body').removeClass('body-no-scroll');
+  $("body").removeClass("body-no-scroll");
 });
 
 // Function to setup responsive navbar based on screen size
@@ -194,7 +216,10 @@ function setupNavbarResponsive() {
       navbarMenu.classList.toggle("opened");
 
       // Log status of navbar menu
-      console.log("Navbar Menu Opened:", navbarMenu.classList.contains("opened"));
+      console.log(
+        "Navbar Menu Opened:",
+        navbarMenu.classList.contains("opened")
+      );
 
       const line1 = document.querySelector(".line1");
       const line2 = document.querySelector(".line2");
@@ -221,14 +246,16 @@ function setupNavbarResponsive() {
 
   // Function for smooth scroll for all screens
   function setupSmoothScroll() {
-    document.getElementById("home-link").addEventListener("click", function (event) {
-      event.preventDefault();
-      window.scrollTo({
-        top: 0,
-        behavior: "smooth",
+    document
+      .getElementById("home-link")
+      .addEventListener("click", function (event) {
+        event.preventDefault();
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth",
+        });
+        closeNavbarMenu(); // Close navbar menu when clicking home link
       });
-      closeNavbarMenu(); // Close navbar menu when clicking home link
-    });
 
     document.querySelectorAll(".navbar-item").forEach((item) => {
       item.addEventListener("click", function (event) {
@@ -295,7 +322,9 @@ function populateProjectFilter(projects) {
   const typeFilter = document.getElementById("typeFilter");
 
   // Get unique type_content
-  const uniqueTypes = [...new Set(projects.map((project) => project.type_content))];
+  const uniqueTypes = [
+    ...new Set(projects.map((project) => project.type_content)),
+  ];
 
   // Add options for each type
   uniqueTypes.forEach((type) => {
@@ -340,20 +369,28 @@ function createProjectCard(project) {
 
   card.innerHTML = `
         <div class="image-content">
-            <img src="${getProjectImage(project)}" alt="${project.name_content || "Project Image"}">
+            <img src="${getProjectImage(project)}" alt="${
+    project.name_content || "Project Image"
+  }">
         </div>
         <div class="name-content">
             <!-- Name will be set by the function above -->
         </div>
         <div class="description-content">
-            <p>${project.description_content || "No description available."}</p> <!-- Provide default description -->
+            <p>${
+              project.description_content || "No description available."
+            }</p> <!-- Provide default description -->
         </div>
         <div class="footer-content">
             <div class="file-content">
-                <a href="${project.file_content || "#"}" download>${project.file_content !== "No available" ? "Download" : ""}</a>
+                <a href="${project.file_content || "#"}" download>${
+    project.file_content !== "No available" ? "Download" : ""
+  }</a>
             </div>
             <div class="link-content">
-                <a href="${project.link_content || "#"}" target="_blank">${project.link_content !== "No available" ? "View Project" : ""}</a>
+                <a href="${project.link_content || "#"}" target="_blank">${
+    project.link_content !== "No available" ? "View Project" : ""
+  }</a>
             </div>
         </div>
     `;
@@ -371,7 +408,9 @@ function createProjectModal(project) {
   const linkNotAvailable = project.link_content === "No available";
 
   if (fileNotAvailable && linkNotAvailable) {
-    console.log("No valid links or files available for this project. Skipping modal creation.");
+    console.log(
+      "No valid links or files available for this project. Skipping modal creation."
+    );
     return null; // Skip modal creation
   }
 
@@ -381,16 +420,32 @@ function createProjectModal(project) {
         <div class="project-modal-content">
             <span class="project-modal-close">&times;</span>
             <div class="project-modal-image">
-                <img src="${getProjectImage(project)}" alt="${project.name_content || "Project Image"}">
+                <img src="${getProjectImage(project)}" alt="${
+    project.name_content || "Project Image"
+  }">
             </div>
             <div class="project-modal-details">
                 <h2>${project.name_content || "Project Name Unavailable"}</h2>
                 <h3>${project.position_content || "Position Unavailable"}</h3>
-                <p>${project.description_content || "No description available."}</p>
+                <p>${
+                  project.description_content || "No description available."
+                }</p>
                 <div class="project-modal-links">
-                    ${!linkNotAvailable ? `<a href="${project.link_content}" target="_blank">View Project</a>` : ""}
-                    ${!fileNotAvailable ? `<a href="${project.file_content}" download>Download</a>` : ""}
-                    ${fileNotAvailable && linkNotAvailable ? "<p>No links or files available.</p>" : ""}
+                    ${
+                      !linkNotAvailable
+                        ? `<a href="${project.link_content}" target="_blank">View Project</a>`
+                        : ""
+                    }
+                    ${
+                      !fileNotAvailable
+                        ? `<a href="${project.file_content}" download>Download</a>`
+                        : ""
+                    }
+                    ${
+                      fileNotAvailable && linkNotAvailable
+                        ? "<p>No links or files available.</p>"
+                        : ""
+                    }
                 </div>
             </div>
         </div>
@@ -442,7 +497,10 @@ function filterProjects() {
 
   const projects = JSON.parse(localStorage.getItem("projects")) || [];
 
-  const filteredProjects = selectedType === "all" ? projects : projects.filter((project) => project.type_content === selectedType);
+  const filteredProjects =
+    selectedType === "all"
+      ? projects
+      : projects.filter((project) => project.type_content === selectedType);
 
   renderProjects(filteredProjects);
 }
@@ -463,9 +521,103 @@ async function initProjects() {
     renderProjects(projects);
 
     // Add event listener for filter
-    document.getElementById("typeFilter").addEventListener("change", filterProjects);
+    document
+      .getElementById("typeFilter")
+      .addEventListener("change", filterProjects);
   } catch (error) {
     console.error("Initialization error:", error);
+  }
+}
+
+// Function to fetch Certificates data from API
+// --- BAGIAN SERTIFIKAT ---
+
+// 1. Perbaiki Fetch Certificates untuk menyertakan 'link'
+async function fetchCertificates() {
+  try {
+    const response = await fetch("database/db_sertifikat.json");
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+    const certificates = await response.json();
+    return certificates.map((cert) => ({
+      name: cert.name || "Nama Sertifikat Tidak Tersedia",
+      dir: cert.dir || "default-image.png",
+      link: cert.link || "#",
+    }));
+  } catch (error) {
+    console.error("Gagal mengambil data sertifikat:", error);
+    return [];
+  }
+}
+
+// Fungsi untuk membuka tampilan enlarge
+function openCertificateEnlarge(certificate) {
+  const container = $("#enlargedCertificateContainer");
+  if (container.length === 0) return; // Hentikan jika wadah tidak ada
+
+  container.find("#enlargedCertificateImage").attr("src", certificate.dir);
+  container.find("#certificateVerificationLink").attr("href", certificate.link);
+
+  if (certificate.link && certificate.link !== "#") {
+    container.find(".certificate-link-container").show();
+  } else {
+    container.find(".certificate-link-container").hide();
+  }
+
+  container.css("display", "flex");
+  $("body").addClass("body-no-scroll");
+}
+
+// Fungsi untuk membuat setiap kartu sertifikat
+function createCertificateCard(certificate) {
+  const card = $(`
+        <div class="card">
+            <img src="${certificate.dir}" alt="${certificate.name}" />
+            <p>${certificate.name}</p>
+        </div>
+    `);
+  card.on("click", function () {
+    openCertificateEnlarge(certificate);
+  });
+  return card;
+}
+
+// Fungsi untuk menampilkan semua kartu ke dalam kontainer grid
+function renderCertificates(certificates) {
+  const cardContainer = $(".certificate-grid");
+  if (cardContainer.length === 0) return;
+
+  cardContainer.empty();
+
+  // Fungsi untuk mengetahui jumlah kolom berdasarkan lebar layar
+  function getVisibleColumns() {
+    if (window.innerWidth >= 1200) return 4;
+    if (window.innerWidth >= 900) return 3;
+    if (window.innerWidth >= 600) return 2;
+    return 1; // Default 1 kolom
+  }
+
+  const columns = getVisibleColumns();
+  const visibleRows = 2;
+  const maxVisibleCards = columns * visibleRows;
+
+  certificates.forEach((certificate, index) => {
+    const certificateCard = createCertificateCard(certificate);
+
+    // Sembunyikan kartu jika melebihi batas 2 baris
+    if (index >= maxVisibleCards) {
+      certificateCard.addClass("hidden");
+    }
+
+    cardContainer.append(certificateCard);
+  });
+
+  // Tampilkan tombol "Lihat Semua" jika ada kartu yang disembunyikan
+  if (certificates.length > maxVisibleCards) {
+    $("#see-more-btn").show();
+  } else {
+    $("#see-more-btn").hide();
   }
 }
 
@@ -520,7 +672,9 @@ function downloadCV() {
       checkFileExists
         .then((exists) => {
           if (exists) {
-            alert("File CV ditemukan, tetapi gagal didownload. Cek konfigurasi server.");
+            alert(
+              "File CV ditemukan, tetapi gagal didownload. Cek konfigurasi server."
+            );
           } else {
             alert("Maaf, CV tidak dapat didownload saat ini.");
           }
@@ -549,13 +703,19 @@ function openEmailComposer(platform = "gmail") {
   let mailtoLink;
   switch (platform) {
     case "gmail":
-      mailtoLink = `https://mail.google.com/mail/?view=cm&fs=1&to=${email}&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      mailtoLink = `https://mail.google.com/mail/?view=cm&fs=1&to=${email}&su=${encodeURIComponent(
+        subject
+      )}&body=${encodeURIComponent(body)}`;
       break;
     case "outlook":
-      mailtoLink = `https://outlook.office.com/mail/deeplink/compose?to=${email}&subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      mailtoLink = `https://outlook.office.com/mail/deeplink/compose?to=${email}&subject=${encodeURIComponent(
+        subject
+      )}&body=${encodeURIComponent(body)}`;
       break;
     default:
-      mailtoLink = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      mailtoLink = `mailto:${email}?subject=${encodeURIComponent(
+        subject
+      )}&body=${encodeURIComponent(body)}`;
   }
 
   // Open email window
@@ -578,18 +738,26 @@ async function initializeApp() {
   // Fetch both projects and experiences asynchronously
   const projects = await fetchProjects();
   const experiences = await fetchExperiences();
+  const certificates = await fetchCertificates();
 
   // --- Logic for Projects ---
   if (projects.length > 0) {
     localStorage.setItem("projects", JSON.stringify(projects));
     populateProjectFilter(projects);
     renderProjects(projects);
-    document.getElementById("typeFilter").addEventListener("change", filterProjects);
+    document
+      .getElementById("typeFilter")
+      .addEventListener("change", filterProjects);
   }
 
   // --- Logic for Experiences ---
   if (experiences.length > 0) {
     renderExperiences(experiences); // Gunakan data dari JSON
+  }
+
+  // --- Logic for Certificates ---
+  if (certificates.length > 0) {
+    renderCertificates(certificates);
   }
 
   // --- Event Listeners Lainnya ---
@@ -611,4 +779,60 @@ async function initializeApp() {
 // Run setup when document is ready
 $(document).ready(function () {
   initializeApp(); // Panggil fungsi inisialisasi utama
+
+  $("#enlargedCertificateContainer").on("click", function (e) {
+    // Cek agar tidak tertutup saat link verifikasi diklik
+    if ($(e.target).closest("a").length) {
+      return;
+    }
+    $(this).hide();
+    $("body").removeClass("body-no-scroll");
+  });
+
+  $("#see-more-btn").on("click", function () {
+    const grid = $(".certificate-grid");
+    const button = $(this);
+
+    if (grid.hasClass("expanded")) {
+      // --- FUNGSI UNTUK MENYEMBUNYIKAN KARTU ---
+
+      // ... (Fungsi untuk menyembunyikan kartu tetap sama seperti sebelumnya)
+      function getVisibleColumns() {
+        if (window.innerWidth >= 1200) return 4;
+        if (window.innerWidth >= 900) return 3;
+        if (window.innerWidth >= 600) return 2;
+        return 1;
+      }
+      const maxVisibleCards = getVisibleColumns() * 2;
+      grid.find(".card").each(function (index) {
+        if (index >= maxVisibleCards) {
+          // Kartu disembunyikan secara instan (tanpa animasi)
+          $(this).addClass("hidden").removeClass("card-fade-in");
+        }
+      });
+      button.text("Lihat Semua");
+      grid.removeClass("expanded");
+      $("html, body").animate(
+        {
+          scrollTop: $("#sertifikat").offset().top,
+        },
+        500
+      );
+    } else {
+      // --- FUNGSI UNTUK MENAMPILKAN SEMUA KARTU ---
+
+      // Ambil semua kartu yang tersembunyi
+      const hiddenCards = grid.find(".card.hidden");
+
+      // Hapus kelas .hidden agar elemen muncul di layout
+      hiddenCards.removeClass("hidden");
+
+      // PENAMBAHAN: Tambahkan kelas animasi
+      hiddenCards.addClass("card-fade-in");
+
+      // Ubah teks tombol dan beri status 'expanded'
+      button.text("Lihat Lebih Sedikit");
+      grid.addClass("expanded");
+    }
+  });
 });

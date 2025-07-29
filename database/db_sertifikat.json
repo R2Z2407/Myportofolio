@@ -1,0 +1,62 @@
+[
+  {
+    "name": "Introduction to HTML5",
+    "author": "Coursera",
+    "dir": "assets/sertifikat/Introduction to HTML5.jpg"
+  },
+  {
+    "name": "Introduction to CSS3",
+    "author": "Coursera",
+    "dir": "assets/sertifikat/Introduction to CSS3.jpg"
+  },
+  {
+    "name": "Interactivity with JavaScript",
+    "author": "Coursera",
+    "dir": "assets/sertifikat/Interactivity with JavaScript.jpg"
+  },
+  {
+    "name": "Advanced Styling with Responsive Design",
+    "author": "Coursera",
+    "dir": "assets/sertifikat/Advanced Styling with Responsive Design.jpg"
+  },
+  {
+    "name": "Web Design for Everybody Capstone",
+    "author": "Coursera",
+    "dir": "assets/sertifikat/Web Design for Everybody Capstone.jpg"
+  },
+  {
+    "name": "Web Design for Everybody (Basics of Web Development andCoding)",
+    "author": "Coursera",
+    "dir": "assets/sertifikat/Web Design for Everybody (Basics of Web Development andCoding).jpg"
+  },
+  {
+    "name": "Fundamental Excel",
+    "author": "Coding Studio",
+    "dir": "assets/sertifikat/Fundamental Excel.jpg"
+  },
+  {
+    "name": "Excel Intermediate",
+    "author": "Coding Studio",
+    "dir": "assets/sertifikat/Excel Intermediate.jpg"
+  },
+  {
+    "name": "Web Design for Everybody Capstone",
+    "author": "Coursera",
+    "dir": "assets/sertifikat/Web Design for Everybody Capstone.jpg"
+  },
+  {
+    "name": "Web Design for Everybody (Basics of Web Development andCoding)",
+    "author": "Coursera",
+    "dir": "assets/sertifikat/Web Design for Everybody (Basics of Web Development andCoding).jpg"
+  },
+  {
+    "name": "Fundamental Excel",
+    "author": "Coding Studio",
+    "dir": "assets/sertifikat/Fundamental Excel.jpg"
+  },
+  {
+    "name": "Excel Intermediate",
+    "author": "Coding Studio",
+    "dir": "assets/sertifikat/Excel Intermediate.jpg"
+  }
+]

@@ -295,6 +295,69 @@ function setupNavbarResponsive() {
   setupContactIcons();
 }
 
+// Deklarasikan navObserver di scope luar agar bisa diakses di semua bagian
+let navObserver;
+
+/**
+ * Mengubah nilai pixel menjadi satuan vh (viewport height).
+ * @param {number} pixels - Nilai dalam pixel.
+ * @returns {number} - Nilai yang setara dalam vh.
+ */
+function pxToVh(pixels) {
+  const viewportHeight = window.innerHeight;
+  return (pixels * 100) / viewportHeight;
+}
+
+/**
+ * Mengelola ResizeObserver untuk menu mobile.
+ * Observer hanya aktif di layar 600px ke bawah.
+ */
+function manageMobileMenuObserver() {
+  const navElement = document.querySelector("nav");
+  const mobileMenu = document.querySelector(".navbar-menu");
+
+  if (!navElement || !mobileMenu) return; // Hentikan jika elemen tidak ada
+
+  // Cek jika lebar layar 600px atau kurang
+  if (window.innerHeight <= 600) {
+    // Jika observer belum aktif, buat dan jalankan
+    if (!navObserver) {
+      const handleNavResize = (entries) => {
+        const navHeightInPx = entries[0].target.offsetHeight;
+        const navHeightInVh = pxToVh(navHeightInPx);
+        const remainingHeightInVh = 100 - navHeightInVh;
+
+        mobileMenu.style.top = `${navHeightInVh}vh`;
+        mobileMenu.style.height = `${remainingHeightInVh}vh`;
+      };
+
+      navObserver = new ResizeObserver(handleNavResize);
+      navObserver.observe(navElement);
+    }
+  } else {
+    // Jika layar lebih besar dari 600px dan observer aktif, hentikan
+    if (navObserver) {
+      navObserver.disconnect();
+      navObserver = null; // Hapus referensi
+
+      // Hapus inline style agar CSS desktop kembali berlaku
+      mobileMenu.style.top = "";
+      mobileMenu.style.height = "";
+    }
+  }
+}
+
+/**
+ * Fungsi utama untuk menginisialisasi fungsionalitas menu mobile.
+ */
+function setupNavbarMenuMobile() {
+  // Jalankan pengecekan saat halaman pertama kali dimuat
+  manageMobileMenuObserver();
+
+  // Jalankan pengecekan ulang setiap kali ukuran jendela browser diubah
+  window.addEventListener("resize", manageMobileMenuObserver);
+}
+
 // Function to fetch project data from API
 async function fetchProjects() {
   try {
@@ -734,6 +797,7 @@ function trackEmailClick() {
 async function initializeApp() {
   // Initialize navbar
   setupNavbarResponsive();
+  setupNavbarMenuMobile();
 
   // Fetch both projects and experiences asynchronously
   const projects = await fetchProjects();
@@ -778,6 +842,7 @@ async function initializeApp() {
 
 // Run setup when document is ready
 $(document).ready(function () {
+  let navObserver; // Variabel untuk menyimpan observer
   initializeApp(); // Panggil fungsi inisialisasi utama
 
   $("#enlargedCertificateContainer").on("click", function (e) {

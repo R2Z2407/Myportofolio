@@ -11,13 +11,13 @@
     "name_content": "Celebration Persib Bandung B2B Champion",
     "image_content": "assets/images/thumbnail/2.jpg",
     "description_content": "This is a website I have dedicated to commemorating all the stories of my beloved club. I hope this site will serve as a tribute to the 2024/2025 championship season.",
-    "link_content": "https://r2z2407.github.io/capstone_project_Frontend/HW2/index.html"
+    "link_content": "https://r2z2407.github.io/capstone_project_Frontend/HW2/"
   },
   {
     "type_content": "Machine Learning",
     "name_content": "Studi Komparatif Algoritma Mesin Pembelajaran untuk Deteksi Anomali pada Mesin Milling",
     "image_content": "assets/images/thumbnail/3.jpg",
     "description_content": "Salah satu projek tugas akhir saya dalam mendeteksi anomali pada mesin milling menggunakan metode ANN, Random Forest, XGBoost, dan SVM.",
-    "file_content": "#"
+    "link_content": "https://r2z2407.github.io/project_thesis/"
   }
 ]

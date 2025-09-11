@@ -38,5 +38,15 @@
     "name": "Excel Intermediate",
     "author": "Coding Studio",
     "dir": "assets/sertifikat/Excel Intermediate.jpg"
+  },
+  {
+    "name": "Use Generative AI for Software Development",
+    "author": "IBM Skillful",
+    "dir": "assets/sertifikat/Use Generative AI for Software Development.jpg"
+  },
+  {
+    "name": "IBM Granite Models for Software Development",
+    "author": "IBM Skillful",
+    "dir": "assets/sertifikat/IBM Granite Models for Software Development.jpg"
   }
 ]

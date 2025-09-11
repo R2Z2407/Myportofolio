@@ -635,7 +635,7 @@ function openCertificateEnlarge(certificate) {
 // Fungsi untuk membuat setiap kartu sertifikat
 function createCertificateCard(certificate) {
   const card = $(`
-        <div class="card">
+        <div class="card reveal">
             <img src="${certificate.dir}" alt="${certificate.name}" />
             <p>${certificate.name}</p>
         </div>
@@ -793,11 +793,34 @@ function trackEmailClick() {
   console.log("Email link clicked");
 }
 
+// Animation reveal
+function revealOnScroll() {
+  const windowHeight = $(window).height();
+  const windowScrollTop = $(window).scrollTop();
+
+  // Memeriksa semua elemen .reveal setiap kali scroll
+  $(".reveal").each(function () {
+    const element = $(this);
+    const elementTop = element.offset().top;
+
+    // Jika elemen masuk ke viewport, tambahkan kelas .visible
+    if (elementTop < windowScrollTop + windowHeight - 50) {
+      element.addClass("visible");
+    }
+    // Jika keluar dari viewport, hapus kelas .visible agar animasi bisa berulang
+    else {
+      element.removeClass("visible");
+    }
+  });
+}
+
 // Main initialization function
 async function initializeApp() {
   // Initialize navbar
   setupNavbarResponsive();
   setupNavbarMenuMobile();
+  $(window).on("scroll", revealOnScroll);
+  revealOnScroll();
 
   // Fetch both projects and experiences asynchronously
   const projects = await fetchProjects();
@@ -839,6 +862,24 @@ async function initializeApp() {
     }, 300);
   });
 }
+
+$(window).on("load", function () {
+  const loadingOverlay = $("#loading-overlay");
+
+  // Tambahkan kelas 'hidden' untuk memulai transisi fade-out
+  loadingOverlay.addClass("hidden");
+
+  // Gunakan event listener 'transitionend' untuk mendeteksi kapan transisi selesai
+  loadingOverlay.on("transitionend", function () {
+    // Tampilkan konten utama
+    $("#main-content").addClass("visible");
+    // Tampilkan kembali scrollbar
+    $("body").css("overflow", "auto");
+
+    // Hentikan animasi agar tidak membebani browser setelah tidak terlihat
+    $("#wipe-rect-stroke, #wipe-rect-fill").css("animation", "none");
+  });
+});
 
 // Run setup when document is ready
 $(document).ready(function () {

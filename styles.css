@@ -21,6 +21,10 @@ html {
 
   /* Warna Krem */
   --cream: #d9d5c5;
+  --width_line: 70vh;
+
+  --height_line: 0.4vh;
+  --animation-duration: 2s;
 }
 h1 {
   font-family: "Trebuchet MS";
@@ -199,14 +203,23 @@ nav.scrolled .navbar-brand img {
 .photos {
   width: 250px;
   height: 250px;
-  border-radius: 50%;
-  border: 5px dotted var(--muted-green);
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
   margin-top: 4vh;
   margin-bottom: 7vh;
 }
+
+.photos .rotating-dots {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  animation: spin 20s linear infinite;
+}
+
 .photos div {
   background-color: var(--dark-gray-2);
   width: 220px;
@@ -214,6 +227,7 @@ nav.scrolled .navbar-brand img {
   border-radius: 50%;
   position: relative;
   overflow: hidden;
+  z-index: 1;
 }
 
 .photos div img {
@@ -224,6 +238,15 @@ nav.scrolled .navbar-brand img {
   transform: translateX(-50%);
   top: -5px;
   left: 50%;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 section:nth-of-type(1) h1 {
@@ -269,16 +292,52 @@ section:nth-of-type(1) p::after {
   padding: 2.5vh 0;
   margin: 5vh 0;
   height: 60vh;
-  border-top: 5px solid var(--muted-green);
-  border-left: 5px solid var(--muted-green);
-  border-bottom: 5px solid var(--muted-green);
   width: 100%;
   display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
   align-items: center;
-  gap: 2vh;
-  box-sizing: border-box; /* Tambahkan ini */
+  justify-content: flex-start;
+  box-sizing: border-box;
+  border: 5px solid transparent;
+  background-image: linear-gradient(var(--muted-green), var(--muted-green)),
+    linear-gradient(var(--muted-green), var(--muted-green)),
+    linear-gradient(var(--muted-green), var(--muted-green));
+  background-repeat: no-repeat;
+  background-position: top right, 0 0, bottom left;
+  background-size: 0 5px, 5px 0, 0 5px;
+  /* Menambahkan transisi untuk opacity jika diperlukan */
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.List.reveal.visible {
+  animation: slideInAndDrawBorders 1s ease-out forwards;
+}
+
+/* Keyframe BARU yang menggabungkan semua efek untuk .List */
+@keyframes slideInAndDrawBorders {
+  0% {
+    opacity: 0;
+    transform: translateY(50px);
+    background-size: 0 5px, 5px 0, 0 5px;
+  }
+  25% {
+    /* Tahap 1: Muncul dan geser ke posisi */
+    opacity: 1;
+    transform: translateY(0);
+    background-size: 0 5px, 5px 0, 0 5px;
+  }
+  50% {
+    /* Tahap 2: Gambar garis atas */
+    background-size: 100% 5px, 5px 0, 0 5px;
+  }
+  75% {
+    /* Tahap 3: Gambar garis kiri */
+    background-size: 100% 5px, 5px 100%, 0 5px;
+  }
+  100% {
+    /* Tahap 4: Gambar garis bawah */
+    background-size: 100% 5px, 5px 100%, 100% 5px;
+  }
 }
 
 .experience-container {
@@ -491,31 +550,38 @@ section:nth-of-type(1) p::after {
 
 #proyek {
   padding: 0 10vw;
-  box-sizing: border-box; /* Tambahkan ini */
 }
+
 #proyek .judul {
   margin-top: 18vh;
-  height: 5vh;
   width: 100%;
   display: flex;
-  flex-direction: row;
   align-items: center;
-  justify-content: center;
-  justify-content: space-between;
+  gap: 2rem;
 }
-.judul h1 {
+
+#proyek .judul h1 {
   font-size: xx-large;
+  white-space: nowrap;
 }
+
+/* Wadah untuk garis-garis */
 .Three_lines {
   display: flex;
   flex-direction: column;
-  align-content: space-evenly;
-  gap: 1.5vh;
-  width: 70vh; /* Ini masih sangat besar untuk mobile, akan diperbaiki di media query */
-  max-width: 40%; /* Batas lebar max agar tidak terlalu besar di desktop */
+  gap: 20px;
 }
+
+/* Membuat kontainer garis mengisi ruang yang tersedia */
+#proyek .judul > .Three_lines {
+  flex: 1;
+}
+
+/* Garis animasi yang sebenarnya */
 .Three_lines div {
-  height: 0.4vh;
+  height: var(
+    --height_line
+  ); /* PERBAIKAN: Menggunakan variabel CSS yang benar */
   width: 100%;
   background-image: linear-gradient(
     90deg,
@@ -524,24 +590,79 @@ section:nth-of-type(1) p::after {
     transparent 70%,
     var(--cream) 70%
   );
-  background-size: 1vw 100%;
-  background-repeat: repeat;
+  background-size: 10px 100%;
+  background-repeat: repeat-x;
+  animation: moveLines var(--animation-duration) linear infinite;
+}
+
+/* Keyframes untuk animasi pergerakan background */
+@keyframes moveLines {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    /* Menggerakkan background sejauh ukuran satu segmen untuk loop yang mulus */
+    background-position: -10px 0;
+  }
 }
 
 .List2 {
-  padding: 2.5vh 0;
   margin: 5vh 0;
   height: 70vh;
-  border-right: 2px solid var(--cream);
-  border-top: 2px solid var(--cream);
-  border-bottom: 2px solid var(--cream);
   width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
   gap: 2vh;
-  box-sizing: border-box; /* Tambahkan ini */
+  box-sizing: border-box;
+  border: 2px solid transparent;
+  padding: 2.5vh 0;
+
+  /* PERBAIKAN: Definisikan status awal secara eksplisit */
+  opacity: 0;
+  transform: translateY(50px);
+  background-image: linear-gradient(var(--cream), var(--cream)),
+    /* Top */ linear-gradient(var(--cream), var(--cream)),
+    /* Right */ linear-gradient(var(--cream), var(--cream)); /* Bottom */
+  background-repeat: no-repeat;
+  /* PERBAIKAN: Atur posisi gradien sesuai urutan animasi */
+  background-position: top left, top right, bottom right;
+  /* PERBAIKAN: Atur ukuran awal agar semua border tidak terlihat */
+  background-size: 0 2px, 2px 0, 0 2px;
+}
+
+.List2.reveal.visible {
+  /* PERBAIKAN: Memanggil animasi TANPA 'forwards' */
+  animation: slideInAndDrawBorders2 1s ease-out;
+  /* PERBAIKAN: Definisikan status AKHIR di sini */
+  opacity: 1;
+  transform: translateY(0);
+  /* PERBAIKAN: Atur ukuran akhir agar semua border terlihat */
+  background-size: 100% 2px, 2px 100%, 100% 2px;
+}
+
+@keyframes slideInAndDrawBorders2 {
+  /* PERBAIKAN: Sesuaikan keyframes dengan urutan animasi yang baru */
+  0% {
+    opacity: 0;
+    transform: translateY(50px);
+    background-size: 0 2px, 2px 0, 0 2px;
+  }
+  25% {
+    opacity: 1;
+    transform: translateY(0);
+    background-size: 0 2px, 2px 0, 0 2px;
+  }
+  50% {
+    background-size: 100% 2px, 2px 0, 0 2px;
+  } /* 1. Gambar garis atas (kiri -> kanan) */
+  75% {
+    background-size: 100% 2px, 2px 100%, 0 2px;
+  } /* 2. Gambar garis kanan (atas -> bawah) */
+  100% {
+    background-size: 100% 2px, 2px 100%, 100% 2px;
+  } /* 3. Gambar garis bawah (kanan -> kiri) */
 }
 
 .project-filter {
@@ -1064,6 +1185,130 @@ li:nth-child(4).fill-color a {
   transform: translateY(-2px);
   box-shadow: inset -2px -2px 5px rgba(255, 255, 255, 0.05),
     inset 2px 2px 5px rgba(0, 0, 0, 0.2);
+}
+/*Animation*/
+.reveal {
+  opacity: 0;
+  transform: translateY(50px);
+  transition: opacity 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.right {
+  opacity: 0;
+  transform: translateX(50px);
+}
+.left {
+  opacity: 0;
+  transform: translateX(-50px);
+}
+.down {
+  opacity: 0;
+  transform: translateY(-50px);
+}
+
+/* --- Loading Screen Styles --- */
+#loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--dark-gray-1); /* Latar belakang gelap */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+  transition: opacity 0.75s ease, visibility 0.75s ease;
+  visibility: visible;
+  opacity: 1;
+}
+
+/* Kelas untuk menyembunyikan overlay setelah loading */
+#loading-overlay.hidden {
+  opacity: 0;
+  visibility: hidden;
+}
+
+/* --- Kontainer Animasi --- */
+#gta-loader {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* --- Gaya untuk SVG --- */
+#gta-loader svg {
+  width: 150px;
+  height: auto;
+}
+
+/* --- Bagian Isi (Path) --- */
+.logo-path-fill {
+  fill: var(--cream); /* Warna oranye untuk isi logo */
+}
+
+/* --- Bagian Garis Tepi (Stroke) --- */
+.logo-path-stroke {
+  fill: none;
+  stroke: var(--muted-green); /* Warna hijau untuk garis tepi */
+  stroke-width: 4px; /* Lebar garis tepi */
+}
+
+/* Menerapkan efek "wipe" secara terpisah */
+#stroke-group {
+  clip-path: url(#wipe-clip-stroke);
+}
+#fill-group {
+  clip-path: url(#wipe-clip-fill);
+}
+
+/* Animasi untuk border/garis tepi */
+#wipe-rect-stroke {
+  animation: stroke-wipe 4s ease-in-out infinite;
+}
+
+/* Animasi untuk isian path */
+#wipe-rect-fill {
+  animation: fill-wipe 4s ease-in-out infinite;
+}
+
+/* --- KEYFRAMES ANIMASI --- */
+
+/* Animasi HANYA untuk garis tepi (stroke) */
+@keyframes stroke-wipe {
+  0% {
+    height: 0;
+  }
+  40% {
+    /* Selesai dalam 40% dari total durasi */
+    height: 206px;
+  }
+  100% {
+    /* Tetap terlihat sampai akhir loop */
+    height: 206px;
+  }
+}
+
+/* Animasi HANYA untuk isian (fill) */
+@keyframes fill-wipe {
+  0%,
+  40% {
+    /* Diam dan tidak terlihat sampai border selesai */
+    height: 0;
+  }
+  80% {
+    /* Mulai mengisi setelah border selesai */
+    height: 206px;
+  }
+  100% {
+    /* Tetap terisi penuh */
+    height: 206px;
+  }
 }
 
 /* --- MEDIA QUERY UNTUK MOBILE --- */

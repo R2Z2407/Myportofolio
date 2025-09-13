@@ -813,6 +813,24 @@ function revealOnScroll() {
     }
   });
 }
+// Wait for the entire page (including images) to load
+$(window).on("load", function () {
+  const loadingOverlay = $("#loading-overlay");
+
+  // Tambahkan kelas 'hidden' untuk memulai transisi fade-out
+  loadingOverlay.addClass("hidden");
+
+  // Gunakan event listener 'transitionend' untuk mendeteksi kapan transisi selesai
+  loadingOverlay.on("transitionend", function () {
+    // Tampilkan konten utama
+    $("#main-content").addClass("visible");
+    // Tampilkan kembali scrollbar
+    $("body").css("overflow", "auto");
+
+    // Hentikan animasi agar tidak membebani browser setelah tidak terlihat
+    $("#wipe-rect-stroke, #wipe-rect-fill").css("animation", "none");
+  });
+});
 
 // Main initialization function
 async function initializeApp() {

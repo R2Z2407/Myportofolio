@@ -562,7 +562,6 @@ section:nth-of-type(1) p::after {
 
 #proyek .judul h1 {
   font-size: xx-large;
-  white-space: nowrap;
 }
 
 /* Wadah untuk garis-garis */
@@ -1209,107 +1208,6 @@ li:nth-child(4).fill-color a {
 .down {
   opacity: 0;
   transform: translateY(-50px);
-}
-
-/* --- Loading Screen Styles --- */
-#loading-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: var(--dark-gray-1); /* Latar belakang gelap */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 100;
-  transition: opacity 0.75s ease, visibility 0.75s ease;
-  visibility: visible;
-  opacity: 1;
-}
-
-/* Kelas untuk menyembunyikan overlay setelah loading */
-#loading-overlay.hidden {
-  opacity: 0;
-  visibility: hidden;
-}
-
-/* --- Kontainer Animasi --- */
-#gta-loader {
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-/* --- Gaya untuk SVG --- */
-#gta-loader svg {
-  width: 150px;
-  height: auto;
-}
-
-/* --- Bagian Isi (Path) --- */
-.logo-path-fill {
-  fill: var(--cream); /* Warna oranye untuk isi logo */
-}
-
-/* --- Bagian Garis Tepi (Stroke) --- */
-.logo-path-stroke {
-  fill: none;
-  stroke: var(--muted-green); /* Warna hijau untuk garis tepi */
-  stroke-width: 4px; /* Lebar garis tepi */
-}
-
-/* Menerapkan efek "wipe" secara terpisah */
-#stroke-group {
-  clip-path: url(#wipe-clip-stroke);
-}
-#fill-group {
-  clip-path: url(#wipe-clip-fill);
-}
-
-/* Animasi untuk border/garis tepi */
-#wipe-rect-stroke {
-  animation: stroke-wipe 4s ease-in-out infinite;
-}
-
-/* Animasi untuk isian path */
-#wipe-rect-fill {
-  animation: fill-wipe 4s ease-in-out infinite;
-}
-
-/* --- KEYFRAMES ANIMASI --- */
-
-/* Animasi HANYA untuk garis tepi (stroke) */
-@keyframes stroke-wipe {
-  0% {
-    height: 0;
-  }
-  40% {
-    /* Selesai dalam 40% dari total durasi */
-    height: 206px;
-  }
-  100% {
-    /* Tetap terlihat sampai akhir loop */
-    height: 206px;
-  }
-}
-
-/* Animasi HANYA untuk isian (fill) */
-@keyframes fill-wipe {
-  0%,
-  40% {
-    /* Diam dan tidak terlihat sampai border selesai */
-    height: 0;
-  }
-  80% {
-    /* Mulai mengisi setelah border selesai */
-    height: 206px;
-  }
-  100% {
-    /* Tetap terisi penuh */
-    height: 206px;
-  }
 }
 
 /* --- MEDIA QUERY UNTUK MOBILE --- */

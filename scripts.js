@@ -109,7 +109,8 @@ const portfolioApp = {
           throw new Error(`HTTP error! Status: ${response.status}`);
         const certificates = await response.json();
         return certificates.map((cert) => ({
-          name: cert.name || "Nama Sertifikat Tidak Tersedia",
+          name_idn: cert.name_idn || "Nama Sertifikat Tidak Tersedia",
+          name_eng: cert.name_eng || "Certificate Name Not Available",
           dir: cert.dir || "default-image.png",
           link: cert.link || "#",
         }));
@@ -311,22 +312,33 @@ const portfolioApp = {
         experience.description_content_eng || "No description available.",
         25
       );
+      // PERHATIKAN PERUBAHAN STRUKTUR HTML DI BAWAH INI
       const cardHTML = `
-            <div class="property-card2">
-                <div class="image-content2"><img src="${
+        <div class="property-card2">
+            <div class="image-content2">
+                <img src="${
                   experience.thumbnail_content || "default-image.png"
-                }" alt="${experience.company_content}"></div>
-                <div class="name-content2"><h4>${
-                  experience.company_content
-                }</h4></div>
-                <div class="position-content2"><i class="fa fa-briefcase"></i>&nbsp;${
-                  experience.position_content || "Not Specified"
-                } | ${portfolioApp.utility.formatDateRange(
-        experience.average_work_content
-      )}</div>
-                <div class="description-content2"><p data-idn="${truncatedDescription_idn}" data-eng="${truncatedDescription_eng}">${truncatedDescription_idn}</p></div>
+                }" alt="${experience.company_content}">
             </div>
-        `;
+            
+            <div class="card-text-content">
+                <div class="name-content2">
+                    <h4>${experience.company_content}</h4>
+                </div>
+                <div class="position-content2">
+                    <i class="fa fa-briefcase"></i>&nbsp;${
+                      experience.position_content || "Not Specified"
+                    } | ${portfolioApp.utility.formatDateRange(
+        experience.average_work_content
+      )}
+                </div>
+                <div class="description-content2">
+                    <p data-idn="${truncatedDescription_idn}" data-eng="${truncatedDescription_eng}">${truncatedDescription_idn}</p>
+                </div>
+            </div>
+
+        </div>
+    `;
       const $card = $(cardHTML);
       if (portfolioApp.currentLanguage === "us") {
         $card.find("[data-eng]").each(function () {
@@ -401,8 +413,7 @@ const portfolioApp = {
       const descriptionContent_eng =
         project.description_content_eng || "No description available.";
       const imageUrl =
-        project.image_content ||
-        "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAACklEQVR4nGMAAQAABQABDQottAAAAABJRU5ErkJggg==";
+        project.image_content || "assets/images/thumbnail/Default.png";
       const fontSizeClass = determineFontSizeClass(nameContent_idn);
       const cardHTML = `
             <div class="property-card">
@@ -470,12 +481,27 @@ const portfolioApp = {
       $("#see-more-btn").toggle(certificates.length > maxVisibleCards);
     },
     createCard(certificate) {
-      const $card = $(`
+      // Buat template HTML dalam sebuah variabel
+      const cardHTML = `
             <div class="card">
-                <img src="${certificate.dir}" alt="${certificate.name}" />
-                <p>${certificate.name}</p>
+                <img src="${certificate.dir}" alt="${certificate.name_idn}" />
+                <p data-idn="${certificate.name_idn}" data-eng="${certificate.name_eng}">
+                    ${certificate.name_idn}
+                </p>
             </div>
-        `);
+        `;
+
+      // Ubah string HTML menjadi objek jQuery
+      const $card = $(cardHTML);
+
+      // Terapkan bahasa yang sedang aktif
+      if (portfolioApp.currentLanguage === "us") {
+        $card.find("[data-eng]").each(function () {
+          $(this).html($(this).data("eng"));
+        });
+      }
+
+      // Tambahkan event listener dan kembalikan kartu
       $card.on("click", () => this.openEnlarge(certificate));
       return $card;
     },

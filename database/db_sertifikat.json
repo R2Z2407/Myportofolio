@@ -1,57 +1,68 @@
 [
   {
-    "name": "Introduction to HTML5",
+    "name_eng": "Introduction to HTML5",
+    "name_idn": "Pengantar HTML5",
     "author": "Coursera",
     "dir": "assets/sertifikat/Introduction to HTML5.jpg"
   },
   {
-    "name": "Introduction to CSS3",
+    "name_eng": "Introduction to CSS3",
+    "name_idn": "Pengantar CSS3",
     "author": "Coursera",
     "dir": "assets/sertifikat/Introduction to CSS3.jpg"
   },
   {
-    "name": "Interactivity with JavaScript",
+    "name_eng": "Interactivity with JavaScript",
+    "name_idn": "Interaktivitas dengan JavaScript",
     "author": "Coursera",
     "dir": "assets/sertifikat/Interactivity with JavaScript.jpg"
   },
   {
-    "name": "Advanced Styling with Responsive Design",
+    "name_eng": "Advanced Styling with Responsive Design",
+    "name_idn": "Gaya Lanjutan dengan Desain Responsif",
     "author": "Coursera",
     "dir": "assets/sertifikat/Advanced Styling with Responsive Design.jpg"
   },
   {
-    "name": "Web Design for Everybody Capstone",
+    "name_eng": "Web Design for Everybody Capstone",
+    "name_idn": "Proyek Akhir Desain Web untuk Semua",
     "author": "Coursera",
     "dir": "assets/sertifikat/Web Design for Everybody Capstone.jpg"
   },
   {
-    "name": "Web Design for Everybody (Basics of Web Development andCoding)",
+    "name_eng": "Web Design for Everybody (Basics of Web Development and Coding)",
+    "name_idn": "Desain Web untuk Semua (Dasar-Dasar Pengembangan Web dan Pemrograman)",
     "author": "Coursera",
     "dir": "assets/sertifikat/Web Design for Everybody (Basics of Web Development andCoding).jpg"
   },
   {
-    "name": "Fundamental Excel",
+    "name_eng": "Fundamental Excel",
+    "name_idn": "Dasar-Dasar Excel",
     "author": "Coding Studio",
     "dir": "assets/sertifikat/Fundamental Excel.jpg"
   },
   {
-    "name": "Excel Intermediate",
+    "name_eng": "Excel Intermediate",
+    "name_idn": "Excel Tingkat Menengah",
     "author": "Coding Studio",
     "dir": "assets/sertifikat/Excel Intermediate.jpg"
   },
   {
-    "name": "Use Generative AI for Software Development",
-    "author": "IBM Skillful",
+    "name_eng": "Use Generative AI for Software Development",
+    "name_idn": "Menggunakan Kecerdasan Buatan Generatif untuk Pengembangan Perangkat Lunak",
+    "author": "IBM skillsbuild",
     "dir": "assets/sertifikat/Use Generative AI for Software Development.jpg"
   },
   {
-    "name": "IBM Granite Models for Software Development",
-    "author": "IBM Skillful",
+    "name_eng": "IBM Granite Models for Software Development",
+    "name_idn": "Model IBM Granite untuk Pengembangan Perangkat Lunak",
+    "author": "IBM skillsbuild",
     "dir": "assets/sertifikat/IBM Granite Models for Software Development.jpg"
   },
   {
-    "name": "Code Generation and Optimization Using IBM Granite",
-    "author": "IBM Skillful",
+    "name_eng": "Code Generation and Optimization Using IBM Granite",
+    "name_idn": "Pembangkitan dan Optimasi Kode Menggunakan IBM Granite",
+    "author": "IBM skillsbuild",
     "dir": "assets/sertifikat/Code Generation and Optimization Using IBM Granite.jpg"
   }
 ]

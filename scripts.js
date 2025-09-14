@@ -1,944 +1,646 @@
-// Function to format the date range
-function formatDateRange(dateRange) {
-  const [startDateStr, endDateStr] = dateRange.split(" - ");
+// =================================================================================
+// MAIN APPLICATION OBJECT
+// =================================================================================
+const portfolioApp = {
+  currentLanguage: "idn",
+  data: {
+    projects: [],
+    experiences: [],
+    certificates: [],
+  },
 
-  const formatDate = (dateStr) => {
-    const [day, month, year] = dateStr.split("/").map(Number);
-    const date = new Date(year, month - 1, day); // Month is 0-indexed
+  // =================================================================================
+  // INITIALIZATION
+  // =================================================================================
+  async init() {
+    this.ui.showLoadingScreen();
+    this.navbar.init();
+    this.languageSwitcher.init();
+    this.bindEvents();
+    this.utility.revealOnScroll();
 
-    // Set up short month names
-    const shortMonthNames = [
-      "Jan",
-      "Feb",
-      "Mar",
-      "Apr",
-      "May",
-      "Jun",
-      "Jul",
-      "Aug",
-      "Sep",
-      "Oct",
-      "Nov",
-      "Dec",
-    ];
+    try {
+      const [projects, experiences, certificates] = await Promise.all([
+        this.api.fetchProjects(),
+        this.api.fetchExperiences(),
+        this.api.fetchCertificates(),
+      ]);
 
-    return `${day} ${shortMonthNames[month - 1]} ${year}`;
-  };
+      this.data.projects = projects;
+      this.data.experiences = experiences;
+      this.data.certificates = certificates;
 
-  const formattedStartDate = formatDate(startDateStr);
-  const formattedEndDate = formatDate(endDateStr);
-
-  return `${formattedStartDate} - ${formattedEndDate}`;
-}
-
-// Function to fetch experience data from API
-async function fetchExperiences() {
-  try {
-    // Asumsikan file JSON Anda berada di 'database/db_experience.json'
-    const response = await fetch("database/db_experience.json");
-
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
+      this.projects.render(projects);
+      this.experiences.render(experiences);
+      this.certificates.render(certificates);
+      this.projects.populateFilter(projects);
+    } catch (error) {
+      console.error("Gagal memuat data aplikasi:", error);
+    } finally {
+      this.ui.hideLoadingScreen();
     }
+  },
 
-    const experiences = await response.json();
-    return experiences;
-  } catch (error) {
-    console.error("Error fetching experiences:", error);
-    return []; // Kembalikan array kosong jika terjadi error
-  }
-}
-
-// Function to create an experience card
-function createExperienceCard(experience) {
-  const description =
-    experience.description_content || "No description available.";
-
-  // Fungsi untuk memotong deskripsi menjadi maksimal 50 kata
-  const truncateDescription = (text, maxWords) => {
-    const words = text.split(" "); // Memisahkan deskripsi menjadi array kata
-    return words.length <= maxWords
-      ? text
-      : words.slice(0, maxWords).join(" ") + " " + "..."; // Menggabungkan kembali hingga 50 kata
-  };
-
-  const truncatedDescription = truncateDescription(description, 25); // Mendapatkan deskripsi yang sudah dipotong
-
-  const card = $(`
-                <div class="property-card2">
-                    <div class="image-content2">
-                        <img src="${
-                          experience.thumbnail_content || "default-image.png"
-                        }" alt="${experience.company_content}">
-                    </div>
-                    <div class="name-content2"><h4>${
-                      experience.company_content
-                    }</h4></div>
-                    <div class="position-content2">
-                        <i class="fa fa-briefcase"></i>&nbsp;${
-                          experience.position_content ||
-                          "Position Not Specified"
-                        } | ${
-    formatDateRange(experience.average_work_content) ||
-    "Date Working Not Specified"
-  }
-                    </div>
-                    <div class="description-content2">
-                        <p>${truncatedDescription}</p>
-                    </div>
-                </div>
-            `);
-
-  card.on("click", () => openModal(experience));
-
-  return card;
-}
-
-// Function to render experience cards
-function renderExperiences(experiences) {
-  const cardContainer = $(".experience-container");
-  cardContainer.empty(); // Clear existing content
-
-  $.each(experiences, (index, experience) => {
-    const experienceCard = createExperienceCard(experience);
-    cardContainer.append(experienceCard);
-  });
-}
-
-// Function to open the modal and populate it with experience data
-// Function to open the modal and populate it with experience data
-function openModal(experience) {
-  // Dapatkan gambar pertama
-  const firstImage = experience.thumbnail_content;
-
-  // Atur src untuk elemen <img> dan <iframe>
-  $("#modal-image-logo").attr("src", firstImage);
-  const srcPdf = experience.file_pdf;
-  $("#pdf_viewer").attr("src", srcPdf).show();
-
-  // Assign values to modal elements
-  $("#modalCompany").text(experience.company_content);
-  $("#modalPosition").text(
-    experience.position_content || "Position Not Specified"
-  );
-  $("#modalWorkDate").text(formatDateRange(experience.average_work_content));
-  $("#modalDescription").html(
-    experience.description_content || "No description available."
-  );
-
-  // Handle modal images
-  const modalImages = $("#modalImages");
-  modalImages.empty(); // Clear previous images
-
-  $.each(experience.image_content, (index, image) => {
-    const imgElement = $(
-      `<img src="${image}" alt="Experience Image" class="modal-image" style="cursor: pointer;">`
+  // =================================================================================
+  // EVENT BINDINGS
+  // =================================================================================
+  bindEvents() {
+    const self = this;
+    $(window).on("scroll", () => this.utility.revealOnScroll());
+    $("#typeFilter").on("change", () => this.projects.filter());
+    $("#modalClose").on("click", () => this.experiences.closeModal());
+    $("#enlargedImageContainer").on("click", () =>
+      $("#enlargedImageContainer").css("display", "none")
     );
-
-    // Tambahkan event listener untuk gambar
-    imgElement.on("click", () => {
-      $("#enlargedImage").attr("src", image);
-
-      // --- PERUBAHAN DI SINI ---
-      // Ganti .show() dengan .css("display", "flex")
-      $("#enlargedImageContainer").css("display", "flex");
+    $("#enlargedCertificateContainer").on("click", function (e) {
+      if ($(e.target).closest("a").length) return;
+      $(this).hide();
+      $("body").removeClass("body-no-scroll");
     });
+    $("#see-more-btn").on("click", () => this.certificates.toggleSeeMore());
+    $(".fa-envelope").on("click", function (e) {
+      e.preventDefault();
+      $(this).closest("li").toggleClass("shadow-1 fill-color");
+      self.utility.openEmailComposer("gmail");
+    });
+    $('button:contains("Download CV")').on("click", function () {
+      $(this).toggleClass("shadow-1 fill-color");
+      self.utility.downloadCV();
+      setTimeout(() => $(this).removeClass("shadow-1 fill-color"), 300);
+    });
+  },
 
-    modalImages.append(imgElement);
-  });
-
-  // Event listener untuk menutup gambar yang diperbesar saat diklik
-  $("#enlargedImageContainer").on("click", () => {
-    // --- PERUBAHAN DI SINI ---
-    // Ganti .hide() dengan .css("display", "none") agar konsisten
-    $("#enlargedImageContainer").css("display", "none");
-  });
-
-  // TAMBAHKAN BARIS INI untuk mengunci scroll body
-  $("body").addClass("body-no-scroll");
-
-  // Display the modal
-  $("#myModal").show();
-}
-
-// Function to close the modal
-$("#modalClose").on("click", function () {
-  $("#myModal").hide();
-
-  // TAMBAHKAN BARIS INI untuk mengembalikan kemampuan scroll
-  $("body").removeClass("body-no-scroll");
-});
-
-// Function to setup responsive navbar based on screen size
-function setupNavbarResponsive() {
-  const nav = document.querySelector("nav");
-  const logo = document.querySelector(".navbar-brand img");
-  const navbarMenu = document.querySelector(".navbar-menu");
-  const hamburger = document.querySelector(".hamburger");
-
-  // Function to close navbar menu
-  function closeNavbarMenu() {
-    if (navbarMenu.classList.contains("opened")) {
-      navbarMenu.classList.remove("opened");
-
-      // Reset hamburger animation
-      const line1 = document.querySelector(".line1");
-      const line2 = document.querySelector(".line2");
-      const line3 = document.querySelector(".line3");
-
-      line1.style.strokeDasharray = "60 207";
-      line1.style.strokeDashoffset = "0";
-      line2.style.strokeDasharray = "60 60";
-      line2.style.strokeDashoffset = "0";
-      line3.style.strokeDasharray = "60 207";
-      line3.style.strokeDashoffset = "0";
-    }
-  }
-
-  // Function to handle scroll for large screens
-  function handleLargeScreenScroll() {
-    window.addEventListener("scroll", function () {
-      if (window.innerWidth >= 1024) {
-        nav.classList.toggle("scrolled", window.scrollY > 0); // Optimize with toggle
-        logo.classList.toggle("scrolled-img", window.scrollY > 0);
-      } else {
-        // Reset styles for small screens
-        nav.classList.remove("scrolled");
-        logo.classList.remove("scrolled-img");
+  // =================================================================================
+  // API (Data Fetching) MODULE
+  // =================================================================================
+  api: {
+    async fetchExperiences() {
+      try {
+        const response = await fetch("database/db_experience.json");
+        if (!response.ok)
+          throw new Error(`HTTP error! status: ${response.status}`);
+        return await response.json();
+      } catch (error) {
+        console.error("Error fetching experiences:", error);
+        return [];
       }
-    });
-  }
+    },
+    async fetchProjects() {
+      try {
+        const response = await fetch("database/db_project.json");
+        if (!response.ok)
+          throw new Error(`HTTP error! status: ${response.status}`);
+        const projects = await response.json();
+        return projects.map((p) => ({
+          ...p,
+          image_content: p.image_content || "",
+          file_content: p.file_content || "No available",
+          link_content: p.link_content || "No available",
+        }));
+      } catch (error) {
+        console.error("Error fetching projects:", error);
+        return [];
+      }
+    },
+    async fetchCertificates() {
+      try {
+        const response = await fetch("database/db_sertifikat.json");
+        if (!response.ok)
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        const certificates = await response.json();
+        return certificates.map((cert) => ({
+          name: cert.name || "Nama Sertifikat Tidak Tersedia",
+          dir: cert.dir || "default-image.png",
+          link: cert.link || "#",
+        }));
+      } catch (error) {
+        console.error("Gagal mengambil data sertifikat:", error);
+        return [];
+      }
+    },
+  },
 
-  // Function to toggle hamburger menu
-  function setupHamburgerMenu() {
-    hamburger.addEventListener("click", function () {
-      console.log("Hamburger Clicked");
-      navbarMenu.classList.toggle("opened");
-
-      // Log status of navbar menu
-      console.log(
-        "Navbar Menu Opened:",
-        navbarMenu.classList.contains("opened")
+  // =================================================================================
+  // NAVBAR MODULE
+  // =================================================================================
+  navbar: {
+    navObserver: null,
+    init() {
+      this.handleScrollEffects();
+      this.handleHamburgerToggle();
+      this.handleSmoothScroll();
+      this.handleResize();
+      this.manageMobileMenuObserver();
+      $(window).on("resize", () => this.manageMobileMenuObserver());
+    },
+    closeMenu() {
+      const $navbarMenu = $(".navbar-menu");
+      if ($navbarMenu.hasClass("opened")) {
+        $navbarMenu.removeClass("opened");
+        const $lines = $(".hamburger .line");
+        $lines
+          .filter(".line1")
+          .css({ strokeDasharray: "60 207", strokeDashoffset: "0" });
+        $lines
+          .filter(".line2")
+          .css({ strokeDasharray: "60 60", strokeDashoffset: "0" });
+        $lines
+          .filter(".line3")
+          .css({ strokeDasharray: "60 207", strokeDashoffset: "0" });
+      }
+    },
+    handleScrollEffects() {
+      $(window).on("scroll", function () {
+        const isScrolled = $(window).scrollTop() > 0;
+        if ($(window).width() >= 1024) {
+          $("nav").toggleClass("scrolled", isScrolled);
+          $(".navbar-brand img").toggleClass("scrolled-img", isScrolled);
+        }
+      });
+    },
+    handleHamburgerToggle() {
+      $(".hamburger").on("click", () => {
+        $(".navbar-menu").toggleClass("opened");
+        const isOpen = $(".navbar-menu").hasClass("opened");
+        const $lines = $(".hamburger .line");
+        $lines
+          .filter(".line1")
+          .css(
+            isOpen
+              ? { strokeDasharray: "90 207", strokeDashoffset: "-134" }
+              : { strokeDasharray: "60 207", strokeDashoffset: "0" }
+          );
+        $lines
+          .filter(".line2")
+          .css(
+            isOpen
+              ? { strokeDasharray: "1 60", strokeDashoffset: "-30" }
+              : { strokeDasharray: "60 60", strokeDashoffset: "0" }
+          );
+        $lines
+          .filter(".line3")
+          .css(
+            isOpen
+              ? { strokeDasharray: "90 207", strokeDashoffset: "-134" }
+              : { strokeDasharray: "60 207", strokeDashoffset: "0" }
+          );
+      });
+    },
+    handleSmoothScroll() {
+      const self = this;
+      $("#home-link, .navbar-item, .navbar-item-PC").on(
+        "click",
+        function (event) {
+          event.preventDefault();
+          const $clickedLink = $(this);
+          if ($clickedLink.is("#home-link")) {
+            $("html, body").animate({ scrollTop: 0 }, 500, () => {
+              self.closeMenu();
+            });
+          } else {
+            const targetId = $clickedLink.attr("href");
+            const $targetElement = $(targetId);
+            if ($targetElement.length) {
+              $("html, body").animate(
+                { scrollTop: $targetElement.offset().top },
+                500,
+                () => {
+                  self.closeMenu();
+                }
+              );
+            }
+          }
+        }
       );
+    },
+    handleResize() {
+      $(window).on("resize", () => {
+        if ($(window).width() > 1024) {
+          this.closeMenu();
+          $("nav").removeClass("scrolled");
+          $(".navbar-brand img").removeClass("scrolled-img");
+        }
+      });
+    },
+    pxToVh(pixels) {
+      return (pixels * 100) / window.innerHeight;
+    },
+    manageMobileMenuObserver() {
+      const navElement = $("nav")[0];
+      const mobileMenu = $(".navbar-menu")[0];
+      if (!navElement || !mobileMenu) return;
 
-      const line1 = document.querySelector(".line1");
-      const line2 = document.querySelector(".line2");
-      const line3 = document.querySelector(".line3");
-
-      // Animate hamburger lines based on menu state
-      if (navbarMenu.classList.contains("opened")) {
-        line1.style.strokeDasharray = "90 207";
-        line1.style.strokeDashoffset = "-134";
-        line2.style.strokeDasharray = "1 60";
-        line2.style.strokeDashoffset = "-30";
-        line3.style.strokeDasharray = "90 207";
-        line3.style.strokeDashoffset = "-134";
+      if (window.innerHeight <= 600) {
+        if (!this.navObserver) {
+          this.navObserver = new ResizeObserver((entries) => {
+            const navHeightInPx = entries[0].target.offsetHeight;
+            const navHeightInVh = this.pxToVh(navHeightInPx);
+            const remainingHeightInVh = 100 - navHeightInVh;
+            $(mobileMenu).css({
+              top: `${navHeightInVh}vh`,
+              height: `${remainingHeightInVh}vh`,
+            });
+          });
+          this.navObserver.observe(navElement);
+        }
       } else {
-        line1.style.strokeDasharray = "60 207";
-        line1.style.strokeDashoffset = "0";
-        line2.style.strokeDasharray = "60 60";
-        line2.style.strokeDashoffset = "0";
-        line3.style.strokeDasharray = "60 207";
-        line3.style.strokeDashoffset = "0";
+        if (this.navObserver) {
+          this.navObserver.disconnect();
+          this.navObserver = null;
+          $(mobileMenu).css({ top: "", height: "" });
+        }
       }
-    });
-  }
+    },
+  },
 
-  // Function for smooth scroll for all screens
-  function setupSmoothScroll() {
-    document
-      .getElementById("home-link")
-      .addEventListener("click", function (event) {
-        event.preventDefault();
-        window.scrollTo({
-          top: 0,
-          behavior: "smooth",
+  // =================================================================================
+  // LANGUAGE SWITCHER (FAB) MODULE
+  // =================================================================================
+  languageSwitcher: {
+    init() {
+      const self = this;
+      $("#fabToggle").on("click", function (event) {
+        event.stopPropagation();
+        $("#languageOptions").slideToggle(250).toggleClass("show");
+      });
+      $(".language-option").on("click", function () {
+        const lang = $(this).data("lang");
+        self.changeLanguage(lang);
+        $("#languageOptions").slideUp(250).removeClass("show");
+      });
+      $(document).on("click", function () {
+        const $options = $("#languageOptions");
+        if ($options.hasClass("show")) {
+          $options.slideUp(250).removeClass("show");
+        }
+      });
+    },
+    changeLanguage(lang) {
+      portfolioApp.currentLanguage = lang;
+      if (lang === "us") {
+        $("[data-eng]").each(function () {
+          $(this).html($(this).data("eng"));
         });
-        closeNavbarMenu(); // Close navbar menu when clicking home link
-      });
-
-    document.querySelectorAll(".navbar-item").forEach((item) => {
-      item.addEventListener("click", function (event) {
-        const targetId = this.getAttribute("href");
-        event.preventDefault();
-        document.querySelector(targetId).scrollIntoView({ behavior: "smooth" });
-        closeNavbarMenu(); // Close navbar menu when clicking on item
-      });
-    });
-  }
-
-  // Function to reset menu on resize
-  function setupResizeHandler() {
-    window.addEventListener("resize", function () {
-      if (window.innerWidth > 1024) {
-        navbarMenu.classList.remove("opened");
-        // Reset styles for large screens
-        nav.classList.remove("scrolled");
-        logo.classList.remove("scrolled-img");
+        $("#fabToggle").attr("title", "Change Language");
+      } else if (lang === "idn") {
+        $("[data-idn]").each(function () {
+          $(this).html($(this).data("idn"));
+        });
+        $("#fabToggle").attr("title", "Ganti Bahasa");
       }
-    });
-  }
+    },
+  },
 
-  // Function to toggle shadow and fill on contact icons
-  function setupContactIcons() {
-    $(".first li").click(function () {
-      $(this).toggleClass("shadow-1").siblings().removeClass("shadow-1");
-      $(this).toggleClass("fill-color").siblings().removeClass("fill-color");
-    });
-  }
+  // =================================================================================
+  // EXPERIENCES MODULE
+  // =================================================================================
+  experiences: {
+    render(experiences) {
+      const $container = $(".experience-container").empty();
+      $.each(experiences, (index, experience) => {
+        const $card = this.createCard(experience);
+        $container.append($card);
+      });
+    },
+    createCard(experience) {
+      const truncatedDescription_idn = portfolioApp.utility.truncateText(
+        experience.description_content_idn || "Tidak Tersedia Deskripsi",
+        25
+      );
+      const truncatedDescription_eng = portfolioApp.utility.truncateText(
+        experience.description_content_eng || "No description available.",
+        25
+      );
+      const cardHTML = `
+            <div class="property-card2">
+                <div class="image-content2"><img src="${
+                  experience.thumbnail_content || "default-image.png"
+                }" alt="${experience.company_content}"></div>
+                <div class="name-content2"><h4>${
+                  experience.company_content
+                }</h4></div>
+                <div class="position-content2"><i class="fa fa-briefcase"></i>&nbsp;${
+                  experience.position_content || "Not Specified"
+                } | ${portfolioApp.utility.formatDateRange(
+        experience.average_work_content
+      )}</div>
+                <div class="description-content2"><p data-idn="${truncatedDescription_idn}" data-eng="${truncatedDescription_eng}">${truncatedDescription_idn}</p></div>
+            </div>
+        `;
+      const $card = $(cardHTML);
+      if (portfolioApp.currentLanguage === "us") {
+        $card.find("[data-eng]").each(function () {
+          $(this).html($(this).data("eng"));
+        });
+      }
+      $card.on("click", () => this.openModal(experience));
+      return $card;
+    },
+    openModal(experience) {
+      $("#modal-image-logo").attr("src", experience.thumbnail_content);
+      $("#pdf_viewer").attr("src", experience.file_pdf).show();
+      $("#modalCompany").text(experience.company_content);
+      $("#modalPosition").text(
+        experience.position_content || "Position Not Specified"
+      );
+      $("#modalWorkDate").text(
+        portfolioApp.utility.formatDateRange(experience.average_work_content)
+      );
+      let descriptionToShow;
+      if (portfolioApp.currentLanguage === "us") {
+        descriptionToShow =
+          experience.description_content_eng || "No description available.";
+      } else {
+        descriptionToShow =
+          experience.description_content_idn || "Deskripsi tidak tersedia.";
+      }
+      $("#modalDescription").html(descriptionToShow);
+      const $modalImages = $("#modalImages").empty();
+      $.each(experience.image_content, (index, image) => {
+        const $img = $(
+          `<img src="${image}" alt="Experience Image" class="modal-image" style="cursor: pointer;">`
+        );
+        $img.on("click", () => {
+          $("#enlargedImage").attr("src", image);
+          $("#enlargedImageContainer").css("display", "flex");
+        });
+        $modalImages.append($img);
+      });
+      $("body").addClass("body-no-scroll");
+      $("#myModal").show();
+    },
+    closeModal() {
+      $("#myModal").hide();
+      $("body").removeClass("body-no-scroll");
+    },
+  },
 
-  // Initialize all navbar functions
-  handleLargeScreenScroll();
-  setupHamburgerMenu();
-  setupSmoothScroll();
-  setupResizeHandler();
-  setupContactIcons();
-}
-
-// Deklarasikan navObserver di scope luar agar bisa diakses di semua bagian
-let navObserver;
-
-/**
- * Mengubah nilai pixel menjadi satuan vh (viewport height).
- * @param {number} pixels - Nilai dalam pixel.
- * @returns {number} - Nilai yang setara dalam vh.
- */
-function pxToVh(pixels) {
-  const viewportHeight = window.innerHeight;
-  return (pixels * 100) / viewportHeight;
-}
-
-/**
- * Mengelola ResizeObserver untuk menu mobile.
- * Observer hanya aktif di layar 600px ke bawah.
- */
-function manageMobileMenuObserver() {
-  const navElement = document.querySelector("nav");
-  const mobileMenu = document.querySelector(".navbar-menu");
-
-  if (!navElement || !mobileMenu) return; // Hentikan jika elemen tidak ada
-
-  // Cek jika lebar layar 600px atau kurang
-  if (window.innerHeight <= 600) {
-    // Jika observer belum aktif, buat dan jalankan
-    if (!navObserver) {
-      const handleNavResize = (entries) => {
-        const navHeightInPx = entries[0].target.offsetHeight;
-        const navHeightInVh = pxToVh(navHeightInPx);
-        const remainingHeightInVh = 100 - navHeightInVh;
-
-        mobileMenu.style.top = `${navHeightInVh}vh`;
-        mobileMenu.style.height = `${remainingHeightInVh}vh`;
+  // =================================================================================
+  // PROJECTS MODULE
+  // =================================================================================
+  projects: {
+    render(projects) {
+      const $container = $(".Card").empty();
+      projects.forEach((project) => {
+        const $card = this.createCard(project);
+        $container.append($card);
+      });
+    },
+    createCard(project) {
+      const determineFontSizeClass = (text) => {
+        const len = text ? text.length : 0;
+        if (len <= 50) return "font-size-default";
+        if (len <= 75) return "font-size-medium";
+        if (len <= 95) return "font-size-small";
+        return "font-size-extra-small";
       };
-
-      navObserver = new ResizeObserver(handleNavResize);
-      navObserver.observe(navElement);
-    }
-  } else {
-    // Jika layar lebih besar dari 600px dan observer aktif, hentikan
-    if (navObserver) {
-      navObserver.disconnect();
-      navObserver = null; // Hapus referensi
-
-      // Hapus inline style agar CSS desktop kembali berlaku
-      mobileMenu.style.top = "";
-      mobileMenu.style.height = "";
-    }
-  }
-}
-
-/**
- * Fungsi utama untuk menginisialisasi fungsionalitas menu mobile.
- */
-function setupNavbarMenuMobile() {
-  // Jalankan pengecekan saat halaman pertama kali dimuat
-  manageMobileMenuObserver();
-
-  // Jalankan pengecekan ulang setiap kali ukuran jendela browser diubah
-  window.addEventListener("resize", manageMobileMenuObserver);
-}
-
-// Function to fetch project data from API
-async function fetchProjects() {
-  try {
-    const response = await fetch("database/db_project.json");
-
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-
-    const projects = await response.json();
-    return projects.map((project) => ({
-      ...project,
-      image_content: project.image_content || "",
-      file_content: project.file_content || "No available", // Set default message
-      link_content: project.link_content || "No available", // Set default message
-    }));
-  } catch (error) {
-    console.error("Error fetching projects:", error);
-    return []; // Return empty array in case of error
-  }
-}
-
-// Function to populate dropdown filter based on type_content
-function populateProjectFilter(projects) {
-  const typeFilter = document.getElementById("typeFilter");
-
-  // Get unique type_content
-  const uniqueTypes = [
-    ...new Set(projects.map((project) => project.type_content)),
-  ];
-
-  // Add options for each type
-  uniqueTypes.forEach((type) => {
-    const option = document.createElement("option");
-    option.value = type;
-    option.textContent = type;
-    typeFilter.appendChild(option);
-  });
-}
-
-function getProjectImage(project) {
-  // Check if image_content is valid
-  if (project.image_content && project.image_content.trim() !== "") {
-    return project.image_content;
-  }
-
-  // If no image, return a gray placeholder
-  return "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAACklEQVR4nGMAAQAABQABDQottAAAAABJRU5ErkJggg==";
-}
-
-// Function for creating a project card
-function createProjectCard(project) {
-  const card = document.createElement("div");
-  card.className = "property-card";
-
-  // Function to determine font size class based on text length
-  function determineFontSizeClass(text) {
-    if (text.length <= 50) {
-      return "font-size-default";
-    } else if (text.length <= 75) {
-      return "font-size-medium";
-    } else if (text.length <= 95) {
-      return "font-size-small";
-    } else {
-      return "font-size-extra-small";
-    }
-  }
-
-  const nameElement = document.createElement("h3");
-  nameElement.textContent = project.name_content || "Unnamed Project"; // Provide a default name
-  nameElement.className = determineFontSizeClass(project.name_content || "");
-
-  card.innerHTML = `
-        <div class="image-content">
-            <img src="${getProjectImage(project)}" alt="${
-    project.name_content || "Project Image"
-  }">
-        </div>
-        <div class="name-content">
-            <!-- Name will be set by the function above -->
-        </div>
-        <div class="description-content">
-            <p>${
-              project.description_content || "No description available."
-            }</p> <!-- Provide default description -->
-        </div>
-        <div class="footer-content">
-            <div class="file-content">
-                <a href="${project.file_content || "#"}" download>${
-    project.file_content !== "No available" ? "Download" : ""
-  }</a>
-            </div>
-            <div class="link-content">
-                <a href="${project.link_content || "#"}" target="_blank">${
-    project.link_content !== "No available" ? "View Project" : ""
-  }</a>
-            </div>
-        </div>
-    `;
-
-  const nameContentDiv = card.querySelector(".name-content");
-  nameContentDiv.appendChild(nameElement);
-
-  return card;
-}
-
-// Function to create project modal
-function createProjectModal(project) {
-  // Check if both links and files are not available
-  const fileNotAvailable = project.file_content === "No available";
-  const linkNotAvailable = project.link_content === "No available";
-
-  if (fileNotAvailable && linkNotAvailable) {
-    console.log(
-      "No valid links or files available for this project. Skipping modal creation."
-    );
-    return null; // Skip modal creation
-  }
-
-  const modal = document.createElement("div");
-  modal.className = "project-modal";
-  modal.innerHTML = `
-        <div class="project-modal-content">
-            <span class="project-modal-close">&times;</span>
-            <div class="project-modal-image">
-                <img src="${getProjectImage(project)}" alt="${
-    project.name_content || "Project Image"
-  }">
-            </div>
-            <div class="project-modal-details">
-                <h2>${project.name_content || "Project Name Unavailable"}</h2>
-                <h3>${project.position_content || "Position Unavailable"}</h3>
-                <p>${
-                  project.description_content || "No description available."
-                }</p>
-                <div class="project-modal-links">
-                    ${
-                      !linkNotAvailable
-                        ? `<a href="${project.link_content}" target="_blank">View Project</a>`
-                        : ""
-                    }
-                    ${
-                      !fileNotAvailable
-                        ? `<a href="${project.file_content}" download>Download</a>`
-                        : ""
-                    }
-                    ${
-                      fileNotAvailable && linkNotAvailable
-                        ? "<p>No links or files available.</p>"
-                        : ""
-                    }
+      const nameContent_idn = project.name_content_idn || "Tanpa Nama Proyek";
+      const nameContent_eng = project.name_content_eng || "Unnamed Project";
+      const descriptionContent_idn =
+        project.description_content_idn || "Tidak tersedia deskripsi.";
+      const descriptionContent_eng =
+        project.description_content_eng || "No description available.";
+      const imageUrl =
+        project.image_content ||
+        "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAACklEQVR4nGMAAQAABQABDQottAAAAABJRU5ErkJggg==";
+      const fontSizeClass = determineFontSizeClass(nameContent_idn);
+      const cardHTML = `
+            <div class="property-card">
+                <div class="image-content">
+                    <img src="${imageUrl}" alt="${nameContent_idn}">
+                </div>
+                <div class="name-content">
+                    <h3 class="${fontSizeClass}" data-idn="${nameContent_idn}" data-eng="${nameContent_eng}">${nameContent_idn}</h3>
+                </div>
+                <div class="description-content">
+                    <p data-idn="${descriptionContent_idn}" data-eng="${descriptionContent_eng}">${descriptionContent_idn}</p>
+                </div>
+                <div class="footer-content">
+                    <div class="link-content">
+                        ${
+                          project.link_content !== "No available"
+                            ? `<a href="${project.link_content}" target="_blank" data-idn="Lihat Proyek" data-eng="View Project">Lihat Proyek</a>`
+                            : ""
+                        }
+                    </div>
                 </div>
             </div>
-        </div>
-    `;
-
-  // Add event listener to close modal
-  const closeButton = modal.querySelector(".project-modal-close");
-  closeButton.addEventListener("click", () => {
-    document.body.removeChild(modal);
-  });
-
-  return modal;
-}
-
-// CSS for additional styling
-const additionalCSS = `
-.property-card .image-content {
-    width: 100%;
-    height: 250px;
-    background-color: #E0E0E0; /* Light gray color */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
-}
-
-.property-card .image-content img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-`;
-
-// Function to render project cards
-function renderProjects(projects) {
-  const cardContainer = document.querySelector(".Card");
-  cardContainer.innerHTML = ""; // Clear container before rendering
-
-  projects.forEach((project) => {
-    const projectCard = createProjectCard(project);
-    cardContainer.appendChild(projectCard);
-  });
-}
-
-// Function to filter projects based on type
-function filterProjects() {
-  const typeFilter = document.getElementById("typeFilter");
-  const selectedType = typeFilter.value;
-
-  const projects = JSON.parse(localStorage.getItem("projects")) || [];
-
-  const filteredProjects =
-    selectedType === "all"
-      ? projects
-      : projects.filter((project) => project.type_content === selectedType);
-
-  renderProjects(filteredProjects);
-}
-
-// Main initialization function for projects
-async function initProjects() {
-  try {
-    // Fetch projects
-    const projects = await fetchProjects();
-
-    // Save in localStorage for filtering
-    localStorage.setItem("projects", JSON.stringify(projects));
-
-    // Populate dropdown filter
-    populateProjectFilter(projects);
-
-    // Render all projects
-    renderProjects(projects);
-
-    // Add event listener for filter
-    document
-      .getElementById("typeFilter")
-      .addEventListener("change", filterProjects);
-  } catch (error) {
-    console.error("Initialization error:", error);
-  }
-}
-
-// Function to fetch Certificates data from API
-// --- BAGIAN SERTIFIKAT ---
-
-// 1. Perbaiki Fetch Certificates untuk menyertakan 'link'
-async function fetchCertificates() {
-  try {
-    const response = await fetch("database/db_sertifikat.json");
-    if (!response.ok) {
-      throw new Error(`HTTP error! Status: ${response.status}`);
-    }
-    const certificates = await response.json();
-    return certificates.map((cert) => ({
-      name: cert.name || "Nama Sertifikat Tidak Tersedia",
-      dir: cert.dir || "default-image.png",
-      link: cert.link || "#",
-    }));
-  } catch (error) {
-    console.error("Gagal mengambil data sertifikat:", error);
-    return [];
-  }
-}
-
-// Fungsi untuk membuka tampilan enlarge
-function openCertificateEnlarge(certificate) {
-  const container = $("#enlargedCertificateContainer");
-  if (container.length === 0) return; // Hentikan jika wadah tidak ada
-
-  container.find("#enlargedCertificateImage").attr("src", certificate.dir);
-  container.find("#certificateVerificationLink").attr("href", certificate.link);
-
-  if (certificate.link && certificate.link !== "#") {
-    container.find(".certificate-link-container").show();
-  } else {
-    container.find(".certificate-link-container").hide();
-  }
-
-  container.css("display", "flex");
-  $("body").addClass("body-no-scroll");
-}
-
-// Fungsi untuk membuat setiap kartu sertifikat
-function createCertificateCard(certificate) {
-  const card = $(`
-        <div class="card reveal">
-            <img src="${certificate.dir}" alt="${certificate.name}" />
-            <p>${certificate.name}</p>
-        </div>
-    `);
-  card.on("click", function () {
-    openCertificateEnlarge(certificate);
-  });
-  return card;
-}
-
-// Fungsi untuk menampilkan semua kartu ke dalam kontainer grid
-function renderCertificates(certificates) {
-  const cardContainer = $(".certificate-grid");
-  if (cardContainer.length === 0) return;
-
-  cardContainer.empty();
-
-  // Fungsi untuk mengetahui jumlah kolom berdasarkan lebar layar
-  function getVisibleColumns() {
-    if (window.innerWidth >= 1200) return 4;
-    if (window.innerWidth >= 900) return 3;
-    if (window.innerWidth >= 600) return 2;
-    return 1; // Default 1 kolom
-  }
-
-  const columns = getVisibleColumns();
-  const visibleRows = 2;
-  const maxVisibleCards = columns * visibleRows;
-
-  certificates.forEach((certificate, index) => {
-    const certificateCard = createCertificateCard(certificate);
-
-    // Sembunyikan kartu jika melebihi batas 2 baris
-    if (index >= maxVisibleCards) {
-      certificateCard.addClass("hidden");
-    }
-
-    cardContainer.append(certificateCard);
-  });
-
-  // Tampilkan tombol "Lihat Semua" jika ada kartu yang disembunyikan
-  if (certificates.length > maxVisibleCards) {
-    $("#see-more-btn").show();
-  } else {
-    $("#see-more-btn").hide();
-  }
-}
-
-// Function to download CV
-function downloadCV() {
-  const cvPath = "assets/CV/Rijal_Rahman_Zuhri-CV.pdf";
-
-  // Log for debugging
-  console.log("Attempting to download CV from:", cvPath);
-
-  fetch(cvPath)
-    .then((response) => {
-      // Log response status
-      console.log("Response status:", response.status);
-      console.log("Response ok:", response.ok);
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        `;
+      const $card = $(cardHTML);
+      if (portfolioApp.currentLanguage === "us") {
+        $card.find("[data-eng]").each(function () {
+          $(this).html($(this).data("eng"));
+        });
       }
-      return response.blob(); // Get the blob for the file
-    })
-    .then((blob) => {
-      // Log blob size
-      console.log("Blob size:", blob.size);
+      return $card;
+    },
+    populateFilter(projects) {
+      const $typeFilter = $("#typeFilter");
+      const uniqueTypes = [...new Set(projects.map((p) => p.type_content))];
+      uniqueTypes.forEach((type) => {
+        $typeFilter.append(`<option value="${type}">${type}</option>`);
+      });
+    },
+    filter() {
+      const selectedType = $("#typeFilter").val();
+      const filtered =
+        selectedType === "all"
+          ? portfolioApp.data.projects
+          : portfolioApp.data.projects.filter(
+              (p) => p.type_content === selectedType
+            );
+      this.render(filtered);
+    },
+  },
 
+  // =================================================================================
+  // CERTIFICATES MODULE
+  // =================================================================================
+  certificates: {
+    render(certificates) {
+      const $container = $(".certificate-grid").empty();
+      const maxVisibleCards = this.getMaxVisibleCards();
+      certificates.forEach((certificate, index) => {
+        const $card = this.createCard(certificate);
+        if (index >= maxVisibleCards) {
+          $card.addClass("hidden");
+        }
+        $container.append($card);
+      });
+      $("#see-more-btn").toggle(certificates.length > maxVisibleCards);
+    },
+    createCard(certificate) {
+      const $card = $(`
+            <div class="card">
+                <img src="${certificate.dir}" alt="${certificate.name}" />
+                <p>${certificate.name}</p>
+            </div>
+        `);
+      $card.on("click", () => this.openEnlarge(certificate));
+      return $card;
+    },
+    openEnlarge(certificate) {
+      const $container = $("#enlargedCertificateContainer");
+      $container.find("#enlargedCertificateImage").attr("src", certificate.dir);
+      $container
+        .find("#certificateVerificationLink")
+        .attr("href", certificate.link);
+      $container
+        .find(".certificate-link-container")
+        .toggle(!!(certificate.link && certificate.link !== "#"));
+      $container.css("display", "flex");
+      $("body").addClass("body-no-scroll");
+    },
+    getVisibleColumns() {
+      const width = $(window).width();
+      if (width >= 1200) return 4;
+      if (width >= 900) return 3;
+      if (width >= 600) return 2;
+      return 1;
+    },
+    getMaxVisibleCards() {
+      return this.getVisibleColumns() * 2;
+    },
+    toggleSeeMore() {
+      const $grid = $(".certificate-grid");
+      const $button = $("#see-more-btn");
+      const isExpanded = $grid.hasClass("expanded");
+      const lang = portfolioApp.currentLanguage;
+      if (isExpanded) {
+        const maxVisible = this.getMaxVisibleCards();
+        $grid.find(".card").each(function (index) {
+          if (index >= maxVisible) {
+            $(this).addClass("hidden").removeClass("card-fade-in");
+          }
+        });
+        const textToShow =
+          lang === "us" ? $button.data("eng-more") : $button.data("idn-more");
+        $button.text(textToShow);
+        $("html, body").animate(
+          { scrollTop: $("#sertifikat").offset().top },
+          500
+        );
+      } else {
+        $grid
+          .find(".card.hidden")
+          .removeClass("hidden")
+          .addClass("card-fade-in");
+        const textToShow =
+          lang === "us" ? $button.data("eng-less") : $button.data("idn-less");
+        $button.text(textToShow);
+      }
+      $grid.toggleClass("expanded");
+    },
+  },
+
+  // =================================================================================
+  // UI MODULE (Loading, etc.)
+  // =================================================================================
+  ui: {
+    showLoadingScreen() {
+      $("body").css("overflow", "hidden");
+      $("#loading-overlay").show();
+    },
+    hideLoadingScreen() {
+      const $loadingOverlay = $("#loading-overlay");
+      $loadingOverlay.addClass("hidden");
+      $loadingOverlay.on("transitionend", function () {
+        //$("#main-content").addClass("visible"); // main-content is not defined in the HTML
+        $(".fab-wrapper").addClass("visible");
+        $("body").css("overflow", "auto");
+        $("#wipe-rect-stroke, #wipe-rect-fill").css("animation", "none");
+        $(this).hide();
+      });
+    },
+  },
+
+  // =================================================================================
+  // UTILITY MODULE
+  // =================================================================================
+  utility: {
+    formatDateRange(dateRange) {
+      if (!dateRange) return "Date Working Not Specified";
+      const [startDateStr, endDateStr] = dateRange.split(" - ");
+      const formatDate = (dateStr) => {
+        const [day, month, year] = dateStr.split("/").map(Number);
+        const shortMonthNames = [
+          "Jan",
+          "Feb",
+          "Mar",
+          "Apr",
+          "May",
+          "Jun",
+          "Jul",
+          "Aug",
+          "Sep",
+          "Oct",
+          "Nov",
+          "Dec",
+        ];
+        return `${day} ${shortMonthNames[month - 1]} ${year}`;
+      };
+      return `${formatDate(startDateStr)} - ${formatDate(endDateStr)}`;
+    },
+    truncateText(text, maxWords) {
+      const words = (text || "").split(" ");
+      return words.length <= maxWords
+        ? text
+        : words.slice(0, maxWords).join(" ") + " ...";
+    },
+    downloadCV() {
+      const cvPath_idn = "assets/CV/Rijal_Rahman_Zuhri-CV_IDN.pdf";
+      const cvPath_eng = "assets/CV/Rijal_Rahman_Zuhri-CV_ENG.pdf";
+      let selectedPath;
+      let selectedFileName;
+      if (portfolioApp.currentLanguage === "us") {
+        // Jika bahasa Inggris, gunakan versi Inggris
+        selectedPath = cvPath_eng;
+      } else {
+        // Jika tidak (atau defaultnya Indonesia), gunakan versi Indonesia
+        selectedPath = cvPath_idn;
+      }
       const link = document.createElement("a");
-      link.href = URL.createObjectURL(blob);
+      link.href = selectedPath;
       link.download = "Rijal_Rahman_Zuhri_CV.pdf";
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
-    })
-    .catch((error) => {
-      // Log error details
-      console.error("Full error details:", error);
-
-      // Check if file exists
-      const checkFileExists = new Promise((resolve, reject) => {
-        const xhr = new XMLHttpRequest();
-        xhr.open("HEAD", cvPath, true);
-        xhr.onload = () => {
-          if (xhr.status === 200) {
-            resolve(true);
-          } else {
-            reject(false);
-          }
-        };
-        xhr.onerror = () => reject(false);
-        xhr.send();
-      });
-
-      checkFileExists
-        .then((exists) => {
-          if (exists) {
-            alert(
-              "File CV ditemukan, tetapi gagal didownload. Cek konfigurasi server."
-            );
-          } else {
-            alert("Maaf, CV tidak dapat didownload saat ini.");
-          }
-        })
-        .catch(() => {
-          alert("Maaf, CV tidak dapat didownload saat ini.");
-        });
-    });
-}
-
-// Alternative method to download CV
-function downloadCVAlternative() {
-  const cvPath = "assets/CV/Rijal_Rahman_Zuhri-CV.pdf";
-
-  // Use window.location for download
-  window.location.href = cvPath;
-}
-
-// Function to open email composer
-function openEmailComposer(platform = "gmail") {
-  const email = "rijalrzuhri247@gmail.com";
-  const subject = "Message from Website";
-  const body = "Hello, I want to talk to you ...";
-
-  // Construct different URLs for platforms
-  let mailtoLink;
-  switch (platform) {
-    case "gmail":
-      mailtoLink = `https://mail.google.com/mail/?view=cm&fs=1&to=${email}&su=${encodeURIComponent(
-        subject
-      )}&body=${encodeURIComponent(body)}`;
-      break;
-    case "outlook":
-      mailtoLink = `https://outlook.office.com/mail/deeplink/compose?to=${email}&subject=${encodeURIComponent(
-        subject
-      )}&body=${encodeURIComponent(body)}`;
-      break;
-    default:
-      mailtoLink = `mailto:${email}?subject=${encodeURIComponent(
-        subject
-      )}&body=${encodeURIComponent(body)}`;
-  }
-
-  // Open email window
-  window.open(mailtoLink, "_blank");
-
-  // Optional: Tracking
-  trackEmailClick();
-}
-
-// Simple tracking function
-function trackEmailClick() {
-  console.log("Email link clicked");
-}
-
-// Animation reveal
-function revealOnScroll() {
-  const windowHeight = $(window).height();
-  const windowScrollTop = $(window).scrollTop();
-
-  // Memeriksa semua elemen .reveal setiap kali scroll
-  $(".reveal").each(function () {
-    const element = $(this);
-    const elementTop = element.offset().top;
-
-    // Jika elemen masuk ke viewport, tambahkan kelas .visible
-    if (elementTop < windowScrollTop + windowHeight - 50) {
-      element.addClass("visible");
-    }
-    // Jika keluar dari viewport, hapus kelas .visible agar animasi bisa berulang
-    else {
-      element.removeClass("visible");
-    }
-  });
-}
-// Wait for the entire page (including images) to load
-$(window).on("load", function () {
-  const loadingOverlay = $("#loading-overlay");
-
-  // Tambahkan kelas 'hidden' untuk memulai transisi fade-out
-  loadingOverlay.addClass("hidden");
-
-  // Gunakan event listener 'transitionend' untuk mendeteksi kapan transisi selesai
-  loadingOverlay.on("transitionend", function () {
-    // Tampilkan konten utama
-    $("#main-content").addClass("visible");
-    // Tampilkan kembali scrollbar
-    $("body").css("overflow", "auto");
-
-    // Hentikan animasi agar tidak membebani browser setelah tidak terlihat
-    $("#wipe-rect-stroke, #wipe-rect-fill").css("animation", "none");
-  });
-});
-
-// Main initialization function
-async function initializeApp() {
-  // Initialize navbar
-  setupNavbarResponsive();
-  setupNavbarMenuMobile();
-  $(window).on("scroll", revealOnScroll);
-  revealOnScroll();
-
-  // Fetch both projects and experiences asynchronously
-  const projects = await fetchProjects();
-  const experiences = await fetchExperiences();
-  const certificates = await fetchCertificates();
-
-  // --- Logic for Projects ---
-  if (projects.length > 0) {
-    localStorage.setItem("projects", JSON.stringify(projects));
-    populateProjectFilter(projects);
-    renderProjects(projects);
-    document
-      .getElementById("typeFilter")
-      .addEventListener("change", filterProjects);
-  }
-
-  // --- Logic for Experiences ---
-  if (experiences.length > 0) {
-    renderExperiences(experiences); // Gunakan data dari JSON
-  }
-
-  // --- Logic for Certificates ---
-  if (certificates.length > 0) {
-    renderCertificates(certificates);
-  }
-
-  // --- Event Listeners Lainnya ---
-  $(".fa-envelope").on("click", function (e) {
-    e.preventDefault();
-    $(this).closest("li").toggleClass("shadow-1").toggleClass("fill-color");
-    openEmailComposer("gmail");
-  });
-
-  $('button:contains("Download CV")').on("click", function () {
-    $(this).toggleClass("shadow-1").toggleClass("fill-color");
-    downloadCV();
-    setTimeout(() => {
-      $(this).removeClass("shadow-1").removeClass("fill-color");
-    }, 300);
-  });
-}
-
-// Run setup when document is ready
-$(document).ready(function () {
-  let navObserver; // Variabel untuk menyimpan observer
-  initializeApp(); // Panggil fungsi inisialisasi utama
-
-  $("#enlargedCertificateContainer").on("click", function (e) {
-    // Cek agar tidak tertutup saat link verifikasi diklik
-    if ($(e.target).closest("a").length) {
-      return;
-    }
-    $(this).hide();
-    $("body").removeClass("body-no-scroll");
-  });
-
-  $("#see-more-btn").on("click", function () {
-    const grid = $(".certificate-grid");
-    const button = $(this);
-
-    if (grid.hasClass("expanded")) {
-      // --- FUNGSI UNTUK MENYEMBUNYIKAN KARTU ---
-
-      // ... (Fungsi untuk menyembunyikan kartu tetap sama seperti sebelumnya)
-      function getVisibleColumns() {
-        if (window.innerWidth >= 1200) return 4;
-        if (window.innerWidth >= 900) return 3;
-        if (window.innerWidth >= 600) return 2;
-        return 1;
+    },
+    openEmailComposer(platform = "gmail") {
+      const email = "rijalrzuhri247@gmail.com";
+      const subject = "Message from Website";
+      const body = "Hello, I want to talk to you ...";
+      let mailtoLink;
+      if (platform === "gmail") {
+        mailtoLink = `https://mail.google.com/mail/?view=cm&fs=1&to=${email}&su=${encodeURIComponent(
+          subject
+        )}&body=${encodeURIComponent(body)}`;
+      } else {
+        mailtoLink = `mailto:${email}?subject=${encodeURIComponent(
+          subject
+        )}&body=${encodeURIComponent(body)}`;
       }
-      const maxVisibleCards = getVisibleColumns() * 2;
-      grid.find(".card").each(function (index) {
-        if (index >= maxVisibleCards) {
-          // Kartu disembunyikan secara instan (tanpa animasi)
-          $(this).addClass("hidden").removeClass("card-fade-in");
+      window.open(mailtoLink, "_blank");
+    },
+    revealOnScroll() {
+      const windowHeight = $(window).height();
+      const windowScrollTop = $(window).scrollTop();
+      $(".reveal").each(function () {
+        const $element = $(this);
+        const elementTop = $element.offset().top;
+        if (elementTop < windowScrollTop + windowHeight - 50) {
+          $element.addClass("visible");
+        } else {
+          $element.removeClass("visible");
         }
       });
-      button.text("Lihat Semua");
-      grid.removeClass("expanded");
-      $("html, body").animate(
-        {
-          scrollTop: $("#sertifikat").offset().top,
-        },
-        500
-      );
-    } else {
-      // --- FUNGSI UNTUK MENAMPILKAN SEMUA KARTU ---
+    },
+  },
+};
 
-      // Ambil semua kartu yang tersembunyi
-      const hiddenCards = grid.find(".card.hidden");
-
-      // Hapus kelas .hidden agar elemen muncul di layout
-      hiddenCards.removeClass("hidden");
-
-      // PENAMBAHAN: Tambahkan kelas animasi
-      hiddenCards.addClass("card-fade-in");
-
-      // Ubah teks tombol dan beri status 'expanded'
-      button.text("Lihat Lebih Sedikit");
-      grid.addClass("expanded");
-    }
-  });
+// =================================================================================
+// DOCUMENT READY
+// =================================================================================
+$(document).ready(function () {
+  portfolioApp.init();
 });

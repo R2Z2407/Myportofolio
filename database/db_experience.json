@@ -1,6 +1,6 @@
 [
   {
-    "type_content": "Magang",
+    "type_content": "Internship",
     "company_content": "Panasonic Manufacturing Indonesia",
     "thumbnail_content": "assets/images/panasonic/1.png",
     "image_content": [
@@ -11,19 +11,19 @@
     ],
     "position_content": "Quality Control",
     "average_work_content": "22/06/2023 - 31/07/2023",
-    "description_content": "Pada magang ini, saya mempelajari incoming quality control dan product quality control.Dalam divisi incoming quality control mendapatkan tugas memeriksa komponen produk dari pemasok dan produksi internal seperti bahan plastik, logam, dan kabel. Product quality control bertugas dalam mengukur diameter shaft, memeriksa belitan stator, dan memverifikasi teganagan serta arus pada stator. Selain itu, saya menganalisis kecacatan pada rotor. Pada prosesnya, saya menggunakan metode DMAIC dalam menganalisis kecacatan tersebut. Hasil dari analisis yaitu terdapat ketidaksesuaian ukuran shaft akibat mesin gerinding bagian pemasukan shaft yang tidak sesuai kedatatarannya yang membuat shaft seharusnya masuk secara bertahap. Namun, kenyataanya tidak dapat masuk ke dalam mesin tersebut,",
-    "file_pdf":"https://drive.google.com/file/d/1pX8JhU05egDvMSDgjyNWQwHL1nFVAeXB/preview"
+    "description_content_idn": "Pada magang ini, saya mempelajari incoming quality control dan product quality control.Dalam divisi incoming quality control mendapatkan tugas memeriksa komponen produk dari pemasok dan produksi internal seperti bahan plastik, logam, dan kabel. Product quality control bertugas dalam mengukur diameter shaft, memeriksa belitan stator, dan memverifikasi teganagan serta arus pada stator. Selain itu, saya menganalisis kecacatan pada rotor. Pada prosesnya, saya menggunakan metode DMAIC dalam menganalisis kecacatan tersebut. Hasil dari analisis yaitu terdapat ketidaksesuaian ukuran shaft akibat mesin gerinding bagian pemasukan shaft yang tidak sesuai kedatatarannya yang membuat shaft seharusnya masuk secara bertahap. Namun, kenyataanya tidak dapat masuk ke dalam mesin tersebut.",
+    "description_content_eng": "During this internship, I learned about incoming quality control and product quality control. In the incoming quality control division, I was tasked with inspecting product components from suppliers and internal production, such as plastic, metal, and cable materials. Product quality control is responsible for measuring shaft diameter, inspecting stator windings, and verifying voltage and current in the stator. In addition, I analyzed defects in the rotor. In the process, I used the DMAIC method to analyze these defects. The analysis results showed that there were shaft size discrepancies due to the grinding machine for uneven shaft input, so the shaft should have entered gradually. However, in reality, the shaft could not enter the machine.",
+    "file_pdf": "https://drive.google.com/file/d/1pX8JhU05egDvMSDgjyNWQwHL1nFVAeXB/preview"
   },
   {
-    "type_content": "Magang",
+    "type_content": "Internship",
     "company_content": "GMF Aeroasia",
     "thumbnail_content": "assets/images/gmf/1.webp",
-    "image_content": [
-      "assets/images/gmf/1.webp"
-    ],
+    "image_content": ["assets/images/gmf/1.webp"],
     "position_content": "IoT Project",
     "average_work_content": "04/09/2023 - 18/12/2023",
-    "description_content": "Magang ini merupakan magang berbasis proyek. Tugas saya yaitu membuat prototype berskala laboratorium. Mekanisme kerja prototype ini yaitu data dari sensor dibaca melalui arduino selaku mikroprossesor, Ardunio memproses data tersebut lalu dialamatkan ke AWS via MQTT, dan AWS menampilkan hasil dari bacaan sensor."
-    ,"file_pdf":"https://drive.google.com/file/d/1Op7qrDn0FMyB823Yu8MUQBnXtNHI9KiW/preview "
+    "description_content_idn": "Magang ini merupakan magang berbasis proyek. Tugas saya yaitu membuat prototype berskala laboratorium. Mekanisme kerja prototype ini yaitu data dari sensor dibaca melalui arduino selaku mikroprossesor, Ardunio memproses data tersebut lalu dialamatkan ke AWS via MQTT, dan AWS menampilkan hasil dari bacaan sensor.",
+    "description_content_eng": "This internship is a project-based internship. My task is to create a laboratory-scale prototype. The mechanism of this prototype is that data from sensors is read through Arduino as a microprocessor, Arduino processes the data and then sends it to AWS via MQTT, and AWS displays the results of the sensor readings.",
+    "file_pdf": "https://drive.google.com/file/d/1Op7qrDn0FMyB823Yu8MUQBnXtNHI9KiW/preview "
   }
 ]

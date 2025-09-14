@@ -1,23 +1,29 @@
 [
   {
     "type_content": "Web Design",
-    "name_content": "Rijal Portofolio",
-    "image_content": "assets/images/thumbnail/1.jpg",
-    "description_content": "Website portofolio saya",
-    "link_content": "https://r2z2407.github.io/Myportofolio/"
-  },
-  {
-    "type_content": "Web Design",
-    "name_content": "Celebration Persib Bandung B2B Champion",
+    "name_content_idn": "Perayaan Juara 2x Persib Bandung",
+    "name_content_eng": "Persib Bandung's 2nd Championship Celebration",
     "image_content": "assets/images/thumbnail/2.jpg",
-    "description_content": "Ini adalah situs web yang saya dedikasikan untuk mengenang semua kisah klub kesayangan saya. Saya berharap situs ini dapat menjadi penghormatan bagi musim kejuaraan 2024/2025.",
+    "description_content_idn": "Ini adalah situs web yang saya dedikasikan untuk mengenang semua kisah klub kesayangan saya. Saya berharap situs ini dapat menjadi penghormatan bagi musim kejuaraan 2024/2025.",
+    "description_content_eng": "This is a website I have dedicated to commemorating all the stories of my favorite club. I hope this site can serve as a tribute to the 2024/2025 championship season.",
     "link_content": "https://r2z2407.github.io/capstone_project_Frontend/HW2/"
   },
   {
-    "type_content": "Machine Learning",
-    "name_content": "Studi Komparatif Algoritma Mesin Pembelajaran untuk Deteksi Anomali pada Mesin Milling",
+    "type_content": "Artificial Intelligence",
+    "name_content_idn": "Studi Komparatif Algoritma Mesin Pembelajaran untuk Deteksi Anomali pada Mesin Milling",
+    "name_content_eng": "Comparative Study of Machine Learning Algorithms for Anomaly Detection in Milling Machines",
     "image_content": "assets/images/thumbnail/3.jpg",
-    "description_content": "Salah satu projek tugas akhir saya dalam mendeteksi anomali pada mesin milling menggunakan metode ANN, Random Forest, XGBoost, dan SVM.",
+    "description_content_idn": "Salah satu projek tugas akhir saya dalam mendeteksi anomali pada mesin milling menggunakan metode ANN, Random Forest, XGBoost, dan SVM.",
+    "description_content_eng": "One of my final projects was detecting anomalies in milling machines using ANN, Random Forest, XGBoost, and SVM methods.",
     "link_content": "https://r2z2407.github.io/project_thesis/"
+  },
+  {
+    "type_content": "Embedded System",
+    "name_content_idn": "Studi Komparatif Algoritma Mesin Pembelajaran untuk Deteksi Anomali pada Mesin Milling",
+    "name_content_eng": "Comparative Study of Machine Learning Algorithms for Anomaly Detection in Milling Machines",
+    "image_content": "assets/images/thumbnail/3.jpg",
+    "description_content_idn": "Salah satu projek tugas akhir saya dalam mendeteksi anomali pada mesin milling menggunakan metode ANN, Random Forest, XGBoost, dan SVM.",
+    "description_content_eng": "One of my final projects was detecting anomalies in milling machines using ANN, Random Forest, XGBoost, and SVM methods.",
+    "link_content": ""
   }
 ]

@@ -107,18 +107,80 @@
         </svg>
       </button>
       <div class="navbar-menu">
-        <a href="#" id="home-link" class="navbar-item">Beranda</a>
-        <a href="#pengalaman" class="navbar-item">Pengalaman</a>
-        <a href="#proyek" class="navbar-item">Proyek</a>
-        <a href="#sertifikat" class="navbar-item">Sertifikat</a>
-        <a href="#kontak" class="navbar-item">Kontak</a>
+        <a
+          href="#"
+          id="home-link"
+          class="navbar-item"
+          data-idn="Beranda"
+          data-eng="Home"
+          >Beranda</a
+        >
+        <a
+          href="#pengalaman"
+          class="navbar-item"
+          data-idn="Pengalaman"
+          data-eng="Experiences"
+          >Pengalaman</a
+        >
+        <a
+          href="#proyek"
+          class="navbar-item"
+          data-idn="Proyek"
+          data-eng="Projects"
+          >Proyek</a
+        >
+        <a
+          href="#sertifikat"
+          class="navbar-item"
+          data-idn="Sertifikat"
+          data-eng="Certificates"
+          >Sertifikat</a
+        >
+        <a
+          href="#kontak"
+          class="navbar-item"
+          data-idn="Kontak"
+          data-eng="Contact"
+          >Kontak</a
+        >
       </div>
       <div class="navbar-menu-PC">
-        <a href="#" id="home-link" class="navbar-item-PC">Beranda</a>
-        <a href="#pengalaman" class="navbar-item-PC">Pengalaman</a>
-        <a href="#proyek" class="navbar-item-PC">Proyek</a>
-        <a href="#sertifikat" class="navbar-item-PC">Sertifikat</a>
-        <a href="#kontak" class="navbar-item-PC">Kontak</a>
+        <a
+          href="#"
+          id="home-link"
+          class="navbar-item-PC"
+          data-idn="Beranda"
+          data-eng="Home"
+          >Beranda</a
+        >
+        <a
+          href="#pengalaman"
+          class="navbar-item-PC"
+          data-idn="Pengalaman"
+          data-eng="Experiences"
+          >Pengalaman</a
+        >
+        <a
+          href="#proyek"
+          class="navbar-item-PC"
+          data-idn="Proyek"
+          data-eng="Projects"
+          >Proyek</a
+        >
+        <a
+          href="#sertifikat"
+          class="navbar-item-PC"
+          data-idn="Sertifikat"
+          data-eng="Certificates"
+          >Sertifikat</a
+        >
+        <a
+          href="#kontak"
+          class="navbar-item-PC"
+          data-idn="Kontak"
+          data-eng="Contact"
+          >Kontak</a
+        >
       </div>
     </nav>
     <section>
@@ -141,8 +203,18 @@
         </svg>
         <div><img src="assets/images/Photo.png" /></div>
       </div>
-      <h1 class="reveal">Saya Rijal Rahman Zuhri</h1>
-      <p class="reveal">
+      <h1
+        class="reveal"
+        data-idn="Saya Rijal Rahman Zuhri"
+        data-eng="I'm Rijal Rahman Zuhri"
+      >
+        Saya Rijal Rahman Zuhri
+      </h1>
+      <p
+        class="reveal"
+        data-idn="Saya adalah Mahasiswa Teknik Elektro lulusan baru di Universitas Padjadjaran yang tertarik pada IoT dan Machine Learning. Magang di PT GMF Aeroasia dengan kontribusi pengembangan sistem akuisisi data mesin chiller. Mengimplementasikan model klasifikasi anomali mesin milling sebagai proyek tugas akhir menggunakan Machine Learning. Memiliki semangat belajar yang tinggi, disiplin, dan dedikasi yang tinggi."
+        data-eng="A fresh graduate of Padjadjaran University with a Bachelor of Engineering in Electrical Engineering, who specialized in the Internet of Things (IoT) and Machine Learning. I gained practical experience from an internship at PT GMF Aeroasia, where I contributed to the development of a data acquisition system for industrial chiller units. My academic background was further strengthened by a final thesis project, in which I successfully implemented a machine learning model for anomaly classification on milling machinery. I was a disciplined and dedicated professional, committed to continuous learning and contributing effectively to a forward-thinking organization."
+      >
         Saya adalah Mahasiswa Teknik Elektro lulusan baru di Universitas
         Padjadjaran yang tertarik pada IoT dan Machine Learning. Magang di PT
         GMF Aeroasia dengan kontribusi pengembangan sistem akuisisi data mesin
@@ -175,7 +247,9 @@
         </svg>
       </div>
       <div id="judul2" class="reveal">
-        <h1 class="reveal">Pengalaman</h1>
+        <h1 class="reveal" data-idn="Pengalaman" data-eng="Experiences">
+          Pengalaman
+        </h1>
       </div>
       <div class="List reveal">
         <div class="experience-container"></div>
@@ -188,7 +262,9 @@
           <div></div>
           <div></div>
         </div>
-        <h1 class="left reveal">Proyek</h1>
+        <h1 class="left reveal" data-idn="Proyek" data-eng="Projects">
+          Proyek
+        </h1>
         <div class="Three_lines">
           <div></div>
           <div></div>
@@ -198,7 +274,9 @@
       <div class="List2 reveal">
         <div class="project-filter">
           <select id="typeFilter">
-            <option value="all">All Projects</option>
+            <option value="all" data-idn="Semua Proyek" data-eng="All Projects">
+              All Projects
+            </option>
           </select>
         </div>
         <div class="Card"></div>
@@ -206,12 +284,22 @@
     </section>
     <section id="sertifikat">
       <div class="judul">
-        <h1 class="reveal">Sertifikat</h1>
+        <h1 class="reveal" data-idn="Sertifikat" data-eng="Certificates">
+          Sertifikat
+        </h1>
       </div>
-      <div class="certificate-grid reveal down"></div>
+      <div class="certificate-grid"></div>
 
       <div class="see-more-container">
-        <button id="see-more-btn">Lihat Semua</button>
+        <button
+          id="see-more-btn"
+          data-idn-more="Lihat Semua"
+          data-eng-more="See All"
+          data-idn-less="Lihat Lebih Sedikit"
+          data-eng-less="See Less"
+        >
+          Lihat Semua
+        </button>
       </div>
       <div id="enlargedCertificateContainer" style="display: none">
         <span class="close-enlarged-cert">&times;</span>
@@ -323,7 +411,7 @@
         </svg>
       </div>
       <div class="judul">
-        <h1 class="reveal">Kontak</h1>
+        <h1 class="reveal" data-idn="Kontak" data-eng="Contact">Kontak</h1>
         <div class="info">
           <div class="icons first reveal left">
             <li>
@@ -357,6 +445,8 @@
           <button
             onclick="downloadCV()"
             class="download-cv-btn first reveal right"
+            data-idn="Unduh CV"
+            data-eng="Download CV"
           >
             Download CV
           </button>
@@ -380,6 +470,42 @@
         <div id="enlargedImageContainer" style="display: none">
           <img id="enlargedImage" style="max-width: 100%; height: auto" />
         </div>
+      </div>
+    </div>
+    <div class="fab-wrapper">
+      <div class="language-options" id="languageOptions">
+        <div class="language-option" data-lang="us">
+          <img
+            src="https://upload.wikimedia.org/wikipedia/en/a/a4/Flag_of_the_United_States.svg"
+            alt="US Flag"
+            class="language-flag"
+          />
+        </div>
+        <div class="language-option" data-lang="idn">
+          <img
+            src="https://upload.wikimedia.org/wikipedia/commons/9/9f/Flag_of_Indonesia.svg"
+            alt="ID Flag"
+            class="language-flag"
+          />
+        </div>
+      </div>
+      <div class="fab-main" id="fabToggle" title="Ganti Bahasa">
+        <svg
+          class="fab-icon"
+          xmlns="http://www.w3.org/2000/svg"
+          width="18"
+          height="18"
+          viewBox="-5 -5 34 34"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path
+            d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"
+          ></path>
+        </svg>
       </div>
     </div>
     <script src="scripts.js"></script>

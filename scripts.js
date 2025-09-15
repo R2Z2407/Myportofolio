@@ -614,8 +614,8 @@ const portfolioApp = {
         : words.slice(0, maxWords).join(" ") + " ...";
     },
     downloadCV() {
-      const cvPath_idn = "assets/CV/Rijal_Rahman_Zuhri-CV_IDN.pdf";
-      const cvPath_eng = "assets/CV/Rijal_Rahman_Zuhri-CV_ENG.pdf";
+      const cvPath_idn = "assets/CV/Rijal Rahman Zuhri-CV_[Idn].pdf";
+      const cvPath_eng = "assets/CV/Rijal Rahman Zuhri-CV_[Eng].pdf";
       let selectedPath;
       let selectedFileName;
       if (portfolioApp.currentLanguage === "us") {

@@ -15,7 +15,7 @@
     "image_content": "assets/images/thumbnail/4.png",
     "description_content_idn": "Projek tugas akhir saya dalam mendeteksi anomali pada mesin milling menggunakan metode ANN, Random Forest, XGBoost, dan SVM.",
     "description_content_eng": "One of my final projects was detecting anomalies in milling machines using ANN, Random Forest, XGBoost, and SVM methods.",
-    "link_content": "rijals-thesis-project.vercel.app/"
+    "link_content": "https://rijals-thesis-project.vercel.app/"
   },
   {
     "type_content": "Embedded System",
@@ -24,7 +24,7 @@
     "image_content": "",
     "description_content_idn": "Mengembangkan prototipe pintu air otomatis berbasis Arduino yang menggunakan sensor untuk mendeteksi potensi banjir dan mengendalikan pintu air sebagai responsnya.",
     "description_content_eng": "Developing an Arduino-based automatic floodgate prototype that uses sensors to detect potential flooding and control the floodgate in response.",
-    "link_content": ""
+    "link_content": "https://project-arduino-kelompok.vercel.app/"
   },
   {
     "type_content": "Android Design",

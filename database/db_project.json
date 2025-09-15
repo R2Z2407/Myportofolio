@@ -21,7 +21,7 @@
     "type_content": "Embedded System",
     "name_content_idn": "Rancang Bangun Miniatur Simulasi Pintu Dua Aliran Sungai Otomatis Menggunakan Sensor Ultrasonik Berbasis Arduino Uno",
     "name_content_eng": "Design of a Miniature Simulation of an Automatic Two-Way River Flow Gate Using an Arduino Uno-Based Ultrasonic Sensor",
-    "image_content": "",
+    "image_content": "assets/images/thumbnail/5.png",
     "description_content_idn": "Mengembangkan prototipe pintu air otomatis berbasis Arduino yang menggunakan sensor untuk mendeteksi potensi banjir dan mengendalikan pintu air sebagai responsnya.",
     "description_content_eng": "Developing an Arduino-based automatic floodgate prototype that uses sensors to detect potential flooding and control the floodgate in response.",
     "link_content": "https://project-arduino-kelompok.vercel.app/"
@@ -29,7 +29,7 @@
   {
     "type_content": "Android Design",
     "name_content_idn": "Zuhry Inventory",
-    "name_content_eng": "Design of a Miniature Simulation of an Automatic Two-Way River Flow Gate Using an Arduino Uno-Based Ultrasonic Sensor",
+    "name_content_eng": "Zuhry Inventory",
     "image_content": "",
     "description_content_idn": "Membangun aplikasi mobile untuk menyederhanakan alur peminjaman dan pengelolaan inventaris barang di laboratorium bagi mahasiswa dan admin.",
     "description_content_eng": "Building a mobile application to simplify the borrowing and inventory management process in the laboratory for students and administrators.",
@@ -38,7 +38,7 @@
   {
     "type_content": "CAD",
     "name_content_idn": "Pembelajaran Pembuatan model 2D dan 3D Melalui CorelCAD",
-    "name_content_eng": "Design of a Miniature Simulation of an Automatic Two-Way River Flow Gate Using an Arduino Uno-Based Ultrasonic Sensor",
+    "name_content_eng": "Learning 2D and 3D Modeling Through CorelCAD",
     "image_content": "",
     "description_content_idn": "Proyek pengembangan kemampuan gambar teknik dalam menciptakan gambar 2D dan 3D",
     "description_content_eng": "Project to develop technical drawing skills in creating 2D and 3D images.",

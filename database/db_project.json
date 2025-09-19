@@ -30,18 +30,18 @@
     "type_content": "Android Design",
     "name_content_idn": "Zuhry Inventory",
     "name_content_eng": "Zuhry Inventory",
-    "image_content": "",
+    "image_content": "assets/images/thumbnail/6.png",
     "description_content_idn": "Membangun aplikasi mobile untuk menyederhanakan alur peminjaman dan pengelolaan inventaris barang di laboratorium bagi mahasiswa dan admin.",
     "description_content_eng": "Building a mobile application to simplify the borrowing and inventory management process in the laboratory for students and administrators.",
-    "link_content": ""
+    "link_content": "https://zuhry-inventory-android.vercel.app/"
   },
   {
-    "type_content": "CAD",
-    "name_content_idn": "Pembelajaran Pembuatan model 2D dan 3D Melalui CorelCAD",
-    "name_content_eng": "Learning 2D and 3D Modeling Through CorelCAD",
-    "image_content": "",
-    "description_content_idn": "Proyek pengembangan kemampuan gambar teknik dalam menciptakan gambar 2D dan 3D",
-    "description_content_eng": "Project to develop technical drawing skills in creating 2D and 3D images.",
-    "link_content": ""
+    "type_content": "Web Design",
+    "name_content_idn": "Surfmovie | Desain website",
+    "name_content_eng": "Surfmovie | Web Design",
+    "image_content": "assets/images/thumbnail/7.png",
+    "description_content_idn": "Saya telah menyelesaikan proyek baru: merancang antarmuka pengguna (UI) dan pengalaman pengguna (UX) untuk situs web film dengan kecerdasan buatan (AI) sebagai mitra kreatif. Ini adalah eksplorasi saya dalam menggabungkan kecepatan mesin dengan imajinasi manusia.",
+    "description_content_eng": "I have completed a new project: designing the user interface (UI) and user experience (UX) for a movie website with artificial intelligence (AI) as a creative partner. This is my exploration of combining machine speed with human imagination.",
+    "link_content": "https://movie-web-design-rijal.vercel.app/"
   }
 ]

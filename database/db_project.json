@@ -43,5 +43,15 @@
     "description_content_idn": "Saya telah menyelesaikan proyek baru: merancang antarmuka pengguna (UI) dan pengalaman pengguna (UX) untuk situs web film dengan kecerdasan buatan (AI) sebagai mitra kreatif. Ini adalah eksplorasi saya dalam menggabungkan kecepatan mesin dengan imajinasi manusia.",
     "description_content_eng": "I have completed a new project: designing the user interface (UI) and user experience (UX) for a movie website with artificial intelligence (AI) as a creative partner. This is my exploration of combining machine speed with human imagination.",
     "link_content": "https://movie-web-design-rijal.vercel.app/"
-  }
+  },
+  {
+    "type_content": "CAD",
+    "name_content_idn": "Pembelajaran Gambar Teknik 2D dan 3D",
+    "name_content_eng": "2D and 3D Technical Drawing Course",
+    "image_content": "assets/images/thumbnail/8.png",
+    "description_content_idn": "Mengasah dan memperbaharui kemampuan gambar teknik menggunakan software CorelCAD",
+    "description_content_eng": "Hone and update technical drawing skills using CorelCAD software",
+    "link_content": "https://rijal-engineering-design.vercel.app/"
+  },
+  
 ]

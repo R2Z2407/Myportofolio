@@ -64,10 +64,10 @@ const portfolioApp = {
       self.utility.openEmailComposer("gmail");
     });
     $('button:contains("Download CV")').on("click", function () {
-      $(this).toggleClass("shadow-1 fill-color");
-      self.utility.downloadCV();
-      setTimeout(() => $(this).removeClass("shadow-1 fill-color"), 300);
-    });
+     $(this).toggleClass("shadow-1 fill-color");
+     portfolioApp.utility.downloadCV(); // ✅ Gunakan referensi global
+     setTimeout(() => $(this).removeClass("shadow-1 fill-color"), 300);
+   });
   },
 
   // =================================================================================
@@ -670,3 +670,4 @@ const portfolioApp = {
 $(document).ready(function () {
   portfolioApp.init();
 });
+
